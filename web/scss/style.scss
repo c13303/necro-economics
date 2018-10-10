@@ -1,0 +1,102 @@
+/* file created by charles.torris@gmail.com *//* 
+    Created on : 8 oct. 2018, 10:03:54
+    Author     : roger
+*/
+
+@mixin transition($value){ //opacity 1s ease-in-out
+                           -webkit-transition: $value;
+                           -moz-transition: $value;
+                           -ms-transition: $value;
+                           -o-transition: $value;
+                           transition: $value;
+}
+
+$bp : 780px;
+
+body{
+    font-family: 'Quicksand', sans-serif;
+    position:relative;
+    input{
+        font-family: 'Quicksand', sans-serif;
+    }
+    .hidden{
+        display:none !important;
+    }
+    .date{
+        position: absolute;
+        top: 27px;
+        left: 50%;
+        font-size: 25px;
+        text-align: left;
+        width: 300px;
+    }
+    #top{
+        border:1px solid #CCC;
+        padding:20px;
+        .info{
+            font-size:12px;
+        }
+    }
+    #productname{
+        display: none;
+    }
+    #unitprice{
+        width:40px;
+    }
+    #console{
+        background:black;
+        color:white;
+        padding:10px;
+        height: 100px;
+        overflow-y: scroll;
+    }
+    #game{
+        display:none;
+        .stat{
+            font-weight: bold;
+        }
+        >div{
+            border: 1px solid #eaeaea;
+            padding: 10px;
+            width: 28%;
+            display: inline-block;
+            vertical-align: top;
+            min-height: 245px;
+            margin: 0.5%;
+            @media(max-width:$bp){
+                width:100%;
+            }
+        }
+        #unite{
+            border:none;
+        }
+
+        .stats{
+            font-size:12px;
+            padding:10px;
+        }
+
+        #shop{
+            display:none;
+            .item{
+                cursor:pointer;
+                padding:5px;
+                display:inline-block;
+                border:1px solid #CCC;
+                background-color:#CCC;
+                @include transition('opacity 0.5s ease-in-out');
+                &.buyable{
+                    background-color: yellow;
+                }
+                &.active{
+                    border:1px solid red;
+                    background-color: blue;
+                    color:white;
+                }
+                &.cooldown{
+                    background-color: red !important;
+                }
+            }
+        }
+    }
+}
