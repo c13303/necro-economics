@@ -1,8 +1,9 @@
 <?php
-$v = 5;
+$v = 7;
 $title = 'Jojal Idler Pro';
 $unit = '€';
 $isdev = filter_input(INPUT_GET, "dev",FILTER_SANITIZE_NUMBER_INT);
+$message = filter_input(INPUT_GET, "message",FILTER_SANITIZE_STRING);
 
 if($isdev){
     $title = "DEV";
@@ -23,7 +24,9 @@ if($isdev){
     <body>
         
         <div class="header"><h1><?= $title; ?></h1></div>
-        <div id="console">Wow, such amazing capitalist multiplayer game
+        <div id="console">Wow, such amazing capitalist multiplayer game<br/>
+            <span class="lastupdate">Last update : Marketing</span>
+            <?= $message ? "<span class='infoupdate'>$message</span>" : ''; ?>
         </div>
         <div id="top">
             <form id="connect">
@@ -45,7 +48,8 @@ if($isdev){
             <div id="company">
                 <h2>Company</h2>
                 <div id="money">
-                    Money : <span class="value stat" data-p="money"></span> <?= $unit; ?>
+                    <p>Money : <span class="value stat" data-p="money"></span> <?= $unit; ?></p>
+                    <p class="ajo">Overdraft charges : <span class="stat" data-p="ajo"></span> <?= $unit; ?></p>
                 </div>
             </div>
 
@@ -57,8 +61,10 @@ if($isdev){
                 </p>                
                 <p>Unsold : <span id="unsold" class="stat" data-p="unsold">0</span> <span class="prodnamedisplay stat" data-p="product"></span>(s) </p>
                 <p>Public demand : <span id="demand" class="stat" data-p="demand">0</span> %</p>
-                
-                
+                <div class="marketing">
+                    <p>Commercials : <span class="stat" data-p="commercials"></span> <button class="command hcommand" data-min="money" data-minv="500" data-c="buy" data-v="marketing">Launch</button></p>
+                    <p> Next : <span class="stat" data-p="nmc"></span><?= $unit; ?></p>
+                </div>
             </div> 
 
             <div id="factory">
@@ -66,7 +72,7 @@ if($isdev){
                 <p>Produced : <span id="score" class="stat" data-p="score">0</span> <span class="prodnamedisplay stat" data-p="product"></span>(s)</p>
                 <button id="make" class="command" data-c="make" data-v="1">Make a <span class="stat" data-p="product"></span></button>
                 <div id="workers">
-                    <p><span class="nb stat" data-p="workers""></span> worker(s)
+                    <p><span class="nb stat" data-p="workers"></span> worker(s)
                     <button class="command hcommand" data-c="hire" data-v="1">Hire</button>
                     <button class="command hcommand" data-c="fire" data-v="1">Fire</button>
                     </p>
@@ -81,7 +87,7 @@ if($isdev){
                 </div>
             </div>
             <div id="stats" class="hidden">
-                <h2>Consulting Data</h2>
+                <h2>Accountant Data</h2>
                 <h3><span class="stat" data-p="statrange"></span>-Period</h3>
                 <p>Sales  : <span class="stat" data-p="period_sales"></span></p>
                 <p>Sales per day : <span class="stat" data-p="period_salesperday"></span></p>
@@ -92,9 +98,20 @@ if($isdev){
                 <p>Sales per day : <span class="stat" data-p="salesperday"></span></p>
                 <p>Money per day : <span class="stat" data-p="moneyperday"></span> <?= $unit; ?></p>
             </div>
+            <div id="tools" class="hidden">
+                <h2>Strategic Operations</h2>
+                <div class="container">
+                    <div id="buy_consulting" class="operation command" data-c="buy" data-v="consulting" >Accountant (100<?= $unit; ?>)</div>                    
+                    <div id="buy_marketing" class="operation command" data-c="buy" data-v="marketing" >Marketing Departement (500<?= $unit; ?>)</div>                    
+
+                </div>
+            </div>
+        </div>
+        <div id="account">
+             <button class="command" data-c="reset" data-v="1">Reset account</button>
         </div>
         <?php if($isdev) $port = 8081; else $port = 8080; ?>
         <input type="hidden" id="porc" value="<?= $port; ?>" />
-        
+       <input type="hidden" id="isdev" value="<?= $isdev; ?>" />
     </body>
 </html>

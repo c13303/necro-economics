@@ -11,6 +11,7 @@ var statdays = [];
 var statd = 0;
 var statrange = 10;
 
+
 var p = {
     name: '',
     score: 0,
@@ -54,22 +55,23 @@ $(document).ready(function () {
         var token = $('#password').val();
         var user = $('#username').val();
         var port = $('#porc').val();
+        
         try {
             var ws = new WebSocket('ws://51.15.181.30:' + port + '/' + token + '-' + user);
         } catch (e) {
             alert(e);
         }
 
-       
+
 
         ws.onerror = function (e) {
-            alert('Unacceptable login [possible reasons : double login, wrong password, server closed]');
-            window.location.reload();
+            window.location.replace("/?message=Login Failed : double login, wrong password or server down");
+
         };
 
-        ws.onmessage = function (event) {           
-            
-            
+        ws.onmessage = function (event) {
+
+
             var d = JSON.parse(event.data);
             console.log(d);
             p = d; /* looool*/
@@ -78,6 +80,11 @@ $(document).ready(function () {
             p.money = Math.floor(p.money);
             p.annee = Math.floor(p.tick / 365);
             p.jrestant = p.tick - (p.annee * 365);
+           
+            if(p.tools && p.tools.ajo){ 
+                $('.ajo').show();
+                p.ajo = p.tools.ajo;
+            } else $('.ajo').hide();
 
             if (d.chooseproduct) {
                 /* product selection if not selected */
@@ -93,6 +100,9 @@ $(document).ready(function () {
                 $('#game').show();
             }
 
+            if(d.reset){
+                 window.location.replace("/?message=Account has been reset");
+            }
 
             if (d.updatescore) {
 
@@ -134,52 +144,88 @@ $(document).ready(function () {
              * 
              * */
 
-
             if (p.totalticks > 100) {
-                $('#stats').removeClass("hidden");
-                p.sold = (p.score - p.unsold);
-                p.salesperday = Math.round(p.sold / p.totalticks, 2);
-                p.moneyperday = Math.floor(p.money / p.totalticks);
-                
-
-                statdays[statd] = {
-                    'sales': p.lastvente,
-                    'price': p.price,
-                    'cost': p.actual_worker_cost
-                };
-
-                statd++;
-                if (statd > statrange)
-                    statd = 0;
-                var total_sales = 0;
-                var total_money = 0;
-                var total_cost = 0;
-
-                if (statdays.length >= statrange) {
-                    for (i = 0; i < statrange; i++) {
-                        total_sales += statdays[i].sales;
-                        total_cost += statdays[i].cost;
-                        total_money += statdays[i].sales * statdays[i].price - total_cost;
-                        
-                    }
-                   p.statrange = statrange;
-                   p.period_sales = total_sales;
-                   p.period_salesperday = Math.floor(total_sales/statdays.length);
-                   p.period_moneyperday = Math.floor(total_money/statdays.length);
-                } else {
-                    p.period_sales = 'Gathering data ...' + statdays.length +' days';
-                }
-
-
-
+                $('#tools').removeClass("hidden");
             }
+
+
+
+            if (p.strategies) {
+                if (p.strategies.marketing === 1)
+                    $('#buy_marketing').show();
+                else
+                    $('#buy_marketing').hide();
+
+                if (p.strategies.marketing > 1)
+                {
+                    p.commercials = p.strategies.marketing - 1;
+                    $('.marketing').show();
+
+                } else
+                    $('.marketing').hide();
+
+
+                if (p.strategies.consulting === 1)
+                    $('#buy_consulting').show();
+                else
+                    $('#buy_consulting').hide();
+                if (p.strategies.consulting === 2) {
+                    $('#stats').removeClass("hidden");
+                    p.sold = (p.score - p.unsold);
+                    p.salesperday = Math.round(p.sold / p.totalticks, 2);
+                    p.moneyperday = Math.floor(p.money / p.totalticks);
+
+
+                    statdays[statd] = {
+                        'sales': p.lastvente,
+                        'price': p.price,
+                        'cost': p.actual_worker_cost
+                    };
+
+                    statd++;
+                    if (statd > statrange)
+                        statd = 0;
+                    var total_sales = 0;
+                    var total_money = 0;
+                    var total_cost = 0;
+
+                    if (statdays.length >= statrange) {
+                        for (i = 0; i < statrange; i++) {
+                            total_sales += statdays[i].sales;
+                            total_money += statdays[i].sales * statdays[i].price - statdays[i].cost;
+
+                        }
+                        p.statrange = statrange;
+                        p.period_sales = total_sales;
+                        p.period_salesperday = Math.ceil(total_sales / statdays.length);
+                        p.period_moneyperday = Math.ceil(total_money / statdays.length);
+                    } else {
+                        p.period_sales = 'Gathering data ...' + statdays.length + ' days';
+                    }
+
+
+
+                }
+            }
+            /* update requirements */
+            $('.requirement').each(function(){
+                var min = $(this).data('min');
+                var value = $(this).data('minv');
+                if(min==='money'){
+                    if(value >= p.money){
+                        $(this).removeAttr('disabled');
+                    } else {
+                        $(this).attr('disabled','disabled');
+                    }
+                }
+            });
 
 
 
 
 
             numbers_refresh();
-            
+
 
 
         };
@@ -187,17 +233,17 @@ $(document).ready(function () {
         function ping() {
             setTimeout(function () {
                 if (ws.readyState === ws.CLOSED) {
-                    alert('Server update ! Please relog');
-                    window.location.reload();
+                    var isdev = "dev="+$('#isdev').val()+"&";
+                    window.location.replace("/?"+isdev+"message=Serveur has updated ! Please Relog !");
                 } else {
                     ping();
                 }
             }, 1000);
         }
-        
+
         ping();
-            
-        
+
+
         /* login */
         $('#pname').submit(function (e) {
             e.preventDefault();
@@ -217,13 +263,9 @@ $(document).ready(function () {
         $('.command').click(function () {
             var c = $(this).data('c');
             var v = $(this).data('v');
-            try {
-                ws.send(JSON.stringify({command: c, value: v}));
-               
-            } catch (e) {
-                alert('Server disconnected, please relog');
-                window.location.reload();
-            }
+
+            ws.send(JSON.stringify({command: c, value: v}));
+
 
         });
 

@@ -12,17 +12,21 @@ var data_example = {
     name: '',
     score: 0,
     unsold: 0,
-    product: '',
+    product: 'steak',
     time: 0,
     money: 0,
     marketing_level: 0,
     source_level: 0,
     workers: 0,
     price: 10,
-    totalticks : 0,
+    totalticks: 0,
+    strategies: {},
+    tools: {},
 };
 
-
+var upgrades = {
+    accountant : 100   
+}
 
 
 
@@ -52,7 +56,7 @@ process.argv.forEach(function (val, index, array) {
     if (val === '-flush') { //flush all sessions
         flush();
     }
-    
+
     if (val === '-dev') { //flush all sessions
         port = 8081;
     }
@@ -73,7 +77,7 @@ stdin.addListener("data", function (d) {
     if (commande === 'clients') {
         console.log(clients.length);
     }
-    if(commande === 'save') {
+    if (commande === 'save') {
         wss.masssave();
     }
 });
@@ -81,7 +85,7 @@ stdin.addListener("data", function (d) {
 
 
 
-console.log('Lancement serveur port '+port+'------------------------------------------------------');
+console.log('Lancement serveur port ' + port + '------------------------------------------------------');
 
 
 
@@ -109,9 +113,10 @@ var WebSocketServer = require('ws').Server, wss = new WebSocketServer(
                 const ip = info.req.connection.remoteAddress;
                 urlinfo = urlinfo.replace('/', '');
                 urlinfo = urlinfo.split('-');
-                var name = urlinfo[1];
+                var name = urlinfo[1].toLowerCase();
                 var token = urlinfo[0];
 
+                
                 for (i = 0; i < clients.length; i++) {
                     if (clients[i].name === name) {
                         callback(false);
@@ -125,6 +130,7 @@ var WebSocketServer = require('ws').Server, wss = new WebSocketServer(
                             userRequestMap.set(info.req, rows[0]);
                             callback(true);
                         } else {
+                            console.log(name + ' rejected');
                             callback(false);
                         }
 
@@ -136,15 +142,15 @@ var WebSocketServer = require('ws').Server, wss = new WebSocketServer(
                         connection.query('INSERT INTO players(name,password,data) VALUES (?,?,?)', [name, token, data], function (err) {
                             if (err)
                                 console.log(err);
-                            else{
+                            else {
                                 var uzar = {
-                                    'name' : name,
-                                    'password' : token,
-                                    'id' : 'new'
+                                    'name': name,
+                                    'password': token,
+                                    'id': 'new'
                                 };
                                 userRequestMap.set(info.req, uzar);
                                 callback(true);
-                                }
+                            }
                         });
 
                     }
@@ -165,14 +171,14 @@ wss.broadcast = function broadcast(msg) {
     });
 };
 
-wss.massrefresh = function broadcast(msg) {   
+wss.massrefresh = function broadcast(msg) {
     wss.clients.forEach(function each(client) {
         client.refresh();
     });
 };
 
-wss.masssave = function masssave(){
-    console.log('mass save');
+wss.masssave = function masssave() {
+
     wss.clients.forEach(function each(client) {
         client.save();
     });
@@ -185,8 +191,8 @@ function info_clients() {
             infos.push({
                 'name': clients[i].name,
                 'product': clients[i].data.product,
-                'score': clients[i].data.score,
-                'money': clients[i].data.money
+                'score': Math.floor(clients[i].data.score),
+                'money': Math.floor(clients[i].data.money)
             });
         }
     }
@@ -201,6 +207,9 @@ wss.on('connection', function myconnection(ws, request) {
     var name = userinfo.name;
     var token = userinfo.password;
     var id = userinfo.id;
+    
+   
+    
     console.log(name + ' connected');
     connection.query('SELECT data FROM players WHERE name=? AND password=?', [name, token], function (err, rows, fields) {
         var data = JSON.parse(rows[0].data);
@@ -210,14 +219,17 @@ wss.on('connection', function myconnection(ws, request) {
         ws.data.time = Date.now();
         ws.data.tooquick = 0;
         clients.push(ws);
-        
+
         /*updateshit */
-        if(!ws.data.totalticks) ws.data.totalticks = 0;
-        
-        
-        
-        
-        if (ws.data.product) { /* deja init */            
+        if (!ws.data.totalticks)
+            ws.data.totalticks = 0;
+        if (!ws.data.strategies)
+            ws.data.strategies = {};
+        if (!ws.data.tools)
+            ws.data.tools = {};
+
+
+        if (ws.data.product) { /* deja init */
             ws.data.init = 1;
             ws.send(JSON.stringify({'init': 1, 'user': ws.name}));
             ws.refresh();
@@ -230,7 +242,7 @@ wss.on('connection', function myconnection(ws, request) {
 
 
     ws.refresh = function refr() {
-        try{
+        try {
             ws.send(JSON.stringify({
                 'product': ws.data.product,
                 'money': ws.data.money,
@@ -247,31 +259,34 @@ wss.on('connection', function myconnection(ws, request) {
                 'refresh': info_clients(),
                 'tick': tic,
                 'totalticks': ws.data.totalticks,
-                'console': ws.data.console
+                'console': ws.data.console,
+                'strategies': ws.data.strategies,
+                'nmc' : biz.getNextMarketingCost(ws),
+                'tools' : ws.data.tools
             }));
             ws.data.console = [];
-        }catch(e){
+        } catch (e) {
             console.log(e);
         }
     };
-    
+
     ws.save = function save() {
-        connection.query('UPDATE players SET data=? WHERE name= ?', [ws.data, ws.name], function (err, rows, fields) {            
+        connection.query('UPDATE players SET data=? WHERE name= ?', [ws.data, ws.name], function (err, rows, fields) {
         });
     };
 
 
-   
+
 
 
     /*read messages */
     ws.on('message', function incoming(message) {
         try
         {
-          
+
 
             var json = JSON.parse(message); // reçu json message de ws.id
-            
+            console.log(json);
 
             if (json.command === 'make') {
                 var now = Date.now();
@@ -288,16 +303,16 @@ wss.on('connection', function myconnection(ws, request) {
                     ws.send(JSON.stringify({'tooquick': 1}));
                 }
 
-            }           
-            
+            }
+
 
             if (json.command === 'submitproduct') {
                 ws.data.init = 1;
                 ws.data.product = json.value;
                 ws.refresh();
-                ws.send(JSON.stringify({'init': 1,'user':ws.name}));
+                ws.send(JSON.stringify({'init': 1, 'user': ws.name}));
             }
-            
+
             if (json.command === 'raise') {
                 ws.data.price++;
                 ws.refresh();
@@ -308,15 +323,39 @@ wss.on('connection', function myconnection(ws, request) {
             }
 
             if (json.command === 'hire') {
-                 ws.data.workers++;
-                 ws.refresh();
+                ws.data.workers++;
+                ws.refresh();
             }
+            
+            if (json.command === 'reset') {
+                ws.data = data_example;
+                ws.send(JSON.stringify({'reset': 1}));
+            }
+            
             if (json.command === 'fire' && ws.data.workers > 0) {
                 var cost = biz.getFireCost(ws.data.workers);
-                ws.data.money-=cost;
+                ws.data.money -= cost;
                 ws.data.workers--;
-                ws.data.console.push('Worker fired, cost : '+cost);
+                ws.data.console.push('Worker fired, cost : ' + cost + '€');
                 ws.refresh();
+            }
+
+            if (json.command === 'buy') {
+                if (json.value === 'consulting' && ws.data.strategies.consulting === 1) {
+                    var cost = upgrades.accountant;
+                    ws.data.strategies.consulting = 2;
+                    ws.data.money -= cost;
+                    ws.data.console.push('Consulting computer acquired : ' + cost + '€');
+                }
+                if (ws.data.strategies.marketing > 0) {
+                    if (json.value === 'marketing') {
+                        var cost = biz.getNextMarketingCost(ws);
+                        ws.data.strategies.marketing++;
+                        ws.data.money -= cost;
+                        ws.data.console.push('Marketing campaign engaged : ' + cost + '€');
+                    }
+                }
+
             }
 
         } catch (e)
@@ -347,44 +386,72 @@ wss.on('connection', function myconnection(ws, request) {
 /* tick operations */
 var tic = 0;
 function getRandomInt(max) {
-  return Math.floor(Math.random() * Math.floor(max));
+    return Math.floor(Math.random() * Math.floor(max));
 }
 
 function tick() {
-   tic++;
-  
+    tic++;
+
     for (i = 0; i < clients.length; i++) {
         /* cb de vendus */
-        if (clients[i].data.init) {
-            /* sales */
-            var demand = biz.getDemand(clients[i]);  
-            var chance = getRandomInt(demand);
-            var vendus = Math.floor(chance / 9);
-            var restants = clients[i].data.unsold - vendus;
-            clients[i].data.totalticks++;
-            if (restants <= 0) {
-                vendus = restants + vendus;
-                restants = 0;                
-            }
-            clients[i].data.money += clients[i].data.price * vendus;
-            clients[i].data.lastvente = vendus;
-            clients[i].data.unsold = restants;
-            
-            
+        if (clients[i].data.init) {          
+
+
             /*workers*/
-            if(clients[i].data.workers){
+            if (clients[i].data.workers) {
                 var produced = clients[i].data.workers;
                 var cost = biz.getActualWorkerCost(clients[i]);
-                clients[i].data.score+=produced;
-                clients[i].data.unsold+=produced;
-                clients[i].data.money-=cost;
+                clients[i].data.score += produced;
+                clients[i].data.unsold += produced;
+                clients[i].data.money -= cost;
             }
-           // console.log(clients[i].name + ' : demande ' + demand+', chance : '+chance+', restants : '+restants+', vendus : '+vendus);
-
-           // clients[i].refresh();
             
+            /* sales */
+            /*
+             * Marketing 0
+             * 
+             * 10% = 1 chance sur 10 de vendre 1 steak
+             * 100% = 1 steak par jour
+             * 
+             * 
+             * 
+             */
+            var sale = {};
+            sale.demand = biz.getDemand(clients[i]);      /* 10 */     
+            sale.chance = getRandomInt(sale.demand);            
+            sale.vendus = Math.floor(sale.chance / 10);
+            sale.restants = clients[i].data.unsold - sale.vendus;
+         
+            clients[i].data.totalticks++;
+            if (sale.restants <= 0) {
+                sale.vendus = sale.restants + sale.vendus;
+                sale.restants = 0;
+            }
+            clients[i].data.money += clients[i].data.price * sale.vendus;
+            clients[i].data.lastvente = sale.vendus;
+            clients[i].data.unsold = sale.restants;
+            
+            
+            
+
+
+            if (clients[i].data.totalticks > upgrades.accountant && !clients[i].data.strategies.consulting) {
+                clients[i].data.strategies.consulting = 1;
+            }
+            if (clients[i].data.money > biz.marketing_basis && !clients[i].data.strategies.marketing) {
+                clients[i].data.strategies.marketing = 1;
+            }
+            
+            clients[i].data.tools.ajo = 0;
+            if(clients[i].data.money < 0){
+                var ajo = Math.ceil(clients[i].data.money * biz.ajo);
+                clients[i].data.money-=ajo;
+                clients[i].data.tools.ajo = ajo;
+            }
+
+
         } else {
-           // console.log(clients[i].name + ' : not init');
+            // console.log(clients[i].name + ' : not init');
 
         }
 
@@ -398,7 +465,7 @@ function tick() {
 
     var mytick = setTimeout(function () {
         tick();
-        
+
     }, biz.tickrate);
 }
 tick();

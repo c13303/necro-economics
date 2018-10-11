@@ -22,6 +22,18 @@ body{
     .hidden{
         display:none !important;
     }
+    .infoupdate{
+        color:red;
+    }
+    .lastupdate{
+        color:green;
+    }
+    .operation{
+        display:none;
+        cursor:pointer;
+        background:#CCC;
+        padding:5px;
+    }
     .date{
         position: absolute;
         top: 27px;

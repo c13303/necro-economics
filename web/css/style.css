@@ -10,6 +10,15 @@ body {
     font-family: 'Quicksand', sans-serif; }
   body .hidden {
     display: none !important; }
+  body .infoupdate {
+    color: red; }
+  body .lastupdate {
+    color: green; }
+  body .operation {
+    display: none;
+    cursor: pointer;
+    background: #CCC;
+    padding: 5px; }
   body .date {
     position: absolute;
     top: 27px;
