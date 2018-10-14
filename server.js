@@ -12,7 +12,7 @@ var data_example = {
     name: '',
     score: 0,
     unsold: 0,
-    product: 'steak',
+    product: '',
     time: 0,
     money: 0,
     marketing_level: 0,
@@ -20,6 +20,7 @@ var data_example = {
     workers: 0,
     price: 10,
     totalticks: 0,
+    daily : {},
     strategies: {},
     tools: {},
 };
@@ -78,6 +79,8 @@ stdin.addListener("data", function (d) {
     if (commande === 'save') {
         wss.masssave();
     }
+    
+    
 });
 
 
@@ -106,24 +109,19 @@ var WebSocketServer = require('ws').Server, wss = new WebSocketServer(
         {
             port: port,
             verifyClient: function (info, callback) {     /* AUTHENTIFICATION */
-
                 var urlinfo = info.req.url;
                 const ip = info.req.connection.remoteAddress;
                 urlinfo = urlinfo.replace('/', '');
                 urlinfo = urlinfo.split('-');
                 var name = urlinfo[1].toLowerCase();
                 var token = urlinfo[0];
-
-
                 for (i = 0; i < clients.length; i++) {
                     if (clients[i].name === name) {
                         callback(false);
                     }
                 }
-
                 connection.query('SELECT id,name,password FROM players WHERE name=?', [name], function (err, rows, fields) {
-                    if (rows[0] && rows[0].id)
-                    {
+                    if (rows[0] && rows[0].id) {
                         if (rows[0].password === token) {
                             userRequestMap.set(info.req, rows[0]);
                             callback(true);
@@ -131,10 +129,7 @@ var WebSocketServer = require('ws').Server, wss = new WebSocketServer(
                             console.log(name + ' rejected');
                             callback(false);
                         }
-
-
-                    } else
-                    {
+                    } else {
                         console.log('-newplayer-');
                         var data = JSON.stringify(data_example);
                         connection.query('INSERT INTO players(name,password,data) VALUES (?,?,?)', [name, token, data], function (err) {
@@ -158,10 +153,6 @@ var WebSocketServer = require('ws').Server, wss = new WebSocketServer(
         }
 );
 
-
-
-
-
 wss.broadcast = function broadcast(msg) {
     console.log(msg);
     wss.clients.forEach(function each(client) {
@@ -176,7 +167,6 @@ wss.massrefresh = function broadcast(msg) {
 };
 
 wss.masssave = function masssave() {
-
     wss.clients.forEach(function each(client) {
         client.save();
     });
@@ -210,6 +200,7 @@ wss.on('connection', function myconnection(ws, request) {
 
     console.log(name + ' connected');
     connection.query('SELECT data FROM players WHERE name=? AND password=?', [name, token], function (err, rows, fields) {
+        if(err)console.log(err);
         var data = JSON.parse(rows[0].data);
         ws.data = data;
         ws.name = name;
@@ -217,15 +208,12 @@ wss.on('connection', function myconnection(ws, request) {
         ws.data.time = Date.now();
         ws.data.tooquick = 0;
         clients.push(ws);
-
         /*updateshit */
         if (!ws.data.totalticks) ws.data.totalticks = 0;
         if (!ws.data.reputation) ws.data.reputation = 0;
-        if (!ws.data.strategies)
-            ws.data.strategies = {};
-        if (!ws.data.tools)
-            ws.data.tools = {};
-        
+        if (!ws.data.strategies) ws.data.strategies = {};
+        if (!ws.data.tools) ws.data.tools = {};
+        if (!ws.data.daily) ws.data.daily  = {};
         /* send upgrades to clients */        
         ws.send(JSON.stringify({'opbible': opbible.operations}));
 
@@ -244,6 +232,7 @@ wss.on('connection', function myconnection(ws, request) {
 
     ws.refresh = function refr() {
         try {
+           
             ws.send(JSON.stringify({
                 'r' : 1,
                 'product': ws.data.product,
@@ -274,12 +263,23 @@ wss.on('connection', function myconnection(ws, request) {
         }
     };
 
-    ws.save = function save() {
-        connection.query('UPDATE players SET data=? WHERE name= ?', [ws.data, ws.name], function (err, rows, fields) {
+    ws.save = function save(callback) {
+        connection.query('UPDATE players SET data=? WHERE name= ?', [JSON.stringify(ws.data), ws.name], function (err, rows, fields) {
+            if(err) console.log(err);
+            console.log(ws.name+' data saved');
+            if(callback){
+                callback();
+            }
+            
         });
+        
     };
 
-
+    ws.disconnect = function (){
+        console.log(ws.name + ' disconnected');
+        var index = clients.indexOf(ws);
+        clients.splice(index, 1);
+    };
 
 
 
@@ -394,11 +394,8 @@ wss.on('connection', function myconnection(ws, request) {
 
     ws.on('close', function (message) {
         var data = JSON.stringify(ws.data);
-        connection.query('UPDATE players SET data=? WHERE name= ?', [data, name], function (err, rows, fields) {
-            console.log(ws.name + ' disconnected');
-            var index = clients.indexOf(ws);
-            clients.splice(index, 1);
-        });
+        ws.save(ws.disconnect);        
+
     });
 });
 
@@ -415,16 +412,17 @@ function tick() {
     for (i = 0; i < clients.length; i++) {
         /* cb de vendus */
         if (clients[i].data.init) {
-
+           
 
             /*workers*/
-            if (clients[i].data.workers) {
-                var produced = biz.getDailyProduction(clients[i]);
-                var cost = biz.getActualWorkerCost(clients[i]);
-                clients[i].data.score += produced;
-                clients[i].data.unsold += produced;
-                clients[i].data.money -= cost;
-            }
+            
+            var produced = biz.getDailyProduction(clients[i]);
+            var cost = biz.getActualWorkerCost(clients[i]);
+            clients[i].data.score += produced;
+            clients[i].data.unsold += produced;
+            clients[i].data.money -= cost;
+
+       
 
             /* sales */
             /*
@@ -438,7 +436,7 @@ function tick() {
              */
             var sale = {};
             sale.demand = biz.getDemand(clients[i]);      /* 10 */
-                       
+            
             sale.vendus = Math.floor(Math.pow(sale.demand, 2) * Math.pow(10, -2));
             
             
@@ -458,7 +456,7 @@ function tick() {
             } else {
                 sale.unsold -= sale.vendus;
             }
-            
+           
             
             
             clients[i].data.unsold = sale.unsold;
@@ -477,7 +475,7 @@ function tick() {
                 clients[i].data.tools.ajo = ajo;
             }
 
-
+           
         } else {
             // console.log(clients[i].name + ' : not init');
 
@@ -487,6 +485,7 @@ function tick() {
     wss.massrefresh();
     save_clock++;
     if (save_clock === save_freq) {
+        console.log('mass save');
         wss.masssave();
         save_clock = 0;
     }

@@ -57,7 +57,9 @@ module.exports = {
     },
     getDailyCost: function(ws){
         var cost = this.getActualWorkerCost(ws);
-        cost +=ws.data.strategies.children;
+        if(ws.data.strategies.children){
+             cost +=ws.data.strategies.children;
+        }       
         return cost;
     },
     getFireCost: function (workers) {
@@ -67,13 +69,18 @@ module.exports = {
         return Math.floor((this.marketing_basis) + ((ws.data.strategies.marketing - 1) * Math.pow(this.marketing_basis,this.marketing_coef)));
     },
     getReputation: function(ws){    
+        var reputation = 0;
         /* children */
-        var reputation = -1 * ws.data.strategies.children * Math.pow(this.children_reput_coef,ws.data.strategies.children);
+        if (ws.data.strategies.children) {
+            reputation += -1 * ws.data.strategies.children * Math.pow(this.children_reput_coef, ws.data.strategies.children);
+
+        }
         return Math.floor(reputation);
     },
     getDailyProduction: function(ws){
-        var prod = ws.data.workers;
-        prod+=ws.data.strategies.children;
+        var prod = 0;
+        if(ws.data.workers) prod+=ws.data.workers;
+        if(ws.data.strategies.children) prod+=ws.data.strategies.children;
         return(prod);
     }
 

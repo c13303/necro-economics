@@ -348,6 +348,8 @@ $(document).ready(function () {
 
         /* send make */
         $('#make').click(function () {
+             var command = JSON.stringify({command: 'make', value: 1});
+             ws.send(command);
             $('#make').attr('disabled', 'disabled');
             setTimeout(function () {
                 $('#make').removeAttr('disabled');
@@ -356,6 +358,7 @@ $(document).ready(function () {
 
 
         $(document).on('click', '.command', function () {
+            console.log('command' + $(this).data('c'));
             if (!$(this).hasClass('disabled')) {
                 var c = $(this).data('c');
                 var v = $(this).data('v');

@@ -77,7 +77,7 @@ if($isdev){
             <div id="factory">
                 <h2>Factory</h2>
                 <p>Produced : <span id="score" class="stat" data-p="score">0</span> <span class="prodnamedisplay stat" data-p="product"></span>(s)</p>
-                <button id="make" class="command" data-c="make" data-v="1">Make a <span class="stat" data-p="product"></span></button>
+                <button id="make" >Make a <span class="stat" data-p="product"></span></button>
                 <div id="workers">
                     <p><span class="nb stat" data-p="workers"></span> worker(s)
                     <button class="command hcommand" data-c="hire" data-v="1">Hire</button>
