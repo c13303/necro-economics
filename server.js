@@ -219,8 +219,8 @@ wss.on('connection', function myconnection(ws, request) {
         clients.push(ws);
 
         /*updateshit */
-        if (!ws.data.totalticks)
-            ws.data.totalticks = 0;
+        if (!ws.data.totalticks) ws.data.totalticks = 0;
+        if (!ws.data.reputation) ws.data.reputation = 0;
         if (!ws.data.strategies)
             ws.data.strategies = {};
         if (!ws.data.tools)
@@ -245,10 +245,11 @@ wss.on('connection', function myconnection(ws, request) {
     ws.refresh = function refr() {
         try {
             ws.send(JSON.stringify({
+                'r' : 1,
                 'product': ws.data.product,
                 'money': ws.data.money,
                 'workers': ws.data.workers,
-                'worker_cost': biz.getWorkerCost(ws),
+             //   'worker_cost': biz.getWorkerCost(ws.data.workers),
                 'next_worker_cost': biz.getNextWorkerCost(ws),
                 'actual_worker_cost': biz.getActualWorkerCost(ws),
                 'score': ws.data.score,
@@ -256,14 +257,16 @@ wss.on('connection', function myconnection(ws, request) {
                 'demand': biz.getDemand(ws),
                 'price': ws.data.price,
                 'max': biz.getSpeed(ws), //max speed
-                'lastvente': ws.data.lastvente,
+                'daily': ws.data.daily,
                 'refresh': info_clients(),
                 'tick': tic,
                 'totalticks': ws.data.totalticks,
                 'console': ws.data.console,
                 'strategies': ws.data.strategies,
                 'nmc': biz.getNextMarketingCost(ws),
-                'tools': ws.data.tools
+                'tools': ws.data.tools,
+                'reputation' :  biz.getReputation(ws),
+                'dailycost' : biz.getDailyCost(ws),
             }));
             ws.data.console = [];
         } catch (e) {
@@ -322,9 +325,26 @@ wss.on('connection', function myconnection(ws, request) {
                 ws.data.price--;
                 ws.refresh();
             }
+            
 
             if (json.command === 'hire') {
                 ws.data.workers++;
+                ws.refresh();
+            }
+            if (json.command === 'fire' && ws.data.workers > 0) {
+                var cost = biz.getFireCost(ws.data.workers);
+                ws.data.money -= cost;
+                ws.data.workers--;
+                ws.data.console.push('Worker fired, cost : ' + cost + '€');
+                ws.refresh();
+            }
+            
+            if (json.command === 'hirechildren') {
+                ws.data.strategies.children++;
+                ws.refresh();
+            }
+            if (json.command === 'firechildren') {
+                ws.data.strategies.children--;
                 ws.refresh();
             }
 
@@ -333,19 +353,11 @@ wss.on('connection', function myconnection(ws, request) {
                 ws.send(JSON.stringify({'reset': 1}));
             }
 
-            if (json.command === 'fire' && ws.data.workers > 0) {
-                var cost = biz.getFireCost(ws.data.workers);
-                ws.data.money -= cost;
-                ws.data.workers--;
-                ws.data.console.push('Worker fired, cost : ' + cost + '€');
-                ws.refresh();
-            }
+            
 
-            /* buy operation */
+            /* buy INIT operation */
             if (json.command === 'buy') {
-
                 var op = opbible.findOp(json.value);
-
                 if (ws.data[op.min] >= op.minv) { // requirements
                     var cost = op.price;
                     ws.data[op.price_entity] -= cost;
@@ -354,6 +366,17 @@ wss.on('connection', function myconnection(ws, request) {
                 }
                 ws.refresh();
             }
+            
+            
+            
+            if(json.command === 'commercialbuy'){
+                var op = opbible.findOp('marketing');
+                var cost = biz.getNextMarketingCost(ws);
+                ws.data.money -= cost;
+                ws.data.strategies.marketing++;   
+                ws.refresh();
+            }
+            
 
         } catch (e)
         {
@@ -396,7 +419,7 @@ function tick() {
 
             /*workers*/
             if (clients[i].data.workers) {
-                var produced = clients[i].data.workers;
+                var produced = biz.getDailyProduction(clients[i]);
                 var cost = biz.getActualWorkerCost(clients[i]);
                 clients[i].data.score += produced;
                 clients[i].data.unsold += produced;
@@ -440,7 +463,7 @@ function tick() {
             
             clients[i].data.unsold = sale.unsold;
             clients[i].data.money += clients[i].data.price * sale.vendus;
-            clients[i].data.lastvente = sale.vendus;
+            clients[i].data.daily = {'income' : sale.vendus * clients[i].data.price,'sales': sale.vendus};
 
 
 

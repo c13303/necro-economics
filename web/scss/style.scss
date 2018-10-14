@@ -11,6 +11,14 @@
                            transition: $value;
 }
 
+@mixin flexbox() {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+}
+
 $bp : 780px;
 
 body{
@@ -19,6 +27,33 @@ body{
     input{
         font-family: 'Quicksand', sans-serif;
     }
+    .header{
+        display:block;
+        width:100%;    
+       
+        @media (min-width:$bp){
+             height: 135px;
+            @include flexbox();
+            .title{
+                width:30%;
+            }
+            .logo{
+                width:10%;
+            }
+            #console{
+                width:60%;
+            }
+        }
+        @media (max-width:$bp){
+            >div{
+                display:block;
+                width:100%;
+                height:auto;
+            }
+        }
+        
+    }
+
     .hidden{
         display:none !important;
     }
@@ -33,6 +68,12 @@ body{
         cursor:pointer;
         background:#CCC;
         padding:5px;
+        margin-bottom:10px;
+        border:1px solid #333;
+        &.disabled{
+            opacity:0.3;
+            cursor: default;
+        }
     }
     .date{
         position: absolute;
@@ -43,6 +84,8 @@ body{
         width: 300px;
     }
     #top{
+        width:100%;
+        display:block;
         border:1px solid #CCC;
         padding:20px;
         .info{
@@ -60,7 +103,7 @@ body{
         color:white;
         padding:10px;
         height: 100px;
-        overflow-y: scroll;
+        overflow-y: scroll;        
     }
     #game{
         display:none;

@@ -8,6 +8,28 @@ body {
   position: relative; }
   body input {
     font-family: 'Quicksand', sans-serif; }
+  body .header {
+    display: block;
+    width: 100%; }
+    @media (min-width: 780px) {
+      body .header {
+        height: 135px;
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex; }
+        body .header .title {
+          width: 30%; }
+        body .header .logo {
+          width: 10%; }
+        body .header #console {
+          width: 60%; } }
+    @media (max-width: 780px) {
+      body .header > div {
+        display: block;
+        width: 100%;
+        height: auto; } }
   body .hidden {
     display: none !important; }
   body .infoupdate {
@@ -18,7 +40,12 @@ body {
     display: none;
     cursor: pointer;
     background: #CCC;
-    padding: 5px; }
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #333; }
+    body .operation.disabled {
+      opacity: 0.3;
+      cursor: default; }
   body .date {
     position: absolute;
     top: 27px;
@@ -27,6 +54,8 @@ body {
     text-align: left;
     width: 300px; }
   body #top {
+    width: 100%;
+    display: block;
     border: 1px solid #CCC;
     padding: 20px; }
     body #top .info {

@@ -107,12 +107,15 @@ $(document).ready(function () {
             p = d; /* looool*/
 
             /* format some values for display */
-            if (p.money) {
-                p.money = Math.floor(p.money);
-                p.money = p.money.toLocaleString();
+            if (p.r) {                
+                p.moneydisplay = Math.floor(p.money);
+                p.moneydisplay = p.moneydisplay.toLocaleString();
                 p.annee = Math.floor(p.tick / 365);
                 p.jrestant = p.tick - (p.annee * 365);
                 p.nmc = fnum(p.nmc);
+                p.dailybalance = p.daily.income - p.dailycost;
+                p.dailysales = p.daily.sales;
+                p.dailyincome = p.daily.income;
             }
             
             
@@ -140,8 +143,8 @@ $(document).ready(function () {
                 var html = '';
                 for(i=0;i<d.opbible.length;i++){
                     var op = d.opbible[i];
-                    html+= '<div id="buy_'+op.name+'" class="operation command" data-min="'+op.min+'" data-minv="'+op.minv+'" data-c="buy" data-v="'+op.name+'" >';
-                    html+= '<b>'+op.title+'</b> ('+op.price+' '+op.price_entity+') <br/>'+op.desc+'</div>';                    
+                    html+= '<div id="buy_'+op.name+'" class="operation disabled command" data-min="'+op.min+'" data-mina="'+op.mina+'" data-minv="'+op.minv+'" data-c="buy" data-v="'+op.name+'" >';
+                    html+= '<b>'+op.title+'</b> ('+fnum(op.price)+' '+op.price_entity+') <br/>'+op.desc+'</div>';                    
                 }
                 $('#tools .container').html(html);                
             }
@@ -200,63 +203,97 @@ $(document).ready(function () {
 
 
 
-            if (p.strategies) {
-               
-               /* display or hide the ops */
+            if (p.strategies) {               
+               /* 
+                * GLOBAL
+                * display or hide the ops 
+                * */
                $('.operation').each(function(){
                   var min = $(this).data('min');
                   var minv = $(this).data('minv');
+                  var mina = $(this).data('mina');
                   var name = $(this).data('v');
-                //  console.log(p[min] + ' vs '+minv);
+                  //console.log(name+ ' : ' + min+ ': '+p[min] + ' vs '+minv);
                   if(p[min] >= minv && !p.strategies[name]){
-                      $(this).show();
+                      $(this).show();                     
                   } else {
                       $(this).hide();
-                  }
+                  }                  
+                  if(p[min] >= mina && !p.strategies[name]){
+                      $(this).removeClass('disabled');                     
+                  } else {
+                      $(this).addClass('disabled');
+                  }                               
+               });               
+               
+               $('.strategic').each(function(){
+                   var name = $(this).data('strat');
+                   if(p.strategies[name]){
+                       $(this).show();
+                   } else {
+                       $(this).hide();
+                   }
                });
                
                
-               /* specific operations */
+               
+               
+               /* 
+                * 
+                * specific operations 
+                * 
+                * */
+               
+               
+               if(p.reputation){
+                   $('.reputation').removeClass('hidden');
+               }
+               
+                
+                
+                if(p.strategies.children){
+                  p.children = p.strategies.children;
+                }
+                
+                
+                
 
                 if (p.strategies.marketing)
                 {
-                    p.commercials = p.strategies.marketing;
-                    $('.marketing').show();
+                    p.commercials = p.strategies.marketing;                 
 
-                } else
-                    $('.marketing').hide();
+                } 
 
 
               
                 if (p.strategies.accountant) {
-                    $('#stats').removeClass("hidden");
+                   
                     p.sold = (p.score - p.unsold);
                     p.salesperday = Math.round(p.sold / p.totalticks, 2);
                     p.moneyperday = Math.floor(p.money / p.totalticks);
 
                     statdays[statd] = {
-                        'sales': p.lastvente,
-                        'price': p.price,
-                        'cost': p.actual_worker_cost
+                        'dailyincome': p.daily.income,
+                        'sales':p.daily.sales,
+                        'dailycost': p.dailycost
                     };
 
                     statd++;
                     if (statd > statrange)
                         statd = 0;
+                    var total_income = 0;
+                    var total_balance = 0;
                     var total_sales = 0;
-                    var total_money = 0;
-                    var total_cost = 0;
 
                     if (statdays.length >= statrange) {
                         for (i = 0; i < statrange; i++) {
-                            total_sales += statdays[i].sales;
-                            total_money += statdays[i].sales * statdays[i].price - statdays[i].cost;
-
+                            total_income += statdays[i].dailyincome;
+                            total_balance += statdays[i].dailyincome - statdays[i].dailycost;
+                            total_sales+=statdays[i].sales
                         }
                         p.statrange = statrange;
                         p.period_sales = total_sales;
-                        p.period_salesperday = Math.ceil(total_sales / statdays.length);
-                        p.period_moneyperday = Math.ceil(total_money / statdays.length);
+                        p.period_dailyincome = Math.ceil(total_income / statdays.length);
                     } else {
                         p.period_sales = 'Gathering data ...' + statdays.length + ' days';
                     }
@@ -318,11 +355,15 @@ $(document).ready(function () {
         });
 
 
-        $('body').on('click','.command',function () {
-            var c = $(this).data('c');
-            var v = $(this).data('v');
+        $(document).on('click', '.command', function () {
+            if (!$(this).hasClass('disabled')) {
+                var c = $(this).data('c');
+                var v = $(this).data('v');
+                var command = JSON.stringify({command: c, value: v});
+                console.log(command);
+                ws.send(command);
+            }
 
-            ws.send(JSON.stringify({command: c, value: v}));
 
 
         });

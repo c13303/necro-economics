@@ -6,7 +6,7 @@ $isdev = filter_input(INPUT_GET, "dev",FILTER_SANITIZE_NUMBER_INT);
 $message = filter_input(INPUT_GET, "message",FILTER_SANITIZE_STRING);
 
 if($isdev){
-    $title = "DEV";
+    $title = "Jojal Idler Pro Dev";
     $v = time();
 }
 ?><!DOCTYPE html>
@@ -24,11 +24,15 @@ if($isdev){
     </head>
     <body>
         
-        <div class="header"><h1><?= $title; ?></h1></div>
-        <div id="console">Wow, such amazing capitalist multiplayer game<br/>
+        <div class="header">
+            <div class="logo"><img src="/img/JID.png" alt="<?= $title; ?>" /></div>
+            <div class="title"><h1><?= $title; ?></h1></div>
+            <div id="console">Wow, such amazing capitalist multiplayer game<br/>
             <span class="lastupdate">Last update : Marketing</span>
             <?= $message ? "<span class='infoupdate'>$message</span>" : ''; ?>
+            </div>
         </div>
+        
         <div id="top">
             <form id="connect">
                 <input type="text" id="username" placeholder="username" />
@@ -49,8 +53,9 @@ if($isdev){
             <div id="company">
                 <h2>Company</h2>
                 <div id="money">
-                    <p>Money : <span class="value stat" data-p="money"></span> <?= $unit; ?></p>
+                    <p>Money : <span class="value stat" data-p="moneydisplay"></span> <?= $unit; ?></p>
                     <p class="ajo">Overdraft charges : <span class="stat" data-p="ajo"></span> <?= $unit; ?></p>
+                    <p class="reputation hidden">Reputation : <span class="value stat" data-p="reputation"></span></p>
                 </div>
             </div>
 
@@ -62,8 +67,9 @@ if($isdev){
                 </p>                
                 <p>Unsold : <span id="unsold" class="stat" data-p="unsold">0</span> <span class="prodnamedisplay stat" data-p="product"></span>(s) </p>
                 <p>Public demand : <span id="demand" class="stat" data-p="demand">0</span> %</p>
-                <div class="marketing">
-                    <p>Commercials : <span class="stat" data-p="commercials"></span> <button class="command hcommand" data-min="money" data-minv="500" data-c="buy" data-v="marketing">Launch</button></p>
+                <div class="marketing strategic" data-strat="marketing">
+                    <p>Commercials : <span class="stat" data-p="commercials"></span> 
+                        <button class="command hcommand" data-c="commercialbuy" data-v="1">Launch</button></p>
                     <p> Next : <span class="stat" data-p="nmc"></span><?= $unit; ?></p>
                 </div>
             </div> 
@@ -80,6 +86,12 @@ if($isdev){
                     <p>Actual  : <span class="worker_cost stat" data-p="actual_worker_cost"></span> <?= $unit; ?> / day<br/>
                         Next  : <span class="worker_cost stat" data-p="next_worker_cost"></span> <?= $unit; ?> / day</p>
                 </div>
+                <div class="strategic" data-strat="children">
+                    <p><span class="nb stat" data-p="children"></span> low-cost worker(s)
+                    <button class="command hcommand" data-c="hirechildren" data-v="1">Hire</button>
+                    <button class="command hcommand" data-c="firechildren" data-v="1">Fire</button>
+                    </p>
+                </div>
             </div>
             <div id="clientsbox">
                 <h2>Stock Market</h2>
@@ -87,23 +99,25 @@ if($isdev){
                 <div id="clients">                    
                 </div>
             </div>
-            <div id="stats" class="hidden">
+            <div id="stats" class="strategic" data-strat="accountant">
                 <h2>Accountant Data</h2>
+                 <p>Daily Sales : <span class="stat" data-p="dailysales"></span> <span class="prodnamedisplay stat" data-p="product"></span>(s)</p>
+                <p>Daily Income : <span class="stat" data-p="dailyincome"></span> <?= $unit; ?></p>
+                <p>Daily Costs : <span class="stat" data-p="dailycost"></span> <?= $unit; ?></p>
+                <p>Daily Balance : <span class="stat" data-p="dailybalance"></span> <?= $unit; ?></p>
                 <h3><span class="stat" data-p="statrange"></span>-Period</h3>
-                <p>Sales  : <span class="stat" data-p="period_sales"></span></p>
-                <p>Sales per day : <span class="stat" data-p="period_salesperday"></span></p>
-                <p>Money per day : <span class="stat" data-p="period_moneyperday"></span> <?= $unit; ?></p>
+                <p>Daily Income : <span class="stat" data-p="period_dailyincome"></span> <?= $unit; ?></p>
+                <p>Sales : <span class="stat" data-p="period_sales"></span> <?= $unit; ?></p>
+
                 <h3>All time</h3>
                 <p>Days of activity : <span class="stat" data-p="totalticks"></span></p>
                 <p>Sales  : <span class="stat" data-p="sold"></span></p>
                 <p>Sales per day : <span class="stat" data-p="salesperday"></span></p>
                 <p>Money per day : <span class="stat" data-p="moneyperday"></span> <?= $unit; ?></p>
             </div>
-            <div id="tools" class="hidden">
+            <div id="tools" class="">
                 <h2>Strategic Operations</h2>
                 <div class="container">
-                   <!--  <div id="buy_consulting" class="operation command" data-c="buy" data-v="consulting" >Accountant (100<?= $unit; ?>)</div>                    
-                    <div id="buy_marketing" class="operation command" data-c="buy" data-v="marketing" >Marketing Departement (500<?= $unit; ?>)</div>   -->                  
 
                 </div>
             </div>
