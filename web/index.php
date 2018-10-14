@@ -1,5 +1,5 @@
 <?php
-$v = 7;
+$v = time();
 $title = 'Jojal Idler Pro';
 $unit = '€';
 $isdev = filter_input(INPUT_GET, "dev",FILTER_SANITIZE_NUMBER_INT);
@@ -16,9 +16,10 @@ if($isdev){
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
         <script src="js/client.js?v=<?= $v; ?>"></script>
         <link rel="stylesheet" type="text/css" href="css/style.css?v=<?= $v; ?>">
-        <link rel="stylesheet" type="text/css" href="css/extra.css?v=<?= $v; ?>">
+       
         <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
     </head>
     <body>
@@ -101,15 +102,16 @@ if($isdev){
             <div id="tools" class="hidden">
                 <h2>Strategic Operations</h2>
                 <div class="container">
-                    <div id="buy_consulting" class="operation command" data-c="buy" data-v="consulting" >Accountant (100<?= $unit; ?>)</div>                    
-                    <div id="buy_marketing" class="operation command" data-c="buy" data-v="marketing" >Marketing Departement (500<?= $unit; ?>)</div>                    
+                   <!--  <div id="buy_consulting" class="operation command" data-c="buy" data-v="consulting" >Accountant (100<?= $unit; ?>)</div>                    
+                    <div id="buy_marketing" class="operation command" data-c="buy" data-v="marketing" >Marketing Departement (500<?= $unit; ?>)</div>   -->                  
 
                 </div>
             </div>
-        </div>
-        <div id="account">
+            <div id="account">
              <button class="command" data-c="reset" data-v="1">Reset account</button>
         </div>
+        </div>
+        
         <?php if($isdev) $port = 8081; else $port = 8080; ?>
         <input type="hidden" id="porc" value="<?= $port; ?>" />
        <input type="hidden" id="isdev" value="<?= $isdev; ?>" />

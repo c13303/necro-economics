@@ -12,6 +12,35 @@ var statd = 0;
 var statrange = 10;
 
 
+
+
+function fnum(x) {
+	if(isNaN(x)) return x;
+
+	if(x < 9999) {
+		return x;
+	}
+
+	if(x < 1000000) {
+		return x.toLocaleString();
+	}
+	if( x < 10000000) {
+		return (x/1000000).toFixed(2) + "M";
+	}
+
+	if(x < 1000000000) {
+		return Math.round((x/1000000)) + "M";
+	}
+
+	if(x < 1000000000000) {
+		return Math.round((x/1000000000)) + "B";
+	}
+
+	return "1T+";
+}
+
+
+
 var p = {
     name: '',
     score: 0,
@@ -29,7 +58,7 @@ p.max = 1000;
 $(document).ready(function () {
 
     console.log('poutrelle');
-
+       var isdev = "dev="+$('#isdev').val()+"&";
     // UI //
 
 
@@ -56,6 +85,7 @@ $(document).ready(function () {
         var user = $('#username').val();
         var port = $('#porc').val();
         
+        
         try {
             var ws = new WebSocket('ws://51.15.181.30:' + port + '/' + token + '-' + user);
         } catch (e) {
@@ -65,7 +95,7 @@ $(document).ready(function () {
 
 
         ws.onerror = function (e) {
-            window.location.replace("/?message=Login Failed : double login, wrong password or server down");
+            window.location.replace("/?"+isdev+"message=Login Failed : double login, wrong password or server down");
 
         };
 
@@ -77,10 +107,15 @@ $(document).ready(function () {
             p = d; /* looool*/
 
             /* format some values for display */
-            p.money = Math.floor(p.money);
-            p.annee = Math.floor(p.tick / 365);
-            p.jrestant = p.tick - (p.annee * 365);
-           
+            if (p.money) {
+                p.money = Math.floor(p.money);
+                p.money = p.money.toLocaleString();
+                p.annee = Math.floor(p.tick / 365);
+                p.jrestant = p.tick - (p.annee * 365);
+                p.nmc = fnum(p.nmc);
+            }
+            
+            
             if(p.tools && p.tools.ajo){ 
                 $('.ajo').show();
                 p.ajo = p.tools.ajo;
@@ -99,10 +134,24 @@ $(document).ready(function () {
                 $('#productname').hide();
                 $('#game').show();
             }
+            
+            
+            if(d.opbible){                
+                var html = '';
+                for(i=0;i<d.opbible.length;i++){
+                    var op = d.opbible[i];
+                    html+= '<div id="buy_'+op.name+'" class="operation command" data-min="'+op.min+'" data-minv="'+op.minv+'" data-c="buy" data-v="'+op.name+'" >';
+                    html+= '<b>'+op.title+'</b> ('+op.price+' '+op.price_entity+') <br/>'+op.desc+'</div>';                    
+                }
+                $('#tools .container').html(html);                
+            }
+            
+            
 
             if(d.reset){
-                 window.location.replace("/?message=Account has been reset");
+                 window.location.replace("/?"+isdev+"message=Account has been reset");
             }
+            
 
             if (d.updatescore) {
 
@@ -121,11 +170,12 @@ $(document).ready(function () {
             if (d.refresh) {
                 /* refresh competitors */
                 var clients = d.refresh;
-                $('#clients').html('');
+                $('#clients').html('<table>');
                 for (i = 0; i < clients.length; i++) {
                     var data = clients[i];
-                    $('#clients').append('<li>' + data.name + ' ' + data.money + '€, ' + data.score + ' ' + data.product + '(s) </li>');
+                    $('#clients').append('<tr><td><b>' + data.name + '</b></td><td>' + fnum(data.money) + '€</td><td>' + fnum(data.score) + '</td><td>' + data.product + '</td></tr>');
                 }
+                $('#clients').append('</table>');
             }
 
             /* console display */
@@ -151,30 +201,38 @@ $(document).ready(function () {
 
 
             if (p.strategies) {
-                if (p.strategies.marketing === 1)
-                    $('#buy_marketing').show();
-                else
-                    $('#buy_marketing').hide();
+               
+               /* display or hide the ops */
+               $('.operation').each(function(){
+                  var min = $(this).data('min');
+                  var minv = $(this).data('minv');
+                  var name = $(this).data('v');
+                //  console.log(p[min] + ' vs '+minv);
+                  if(p[min] >= minv && !p.strategies[name]){
+                      $(this).show();
+                  } else {
+                      $(this).hide();
+                  }
+               });
+               
+               
+               /* specific operations */
 
-                if (p.strategies.marketing > 1)
+                if (p.strategies.marketing)
                 {
-                    p.commercials = p.strategies.marketing - 1;
+                    p.commercials = p.strategies.marketing;
                     $('.marketing').show();
 
                 } else
                     $('.marketing').hide();
 
 
-                if (p.strategies.consulting === 1)
-                    $('#buy_consulting').show();
-                else
-                    $('#buy_consulting').hide();
-                if (p.strategies.consulting === 2) {
+              
+                if (p.strategies.accountant) {
                     $('#stats').removeClass("hidden");
                     p.sold = (p.score - p.unsold);
                     p.salesperday = Math.round(p.sold / p.totalticks, 2);
                     p.moneyperday = Math.floor(p.money / p.totalticks);
-
 
                     statdays[statd] = {
                         'sales': p.lastvente,
@@ -233,7 +291,7 @@ $(document).ready(function () {
         function ping() {
             setTimeout(function () {
                 if (ws.readyState === ws.CLOSED) {
-                    var isdev = "dev="+$('#isdev').val()+"&";
+                    
                     window.location.replace("/?"+isdev+"message=Serveur has updated ! Please Relog !");
                 } else {
                     ping();
@@ -260,7 +318,7 @@ $(document).ready(function () {
         });
 
 
-        $('.command').click(function () {
+        $('body').on('click','.command',function () {
             var c = $(this).data('c');
             var v = $(this).data('v');
 

@@ -12,23 +12,25 @@ module.exports = {
     worker_cost_basis: 1,
     worker_cost_coef: 1.1,
     tickrate: 1000,
-    fire_cost_basis: 10,
+    fire_cost_basis: 100,
     marketing_basis: 500,
-    marketing_coef: 1.5,
-    ajo: 0.1,
+    marketing_coef: 1.7,
+    ajo: 0.5,    
+    
 
     getDemand: function (ws) {
         /* base on price attraction */
-        var percent = 200 / ws.data.price;   
-        
+        var percent = 200 / (Math.pow(ws.data.price, 1.5));
+
         /*marketing */
         if (ws.data.strategies.marketing > 1) {
             percent = percent * ws.data.strategies.marketing;
         }
-      
-        
-        
+
         return Math.floor(percent);
+    },
+    getRandomRange: function (ws) {
+
     },
     getSpeed: function (ws) {
         var speed = parseInt(this.sell_speed_base + ws.data.workers);
@@ -44,11 +46,10 @@ module.exports = {
         return ((ws.data.workers + 1) * this.getWorkerCost(ws.data.workers + 1));
     },
     getFireCost: function (workers) {
-        return Math.floor((this.fire_cost_basis) + workers * this.worker_cost_coef * this.fire_cost_basis);
+        return Math.floor(workers * this.worker_cost_coef * this.fire_cost_basis);
     },
     getNextMarketingCost: function (ws) {
         return Math.floor((this.marketing_basis) + ((ws.data.strategies.marketing - 1) * this.marketing_coef * this.marketing_basis));
-
-    }
+    },
 
 };
