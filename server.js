@@ -7,6 +7,9 @@ var clients = [];
 
 var save_freq = 120;
 var save_clock = 0;
+var hobby_clock = 0;
+var hobby_window = false;
+var hobby_price = 0;
 
 var data_example = {
     name: '',
@@ -18,7 +21,7 @@ var data_example = {
     marketing_level: 0,
     source_level: 0,
     workers: 0,
-    price: 10,
+    price: 5,
     totalticks: 0,
     daily : {},
     strategies: {},
@@ -57,7 +60,7 @@ process.argv.forEach(function (val, index, array) {
     }
 
     if (val === '-dev') { //flush all sessions
-        port = 8081;
+        port = 8081;        
     }
 });
 
@@ -160,6 +163,30 @@ wss.broadcast = function broadcast(msg) {
     });
 };
 
+wss.setAllStrategyBuffer = function setAllStrategyBuffer(what,value = null) {
+    console.log('All Set Buffer '+what+' to '+value);
+    wss.clients.forEach(function each(client) {
+        client.data.strategies[what] = value;
+    });
+};
+
+wss.consoleAll = function consoleAll(msg) {
+    console.log('broadcast : ' + msg);
+    wss.clients.forEach(function each(client) {
+        client.data.console.push(msg);
+    });
+};
+
+function getOneClient(name) {
+    for (i = 0; i < clients.length; i++) {
+        var client = clients[i];       
+        if(client.name === name){
+            return client;
+        }
+    }    
+}
+
+
 wss.massrefresh = function broadcast(msg) {
     wss.clients.forEach(function each(client) {
         client.refresh();
@@ -199,18 +226,19 @@ wss.on('connection', function myconnection(ws, request) {
 
 
     console.log(name + ' connected');
-    connection.query('SELECT data FROM players WHERE name=? AND password=?', [name, token], function (err, rows, fields) {
+    connection.query('SELECT id,name,data FROM players WHERE name=? AND password=?', [name, token], function (err, rows, fields) {
         if(err)console.log(err);
         var data = JSON.parse(rows[0].data);
         ws.data = data;
-        ws.name = name;
+        ws.name = rows[0].name;
+        ws.data.name = ws.name;
+        ws.id = rows[0].id;
         ws.data.console = [];
         ws.data.time = Date.now();
         ws.data.tooquick = 0;
         clients.push(ws);
         /*updateshit */
         if (!ws.data.totalticks) ws.data.totalticks = 0;
-        if (!ws.data.reputation) ws.data.reputation = 0;
         if (!ws.data.strategies) ws.data.strategies = {};
         if (!ws.data.tools) ws.data.tools = {};
         if (!ws.data.daily) ws.data.daily  = {};
@@ -228,11 +256,11 @@ wss.on('connection', function myconnection(ws, request) {
             ws.send(JSON.stringify({'chooseproduct': 1, 'updatescore': ws.data.score, 'updatemax': max}));
         }
     });
-
+    
 
     ws.refresh = function refr() {
-        try {
-           
+        try { 
+            
             ws.send(JSON.stringify({
                 'r' : 1,
                 'product': ws.data.product,
@@ -256,6 +284,7 @@ wss.on('connection', function myconnection(ws, request) {
                 'tools': ws.data.tools,
                 'reputation' :  biz.getReputation(ws),
                 'dailycost' : biz.getDailyCost(ws),
+                'hw' : ws.data.strategies.lobby ? hobby_window : null,
             }));
             ws.data.console = [];
         } catch (e) {
@@ -281,7 +310,16 @@ wss.on('connection', function myconnection(ws, request) {
         clients.splice(index, 1);
     };
 
+    ws.reset = function(){
+         ws.data = data_example;
+         ws.save();
+         ws.send(JSON.stringify({'reset': 1}));
+    };
 
+    ws.banqueroute = function(){
+        ws.send(JSON.stringify({'banqueroute': 1}));
+        ws.reset();
+    };
 
     /*read messages */
     ws.on('message', function incoming(message) {
@@ -326,7 +364,39 @@ wss.on('connection', function myconnection(ws, request) {
                 ws.refresh();
             }
             
-
+            if (json.command === 'spy') {                
+                var spydata = getOneClient(json.value);
+                if (spydata) {
+                    ws.send(JSON.stringify({'spydata': spydata.data,'tick':tic}));
+                    ws.data.money-=biz.spycost;
+                } else console.log('spy target not found');
+            }
+            
+             if (json.command === 'defame' && !ws.data.strategies.defamecooldown && ws.data.strategies.defamation) {                
+                var target = getOneClient(json.value);
+                if (target) {                   
+                    ws.data.money-=biz.defamecost;
+                    var steal = biz.getReputation(target) * biz.defame_ratio * -1;
+                    if(steal > 0){                        
+                        wss.consoleAll(ws.name + ' defames '+target.name+' for '+steal+'€');                        
+                        target.data.console.push('You have been defamed !');
+                    } 
+                    if(steal < 0) {
+                        wss.consoleAll(ws.name + ' failed to defame '+target.name+' and must pay '+steal+'€');
+                    }
+                    if(steal === 0) {
+                        wss.consoleAll(ws.name + ' failed to defame '+target.name+'');
+                    }
+                    
+                    ws.data.money+=steal;
+                    ws.data.strategies.defamecooldown = biz.defamecooldown;
+                    target.data.money-=steal;
+                    
+                } else console.log('defame target not found');
+            }
+            
+            
+            
             if (json.command === 'hire') {
                 ws.data.workers++;
                 ws.refresh();
@@ -349,10 +419,22 @@ wss.on('connection', function myconnection(ws, request) {
             }
 
             if (json.command === 'reset') {
-                ws.data = data_example;
-                ws.send(JSON.stringify({'reset': 1}));
+               ws.reset();
             }
 
+            if(json.command === 'hack' &&  port === 8081){
+                console.log('HACK '+json.what+' : '+json.value);
+                ws.data[json.what]+=json.value;
+            }
+            
+            if (json.command === 'getlob' && hobby_window) {
+               hobby_window = false;
+               console.log(ws.name + ' uses a lobbyist !!');
+               wss.consoleAll(ws.name + ' catches the Tax Dodge ! Income x ' + biz.lobby_multiplicator);
+               ws.data.money -= hobby_price;
+               ws.data.strategies.hobby_boost = 2;
+               ws.refresh();
+            }
             
 
             /* buy INIT operation */
@@ -402,9 +484,7 @@ wss.on('connection', function myconnection(ws, request) {
 
 /* tick operations */
 var tic = 0;
-function getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
-}
+
 
 function tick() {
     tic++;
@@ -434,47 +514,42 @@ function tick() {
              * 
              * 
              */
-            var sale = {};
-            sale.demand = biz.getDemand(clients[i]);      /* 10 */
-            
-            sale.vendus = Math.floor(Math.pow(sale.demand, 2) * Math.pow(10, -2));
-            
-            
-            /* un zeste de random */
-            sale.vendus -= getRandomInt(sale.vendus/10); 
-            sale.vendus += getRandomInt(sale.vendus/10); 
-            
-            sale.wanted = sale.vendus;
-            sale.unsold = clients[i].data.unsold;
-            
-
-            clients[i].data.totalticks++;
-            if (sale.unsold <= sale.vendus) {
-                sale.mank = sale.unsold - sale.vendus;
-                sale.unsold = 0;
-                sale.vendus += sale.mank;
-            } else {
-                sale.unsold -= sale.vendus;
-            }
-           
-            
-            
+            var sale = biz.getIncome(clients[i]);
             clients[i].data.unsold = sale.unsold;
-            clients[i].data.money += clients[i].data.price * sale.vendus;
-            clients[i].data.daily = {'income' : sale.vendus * clients[i].data.price,'sales': sale.vendus};
+            clients[i].data.money += sale.income;
+            clients[i].data.daily = {'income' : sale.income,'sales': sale.vendus};
 
-
-
-
-
-
+            /* agios */
             clients[i].data.tools.ajo = 0;
             if (clients[i].data.money < 0) {
-                var ajo = Math.ceil(clients[i].data.money * biz.ajo);
+                var ajo = Math.ceil(clients[i].data.money * biz.ajo * -1);
                 clients[i].data.money -= ajo;
                 clients[i].data.tools.ajo = ajo;
             }
-
+            if (clients[i].data.money < biz.banqueroute){
+                clients[i].banqueroute();
+            }
+            
+            
+            /* hobbying */
+            hobby_clock++;
+            if(hobby_clock === biz.hobby_freq){  
+               wss.setAllStrategyBuffer('hobby_boost',null);
+               hobby_price = biz.getRandomInt(10000) + biz.hobbybribemin;
+               hobby_window = {'hw' : true, 'price' : hobby_price};
+               console.log('hobby win open at '+hobby_price);
+            }
+            if(hobby_clock >= (biz.hobby_freq + biz.hobby_window)){
+                hobby_window = false;
+                hobby_clock = 0;
+                console.log('hobby win close');
+            }
+            
+            /* cooldowns */
+            if(clients[i].data.strategies.defamecooldown > 0){
+                clients[i].data.strategies.defamecooldown--;
+            }
+            
            
         } else {
             // console.log(clients[i].name + ' : not init');

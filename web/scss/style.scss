@@ -24,6 +24,9 @@ $bp : 780px;
 body{
     font-family: 'Quicksand', sans-serif;
     position:relative;
+    h2{
+        margin-top:0;
+    }
     input{
         font-family: 'Quicksand', sans-serif;
     }
@@ -53,7 +56,21 @@ body{
         }
         
     }
-
+   
+        .hobbyist{
+            position : absolute;
+            background : white;
+            cursor : pointer;    
+            padding: 20px; 
+            border: 1px solid #CCC;
+            border-radius : 10px;
+            top: 0;
+            right: 40px;
+        }
+    
+    
+    
+    
     .hidden{
         display:none !important;
     }
@@ -102,7 +119,7 @@ body{
         background:black;
         color:white;
         padding:10px;
-        height: 100px;
+        height: 130px;
         overflow-y: scroll;        
     }
     #game{
@@ -116,8 +133,9 @@ body{
             width: 28%;
             display: inline-block;
             vertical-align: top;
-            min-height: 245px;
+            min-height: 280px;
             margin: 0.5%;
+            
             @media(max-width:$bp){
                 width:100%;
             }
@@ -152,6 +170,18 @@ body{
                     background-color: red !important;
                 }
             }
+        }
+        #spydata{
+            p{
+                height: 14px;
+                padding: 1px;
+                font-size: 14px;
+                margin: 5px;
+            }
+        }
+        
+        #clientsbox{
+            width:60%;
         }
     }
 
