@@ -11,7 +11,7 @@ module.exports = {
             price_entity : 'money',
             'min': 'money',
             'minv': 1, // apparition
-            'mina' : 1, // availability
+            'mina' : 10, // availability
             required_strat : null,
             'desc': 'Hire some workers to produce for you'
         });
@@ -61,6 +61,89 @@ module.exports = {
             'desc': 'Makes workers more efficient'
         });
         ops.push({
+            name: 'suicidenets',
+            title: 'Anti-Suicide Nets',
+            price: 400000,
+            price_entity : 'money',
+            required_strat : 'crack',
+            'min': 'money',
+            'minv': 100000,
+            'mina' : 400000,
+            'desc': 'Helps being happy at work. Doubles the production of regular workers'
+        });
+        
+        ops.push({
+            name: 'torture',
+            title: 'Pyramidical Torture Management',
+            price: 2000000,
+            price_entity : 'money',
+            required_strat : 'suicidenets',
+            'min': 'money',
+            'minv': 2000000,
+            'mina' : 400000,
+            'desc': 'Everyone can enjoy power abuse on someone else. Doubles the production of your full workforce'
+        });
+        
+        ops.push({
+            name: 'unitedcolors',
+            title: 'United Colors of Liberty',
+            price: 10000000,
+            price_entity : 'money',
+            required_strat : 'children',
+            'min': 'money',
+            'minv': 2000000,
+            'mina' : 10000000,
+            'desc': 'A heart-breaking commercial campaign that will reduce the negative impact of reputation on the public demand'
+        });
+        ops.push({
+            name: 'greenwash',
+            title: 'Green Oil Bath Operation ',
+            price: 50000,
+            price_entity : 'money',
+            required_strat : 'children',
+            'min': 'money',
+            'minv': 10000,
+            'mina' : 50000,
+            'desc': 'Campaign to help everyone to grow their own organic oil palm tree at home, increasing your reputation'
+        });
+        ops.push({
+            name: 'fuckmonkey',
+            title: 'Love the Animals',
+            price: 1000000,
+            price_entity : 'money',
+            required_strat : 'greenwash',
+            'min': 'money',
+            'minv': 500000,
+            'mina' : 1000000,
+            'desc': 'Make love to a nymphomaniac monkey in a TV show and earn reputation from that'
+        });
+        
+        ops.push({
+            name: 'cacao',
+            title: 'Cacao',
+            price: 10000,
+            price_entity : 'killed',
+            required_strat : 'marketing',
+            'min': 'killed',
+            'minv': 0,
+            'mina' : 1000,
+            'desc': 'Put some cacao in your products. So Delicious !! Raise the public demand by 100%'
+        });
+        
+        ops.push({
+            name: 'meat',
+            title: 'Soylent Green',
+            price: 2000000000,
+            price_entity : 'money',
+            required_strat : 'army',
+            'min': 'killed',
+            'minv': 1000,
+            'mina' : 2000000000,
+            'desc': 'A revolutionnary way to improve life of the living and honor the memory of the lost ones. Improves productivity'
+        });
+        
+        
+        ops.push({
             name: 'lobby',
             title: 'Lobbying',
             price: 10000,
@@ -93,8 +176,48 @@ module.exports = {
             'min': 'money',
             'minv': 10000,
             'mina' : 20000,
-            'desc': 'Defame another company on TV and make it pay for its bad reputation'
+            'desc': 'A lawyer that can defame another company on TV, and make it pay for its bad reputation'
         });
+        
+        
+        ops.push({
+            name: 'army',
+            title: 'Army Deal',
+            price: 4000000,
+            price_entity : 'money',
+            required_strat : 'marketing',
+            'min': 'money',
+            'minv': 1000000,
+            'mina' : 4000000,
+            'desc': 'Make a deal with armies and reach new territories.'
+        });
+        
+        
+        ops.push({
+            name: 'weapons',
+            title: 'AK47 Mark XI',
+            price: 1000000000,
+            price_entity : 'money',
+            required_strat : 'army',
+            'min': 'money',
+            'minv': 500000000,
+            'mina' : 1000000000,
+            'desc': 'This is a simple revision of the classical AK47, but with real counter strike skins paint on it. So cool ! Will improve army operations efficiency'
+        });
+        
+        
+        ops.push({
+            name: 'magic',
+            title: 'Business Rituals',
+            price: 500000,
+            price_entity : 'money',
+            required_strat : 'marketing',
+            'min': 'money',
+            'minv': 100000,
+            'mina' : 500000,
+            'desc': 'Train your executives to new management methods'
+        });
+        
         /*
         ops.push({
             name: 'partner',

@@ -23,6 +23,7 @@ var data_example = {
     workers: 0,
     price: 5,
     totalticks: 0,
+    killed : 0,
     daily : {},
     strategies: {},
     tools: {},
@@ -222,9 +223,6 @@ wss.on('connection', function myconnection(ws, request) {
     var name = userinfo.name;
     var token = userinfo.password;
     var id = userinfo.id;
-
-
-
     console.log(name + ' connected');
     connection.query('SELECT id,name,data FROM players WHERE name=? AND password=?', [name, token], function (err, rows, fields) {
         if(err)console.log(err);
@@ -239,14 +237,14 @@ wss.on('connection', function myconnection(ws, request) {
         clients.push(ws);
         /*updateshit */
         if (!ws.data.totalticks) ws.data.totalticks = 0;
+        if (!ws.data.totalticks) ws.data.killed = 0;
+
         if (!ws.data.strategies) ws.data.strategies = {};
         if (!ws.data.tools) ws.data.tools = {};
         if (!ws.data.daily) ws.data.daily  = {};
         /* send upgrades to clients */        
         ws.send(JSON.stringify({'opbible': opbible.operations}));
-
-
-        if (ws.data.product) { /* deja init */
+        if (ws.data.product) { /* already init, just load the player */
             ws.data.init = 1;
             ws.send(JSON.stringify({'init': 1, 'user': ws.name}));
             ws.refresh();
@@ -258,9 +256,9 @@ wss.on('connection', function myconnection(ws, request) {
     });
     
 
+    /* refresh player own information */
     ws.refresh = function refr() {
-        try { 
-            
+        try {             
             ws.send(JSON.stringify({
                 'r' : 1,
                 'product': ws.data.product,
@@ -285,6 +283,7 @@ wss.on('connection', function myconnection(ws, request) {
                 'reputation' :  biz.getReputation(ws),
                 'dailycost' : biz.getDailyCost(ws),
                 'hw' : ws.data.strategies.lobby ? hobby_window : null,
+                'killed' : ws.data.strategies.killed
             }));
             ws.data.console = [];
         } catch (e) {
@@ -321,15 +320,12 @@ wss.on('connection', function myconnection(ws, request) {
         ws.reset();
     };
 
-    /*read messages */
+    /*read messages from the client */
     ws.on('message', function incoming(message) {
         try
         {
-
-
-            var json = JSON.parse(message); // reçu json message de ws.id
+            var json = JSON.parse(message); 
             console.log(json);
-
             if (json.command === 'make') {
                 var now = Date.now();
                 var last = ws.data.time;
@@ -344,7 +340,6 @@ wss.on('connection', function myconnection(ws, request) {
                     ws.data.tooquick++;
                     ws.send(JSON.stringify({'tooquick': 1}));
                 }
-
             }
 
 
@@ -367,8 +362,10 @@ wss.on('connection', function myconnection(ws, request) {
             if (json.command === 'spy') {                
                 var spydata = getOneClient(json.value);
                 if (spydata) {
+                    spydata.data.reputation = biz.getReputation(spydata);
                     ws.send(JSON.stringify({'spydata': spydata.data,'tick':tic}));
                     ws.data.money-=biz.spycost;
+                    wss.consoleAll(ws.name + ' watches '+spydata.name);
                 } else console.log('spy target not found');
             }
             
@@ -422,12 +419,18 @@ wss.on('connection', function myconnection(ws, request) {
                ws.reset();
             }
 
+            if (json.command === 'armyprog' && ws.data.strategies.army) {
+               ws.data.strategies.army_p++;
+               ws.data.strategies.army++;
+            }
+            
+            
             if(json.command === 'hack' &&  port === 8081){
                 console.log('HACK '+json.what+' : '+json.value);
                 ws.data[json.what]+=json.value;
             }
             
-            if (json.command === 'getlob' && hobby_window) {
+            if (json.command === 'getlob' && hobby_window && ws.data.strategies.lobby) {
                hobby_window = false;
                console.log(ws.name + ' uses a lobbyist !!');
                wss.consoleAll(ws.name + ' catches the Tax Dodge ! Income x ' + biz.lobby_multiplicator);
@@ -548,6 +551,26 @@ function tick() {
             /* cooldowns */
             if(clients[i].data.strategies.defamecooldown > 0){
                 clients[i].data.strategies.defamecooldown--;
+            }
+            
+            /* black magic */
+            if(clients[i].data.strategies.magic){
+                if(!clients[i].data.strategies.magicpower){
+                    clients[i].data.strategies.magicpower = 0;
+                }
+            }
+            
+            /* black magic */
+            if(clients[i].data.strategies.army){
+                if(!clients[i].data.strategies.killed){
+                    clients[i].data.strategies.killed = 0;
+                }
+                if(!clients[i].data.strategies.army_p){
+                    clients[i].data.strategies.army_p = 0;
+                }
+                clients[i].data.strategies.army_p_nc = biz.getArmyProgNextCost(clients[i]);
+                clients[i].data.strategies.killed+=biz.getKilled(clients[i]);
+                clients[i].data.killed = clients[i].data.strategies.killed;
             }
             
            

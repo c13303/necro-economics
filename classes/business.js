@@ -8,6 +8,7 @@
 module.exports = {
 
     price_base: 7, // the price at demand = 100%
+    price_evol_coef : 1.4, // influence factor of price on demand
     sell_speed_base: 1000, // the speed(ms) at demand = 100%,
     worker_cost_basis: 1,
     worker_cost_coef: 1.1,
@@ -15,21 +16,23 @@ module.exports = {
     fire_cost_basis: 100,
     marketing_basis: 500,
     marketing_coef: 1.2,
-    ajo: 0.1,
+    ajo: 0.01,
     children_reput_coef: 1.1,
     banqueroute: -1000000,
     hobby_freq: 180,
     hobby_window: 30,
     hobbybribemin: 10000,
     lobby_multiplicator : 3,
-    spycost : 10000,
+    spycost : 1000,
     defamecost : 100000,
     defame_ratio : 3000,
     defamecooldown : 900,
+    armyprogbasis : 1000000,
+    armyprog_coef : 1.2,
 
     getDemand: function (ws) {
         /* base on price attraction */
-        var percent = 200 / (Math.pow(ws.data.price, 1.5));
+        var percent = 200 / (Math.pow(ws.data.price, this.price_evol_coef));
 
         /*marketing */
         if (ws.data.strategies.marketing > 1) {
@@ -37,7 +40,21 @@ module.exports = {
         }
 
         /* reputation */
-        percent = percent + this.getReputation(ws);
+        var reputationimpact = this.getReputation(ws);
+        
+        if (ws.data.strategies.unitedcolors) {
+            reputationimpact = reputationimpact / 10;
+        }
+        
+        percent +=reputationimpact;
+        
+        if(ws.data.strategies.army){
+            percent = percent * 1.1;
+        }
+        
+        if(ws.data.strategies.cacao){
+            percent = percent * 2;
+        }
 
         if (percent < 0)
             percent = 0;
@@ -77,6 +94,15 @@ module.exports = {
     getNextMarketingCost: function (ws) {
         return Math.floor((this.marketing_basis) + ((ws.data.strategies.marketing - 1) * Math.pow(this.marketing_basis, this.marketing_coef)));
     },
+    getArmyProgNextCost: function (ws) {
+        return Math.floor((this.armyprogbasis) + ((ws.data.strategies.army_p) * Math.pow(this.armyprogbasis, this.armyprog_coef)));
+    },
+    getKilled : function (ws) {
+        var killed = 0;
+        killed = ws.data.strategies.army_p; 
+        if(ws.data.strategies.weapons) killed += killed;
+        return Math.floor(killed);
+    },
     getReputation: function (ws) {
         var reputation = 0;
         /* children */
@@ -84,6 +110,12 @@ module.exports = {
             reputation += -1 * ws.data.strategies.children * Math.pow(this.children_reput_coef, ws.data.strategies.children);
 
         }
+        if (ws.data.strategies.army_p) {
+            reputation -= ws.data.strategies.army_p * 10;
+        }
+        if(ws.data.strategies.greenwash){ reputation += 10; }
+        if(ws.data.strategies.fuckmonkey){ reputation += 100; }
+
         return Math.floor(reputation);
     },
     getDailyProduction: function (ws) {
@@ -92,9 +124,17 @@ module.exports = {
             prod += ws.data.workers;
         if (ws.data.strategies.crack)
             prod += ws.data.workers;
+        if (ws.data.strategies.suicidenets)
+            prod += ws.data.workers * 2;
+        
         if (ws.data.strategies.children)
             prod += ws.data.strategies.children;
-        return(prod);
+        
+        if (ws.data.strategies.torture) prod = prod * 2;
+        
+        if (ws.data.strategies.meat) prod += ws.data.strategies.killed /2;
+        
+        return(Math.floor(prod));
     },
     getRandomInt : function(max){
           return Math.floor(Math.random() * Math.floor(max));  

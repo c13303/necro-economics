@@ -1,18 +1,18 @@
 <?php
 $v = time();
-$title = 'Jojal Idler Pro';
+$title = 'Necro-Economics<br/>Idler Pro';
 $unit = '€';
 $isdev = filter_input(INPUT_GET, "dev", FILTER_SANITIZE_NUMBER_INT);
 $message = filter_input(INPUT_GET, "message", FILTER_SANITIZE_STRING);
 
 if ($isdev) {
-    $title = "Jojal Idler Pro Dev";
+    $title .= " Dev";
     $v = time();
 }
 ?><!DOCTYPE html>
 <html>
     <head>
-        <title><?= $title; ?></title>
+        <title><?= strip_tags($title); ?></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,15 +32,15 @@ if ($isdev) {
             <div class="logo"><img src="/img/JID.png" alt="<?= $title; ?>" /></div>
             <div class="title"><h1><?= $title; ?></h1></div>
             <div id="console">Wow, such amazing capitalist multiplayer game<br/>
-                <span class="lastupdate">Last update : Spy & Defame</span>
+                <span class="lastupdate">Last update : V0.05 - International Ops, Army, Cacao</span>
                 <?= $message ? "<span class='infoupdate'>$message</span>" : ''; ?>
             </div>
         </div>
         <div id="hobby_window" class="hidden">
-            <div class="hobbyist command" data-c="getlob" data-v="1">
+            <div class="hobbyist" >
                 <img src="/img/politic.png" alt="cahuzac" />
                 <div class="speaker">"I may help your taxes revision ... "</div>
-                <button><span class="stat" data-p="hobbyprice"></span></button>
+                <button class="command" data-c="getlob" data-v="1"><span class="stat" data-p="hobbyprice"></span></button>
             </div>
         </div>
 
@@ -74,6 +74,8 @@ if ($isdev) {
                    <!-- <p>Daily Income : <span class="stat" data-p="dailyincome"></span> <?= $unit; ?></p>
                     <p>Daily Costs : <span class="stat" data-p="dailycost"></span> <?= $unit; ?></p> -->
                     <p>Daily Income : <span class="stat" data-p="dailybalance"></span> <?= $unit; ?></p>
+                    <p>Worker Avg. : <span class="stat" data-p="workeravg"></span> <?= $unit; ?></p>
+
                    <!-- <h3><span class="stat" data-p="statrange"></span>-Period</h3>
                     <p>Daily Income : <span class="stat" data-p="period_dailyincome"></span> <?= $unit; ?></p>
                     <p>Sales : <span class="stat" data-p="period_sales"></span> <?= $unit; ?></p> -->
@@ -129,6 +131,18 @@ if ($isdev) {
 
                 </div>
             </div>
+            <div id="international" class="strategic" data-strat="army">
+                <h2>International Operations</h2>
+                <p>Army Partnership Programs : <span class="stat" data-s="army_p"></span><br/>
+                    Next Cost : <span class="stat" data-s="army_p_nc"></span> € 
+                    <button class="command" data-c="armyprog" data-v="1">Launch</button></p>               
+                <p>Killed : <span class="stat" data-s="killed"></span></p>
+                <div class="strategic" data-s="cult">
+                <h2>Cult</h2>
+                <p>Black Energy : <span class="stat" data-s="energy"></span></p>
+                </div>
+                
+            </div>
             <div id="clientsbox">
                 <h2>Stock Market</h2>
                 <!--<p><button class="command" data-c="refresh" data-v="1" >Refresh</button></p> -->
@@ -165,6 +179,7 @@ if ($isdev) {
                             <p class="field" data-f="day"></p>
                             <p class="field" data-f="name"></p>
                             <p class="field" data-f="money"></p>
+                            <p class="field" data-f="income"></p>
                             <p class="field" data-f="product"></p>
                             <p class="field" data-f="unsold"></p>
                             <p class="field" data-f="commercials"></p>

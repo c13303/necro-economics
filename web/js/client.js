@@ -11,7 +11,7 @@ var statdays = [];
 var statd = 0;
 var statrange = 10;
 
-
+var ntargets = {};
 
 
 function fnum(x) {
@@ -77,7 +77,11 @@ $(document).ready(function () {
     function numbers_refresh() {
         $('.stat').each(function () {
             var stat = $(this).data('p');
+            var strat = $(this).data('s');
+            if(stat)
             $(this).html(p[stat]);
+            if(strat && p.strategies)
+                $(this).html(fnum(p.strategies[strat]));
         });
     }
 
@@ -115,6 +119,7 @@ $(document).ready(function () {
             if (p.r) {
                 p.moneydisplay = Math.floor(p.money);
                 p.moneydisplay = p.moneydisplay.toLocaleString();
+                ntargets.money = Math.floor(p.money);
                 p.annee = Math.floor(p.tick / 365);
                 p.jrestant = p.tick - (p.annee * 365);
                 p.nmc = fnum(p.nmc);
@@ -209,7 +214,7 @@ $(document).ready(function () {
                     var data = clients[i];
                     var button = '';
                     if (p.strategies.spy) {
-                        button = '<button class="command" data-c="spy" data-v="' + data.name + '">spy (10K€)</but>';
+                        button = '<button class="command" data-c="spy" data-v="' + data.name + '">spy (1K€)</but>';
                     }
                     if (p.strategies.defamation && !p.strategies.defamecooldown) {
                         button += '<button class="command" data-c="defame" data-v="' + data.name + '">defame (100K€)</but>';
@@ -310,7 +315,8 @@ $(document).ready(function () {
                     p.commercials = p.strategies.marketing;
 
                 }
-
+                if (p.strategies.army){
+                }
 
 
                 if (p.strategies.accountant) {
@@ -318,7 +324,7 @@ $(document).ready(function () {
                     p.sold = (p.score - p.unsold);
                     p.salesperday = Math.round(p.sold / p.totalticks, 2);
                     p.moneyperday = Math.floor(p.money / p.totalticks);
-
+                    p.workeravg = fnum(Math.floor(p.actual_worker_cost / p.workers ));
                     statdays[statd] = {
                         'dailyincome': p.daily.income,
                         'sales': p.daily.sales,
@@ -336,7 +342,7 @@ $(document).ready(function () {
                         for (i = 0; i < statrange; i++) {
                             total_income += statdays[i].dailyincome;
                             total_balance += statdays[i].dailyincome - statdays[i].dailycost;
-                            total_sales += statdays[i].sales
+                            total_sales += statdays[i].sales;
                         }
                         p.statrange = statrange;
                         p.period_sales = total_sales;
