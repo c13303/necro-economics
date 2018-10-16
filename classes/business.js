@@ -25,17 +25,19 @@ module.exports = {
     lobby_multiplicator : 3,
     spycost : 1000,
     defamecost : 100000,
-    defame_ratio : 3000,
+    defame_ratio : 100,
     defamecooldown : 900,
     armyprogbasis : 1000000,
     armyprog_coef : 1.2,
+    badbuzzduration : 30,
+    badbuzzcooldown : 450,
 
     getDemand: function (ws) {
         /* base on price attraction */
         var percent = 200 / (Math.pow(ws.data.price, this.price_evol_coef));
 
         /*marketing */
-        if (ws.data.strategies.marketing > 1) {
+        if (ws.data.strategies.marketing > 1 &&  !ws.data.strategies.badbuzzvictim) {
             percent = percent * ws.data.strategies.marketing;
         }
 
@@ -116,6 +118,8 @@ module.exports = {
         if(ws.data.strategies.greenwash){ reputation += 10; }
         if(ws.data.strategies.fuckmonkey){ reputation += 100; }
 
+        if(ws.data.strategies.badbuzzvictim){ reputation -= ws.data.strategies.badbuzzvictim; }
+        
         return Math.floor(reputation);
     },
     getDailyProduction: function (ws) {
@@ -162,7 +166,7 @@ module.exports = {
 
         
 
-        if (ws.data.strategies.hobby_boost) {
+        if (ws.data.strategies.tax_dogde) {
             sale.income = sale.income * this.lobby_multiplicator;
         }
         

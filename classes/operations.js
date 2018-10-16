@@ -83,6 +83,17 @@ module.exports = {
             'mina' : 400000,
             'desc': 'Everyone can enjoy power abuse on someone else. Doubles the production of your full workforce'
         });
+        ops.push({
+            name: 'badbuzz',
+            title: 'Bad Buzz',
+            price: 1000000,
+            price_entity : 'money',
+            required_strat : 'children',
+            'min': 'money',
+            'minv': 50000,
+            'mina' : 1000000,
+            'desc': 'Hire a community manager to make fun of opponents commercial campaigns'
+        });
         
         ops.push({
             name: 'unitedcolors',
@@ -97,25 +108,25 @@ module.exports = {
         });
         ops.push({
             name: 'greenwash',
-            title: 'Green Oil Bath Operation ',
+            title: 'Green Generation TV Reality',
             price: 50000,
             price_entity : 'money',
             required_strat : 'children',
             'min': 'money',
             'minv': 10000,
             'mina' : 50000,
-            'desc': 'Campaign to help everyone to grow their own organic oil palm tree at home, increasing your reputation'
+            'desc': 'Send some potheads listening to reggae into space, earn some reputation'
         });
         ops.push({
             name: 'fuckmonkey',
-            title: 'Love the Animals',
+            title: 'TV Show',
             price: 1000000,
             price_entity : 'money',
             required_strat : 'greenwash',
             'min': 'money',
             'minv': 500000,
             'mina' : 1000000,
-            'desc': 'Make love to a nymphomaniac monkey in a TV show and earn reputation from that'
+            'desc': 'Just go on TV and get popular'
         });
         
         ops.push({
@@ -187,9 +198,9 @@ module.exports = {
             price_entity : 'money',
             required_strat : 'marketing',
             'min': 'money',
-            'minv': 1000000,
+            'minv': 500000,
             'mina' : 4000000,
-            'desc': 'Make a deal with armies and reach new territories.'
+            'desc': 'Make a deal the army and reach new territories.'
         });
         
         
@@ -209,14 +220,28 @@ module.exports = {
         ops.push({
             name: 'magic',
             title: 'Business Rituals',
+            price: 5000000,
+            price_entity : 'money',
+            required_strat : 'army',
+            'min': 'money',
+            'minv': 1000000,
+            'mina' : 5000000,
+            'desc': 'Train your executives to cutting edge management methods'
+        });
+        
+               
+        ops.push({
+            name: 'strike',
+            title: 'Worker\'s union',
             price: 500000,
             price_entity : 'money',
-            required_strat : 'marketing',
+            required_strat : 'union',
             'min': 'money',
-            'minv': 100000,
+            'minv': 200000,
             'mina' : 500000,
-            'desc': 'Train your executives to new management methods'
+            'desc': 'Support the workers union to organize a 60 days strike in another company'
         });
+        
         
         /*
         ops.push({
@@ -230,29 +255,7 @@ module.exports = {
             'mina' : 20000,
             'desc': 'Pay for a somehow win-win partnership with another company'
         });
-         ops.push({
-            name: 'union',
-            title: 'Workers Union',
-            price: 10000,
-            price_entity : 'money',
-            required_strat : 'marketing',
-            'min': 'money',
-            'minv': 10000,
-            'mina' : 20000,
-            'desc': 'Support a workers union and temporary double the price of workers of another company'
-        });
-        ops.push({
-            name: 'strike',
-            title: 'Strike',
-            price: 10000,
-            price_entity : 'money',
-            required_strat : 'marketing',
-            'min': 'money',
-            'minv': 10000,
-            'mina' : 20000,
-            'desc': 'Trigger a strike into another company !'
-        });
-        
+       
         
         */
        

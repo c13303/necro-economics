@@ -158,16 +158,12 @@ $(document).ready(function () {
                 p.spydata.income = p.spydata.daily.income.toLocaleString() + '€';
                 p.spydata.commercials = fnum(p.spydata.marketing_level) + '';
                 p.spydata.strats = '';
-                if (p.spydata.strategies.accountant)
-                    p.spydata.strats += '[accountant]';
-                if (p.spydata.strategies.lobby)
-                    p.spydata.strats += '[lobbying]';
-                if (p.spydata.strategies.spy)
-                    p.spydata.strats += '[spy]';
-                if (p.spydata.strategies.crack)
-                    p.spydata.strats += '[crack supply]';
-                if (p.spydata.strategies.children)
-                    p.spydata.strats += '[children workers : ' + p.spydata.strategies.children + ']';
+                $.each(p.spydata.strategies, function (index, value) {
+                     p.spydata.strats += '['+index+':'+value+']';
+                }); 
+              
+                
+                
                 $('#spydata .field').each(function () {
                     $(this).html('<b>' + $(this).data('f') + '</b> : ' + p.spydata[$(this).data('f')]);
                 });
@@ -191,6 +187,15 @@ $(document).ready(function () {
                 window.location.replace("/?" + isdev + "message=Account has been reset");
             }
 
+            if(d.modal){ 
+                if ($("#infomodal").hasClass('in')) {
+                     $('#infomodal_content').append('<br/>'+d.modal);
+                } else {
+                    $('#infomodal_content').html(d.modal);
+                    $('#infomodal').modal('show');
+                }               
+            }
+
 
             if (d.updatescore) {
 
@@ -209,21 +214,24 @@ $(document).ready(function () {
             if (d.refresh) {
                 /* refresh competitors */
                 var clients = d.refresh;
-                $('#clients').html('<table>');
+                var html = '<table>';
                 for (i = 0; i < clients.length; i++) {
                     var data = clients[i];
                     var button = '';
                     if (p.strategies.spy) {
-                        button = '<button class="command" data-c="spy" data-v="' + data.name + '">spy (1K€)</but>';
+                        button += '<button class="command" data-c="spy" data-v="' + data.name + '">spy (1K€)</but>';
                     }
                     if (p.strategies.defamation && !p.strategies.defamecooldown) {
                         button += '<button class="command" data-c="defame" data-v="' + data.name + '">defame (100K€)</but>';
                     }
+                    if (p.strategies.badbuzz && !p.strategies.badbuzzcooldown) {
+                        button += '<button class="command" data-c="badbuzz" data-v="' + data.name + '">bad buzz (1M€)</but>';
+                    }
                     
-                    $('#clients').append('<tr><td><b>' + data.name + '</b></td><td>' + fnum(data.money) + '€</td>\n\
-<td>' + fnum(data.score) + '</td><td>' + data.product + '</td><td>' + button + '</td></tr>');
+                    html+='<tr><td><b>' + data.name + '</b></td><td>' + fnum(data.money) + '€</td>\n\
+<td>' + fnum(data.score) + '</td><td>' + data.product + '</td><td>' + button + '</td></tr>';
                 }
-                $('#clients').append('</table>');
+                $('#clients').html(html+'</table>');
             }
 
             /* console display */

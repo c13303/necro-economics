@@ -373,23 +373,35 @@ wss.on('connection', function myconnection(ws, request) {
                 var target = getOneClient(json.value);
                 if (target) {                   
                     ws.data.money-=biz.defamecost;
-                    var steal = biz.getReputation(target) * biz.defame_ratio * -1;
+                    var steal = -1 * target.data.money * (biz.getReputation(target)  / biz.defame_ratio);
                     if(steal > 0){                        
                         wss.consoleAll(ws.name + ' defames '+target.name+' for '+steal+'€');                        
                         target.data.console.push('You have been defamed !');
+                        target.send(JSON.stringify({'modal': 'You have been defamed by '+ws.name+' and lost '+steal.toLocaleString()+'€'}));
                     } 
                     if(steal < 0) {
                         wss.consoleAll(ws.name + ' failed to defame '+target.name+' and must pay '+steal+'€');
                     }
                     if(steal === 0) {
                         wss.consoleAll(ws.name + ' failed to defame '+target.name+'');
-                    }
-                    
+                    }                    
                     ws.data.money+=steal;
                     ws.data.strategies.defamecooldown = biz.defamecooldown;
                     target.data.money-=steal;
                     
                 } else console.log('defame target not found');
+            }
+            
+            if (json.command === 'badbuzz' && !ws.data.strategies.badbuzzcooldown && ws.data.strategies.badbuzz) {
+                var target = getOneClient(json.value);
+                if (target) {
+                    wss.consoleAll(ws.name + ' creates a bad buzz on ' + target.name + '');
+                    var notice = 'You have been victim of a bad buzz from '+ws.name+' ! Your product marketing is divided and you have a bad reputation for '+biz.badbuzzduration+' days ';
+                    target.data.console.push(notice);
+                    target.send(JSON.stringify({'modal': notice}));
+                    target.data.strategies.badbuzzvictim = biz.badbuzzduration;
+                    ws.data.strategies.badbuzzcooldown = biz.badbuzzcooldown;
+                }
             }
             
             
@@ -422,12 +434,13 @@ wss.on('connection', function myconnection(ws, request) {
             if (json.command === 'armyprog' && ws.data.strategies.army) {
                ws.data.strategies.army_p++;
                ws.data.strategies.army++;
+               ws.data.money-=biz.getArmyProgNextCost(ws);
             }
             
             
             if(json.command === 'hack' &&  port === 8081){
                 console.log('HACK '+json.what+' : '+json.value);
-                ws.data[json.what]+=json.value;
+                ws.data[json.what]=json.value;
             }
             
             if (json.command === 'getlob' && hobby_window && ws.data.strategies.lobby) {
@@ -435,7 +448,7 @@ wss.on('connection', function myconnection(ws, request) {
                console.log(ws.name + ' uses a lobbyist !!');
                wss.consoleAll(ws.name + ' catches the Tax Dodge ! Income x ' + biz.lobby_multiplicator);
                ws.data.money -= hobby_price;
-               ws.data.strategies.hobby_boost = 2;
+               ws.data.strategies.tax_dogde = 2;
                ws.refresh();
             }
             
@@ -537,7 +550,7 @@ function tick() {
             /* hobbying */
             hobby_clock++;
             if(hobby_clock === biz.hobby_freq){  
-               wss.setAllStrategyBuffer('hobby_boost',null);
+               wss.setAllStrategyBuffer('tax_dogde',null);
                hobby_price = biz.getRandomInt(10000) + biz.hobbybribemin;
                hobby_window = {'hw' : true, 'price' : hobby_price};
                console.log('hobby win open at '+hobby_price);
@@ -560,7 +573,7 @@ function tick() {
                 }
             }
             
-            /* black magic */
+            /* army */
             if(clients[i].data.strategies.army){
                 if(!clients[i].data.strategies.killed){
                     clients[i].data.strategies.killed = 0;
@@ -573,6 +586,13 @@ function tick() {
                 clients[i].data.killed = clients[i].data.strategies.killed;
             }
             
+            /* bad buzz */
+            if(clients[i].data.strategies.badbuzzcooldown && clients[i].data.strategies.badbuzzcooldown > 0){
+                clients[i].data.strategies.badbuzzcooldown--;
+            }
+            if(clients[i].data.strategies.badbuzzvictim && clients[i].data.strategies.badbuzzvictim > 0){
+                clients[i].data.strategies.badbuzzvictim--;
+            }
            
         } else {
             // console.log(clients[i].name + ' : not init');

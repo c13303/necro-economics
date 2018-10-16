@@ -35,12 +35,12 @@ body {
   body .hobbyist {
     position: absolute;
     background: white;
-    cursor: pointer;
     padding: 20px;
     border: 1px solid #CCC;
     border-radius: 10px;
     top: 0;
-    right: 40px; }
+    right: 40px;
+    z-index: 200; }
   body .hidden {
     display: none !important; }
   body .infoupdate {
@@ -85,16 +85,25 @@ body {
     display: none; }
     body #game .stat {
       font-weight: bold; }
-    body #game > div {
+    @media (min-width: 780px) {
+      body #game .row {
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex; } }
+    body #game .row > div {
+      min-width: 200px;
+      width: 25%;
+      max-width: 400px;
       border: 1px solid #eaeaea;
       padding: 10px;
-      width: 28%;
       display: inline-block;
       vertical-align: top;
       min-height: 280px;
       margin: 0.5%; }
       @media (max-width: 780px) {
-        body #game > div {
+        body #game .row > div {
           width: 100%; } }
     body #game #unite {
       border: none; }
@@ -127,8 +136,16 @@ body {
       padding: 1px;
       font-size: 14px;
       margin: 5px; }
-    body #game #clientsbox {
-      width: 60%; }
+    body #game #clientsbox table, body #game #clientsbox tr {
+      width: 100%; }
+      body #game #clientsbox table td, body #game #clientsbox tr td {
+        width: 12%; }
+        body #game #clientsbox table td:last-of-type, body #game #clientsbox tr td:last-of-type {
+          width: 30%; }
+    @media (min-width: 780px) {
+      body #game #clientsbox {
+        max-width: none;
+        width: 60%; } }
   body td {
     border-bottom: 1Px solid #CCC;
     padding: 10px;

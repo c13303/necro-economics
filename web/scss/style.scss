@@ -59,13 +59,14 @@ body{
    
         .hobbyist{
             position : absolute;
-            background : white;
-            cursor : pointer;    
+            background : white;           
             padding: 20px; 
             border: 1px solid #CCC;
             border-radius : 10px;
             top: 0;
             right: 40px;
+             z-index: 200;
+
         }
     
     
@@ -100,6 +101,7 @@ body{
         text-align: left;
         width: 300px;
     }
+
     #top{
         width:100%;
         display:block;
@@ -127,19 +129,27 @@ body{
         .stat{
             font-weight: bold;
         }
-        >div{
-            border: 1px solid #eaeaea;
-            padding: 10px;
-            width: 28%;
-            display: inline-block;
-            vertical-align: top;
-            min-height: 280px;
-            margin: 0.5%;
-            
-            @media(max-width:$bp){
-                width:100%;
+        .row{
+            @media (min-width:$bp){
+                @include flexbox();
+            }
+            >div{
+                min-width:200px;
+                width:25%;
+                max-width:400px;
+                border: 1px solid #eaeaea;
+                padding: 10px;
+                display: inline-block;
+                vertical-align: top;
+                min-height: 280px;
+                margin: 0.5%;
+
+                @media(max-width:$bp){
+                    width:100%;
+                }
             }
         }
+        
         #unite{
             border:none;
         }
@@ -181,7 +191,20 @@ body{
         }
         
         #clientsbox{
+            table,tr{
+                width: 100%;
+                td{
+                    width:12%;
+                    &:last-of-type{
+                        width:30%;
+                    }
+                }
+            }
+            @media (min-width:$bp){
+            max-width:none;
+                
             width:60%;
+            }
         }
     }
 
