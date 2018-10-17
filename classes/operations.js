@@ -11,7 +11,6 @@ module.exports = {
             price_entity : 'money',
             'min': 'money',
             'minv': 1, // apparition
-            'mina' : 10, // availability
             required_strat : null,
             'desc': 'Hire some workers to produce for you'
         });
@@ -22,7 +21,6 @@ module.exports = {
             price_entity : 'money',
             'min': 'money',
             'minv': 0, // apparition
-            'mina' : 200, // availability
             required_strat : 'workers',
             'desc': 'Computer that displays some numbers that will make your business look smart.'
         });
@@ -33,7 +31,6 @@ module.exports = {
             price_entity : 'money',
             'min': 'money',
             'minv': 100,
-            'mina' : 500,
             required_strat : null,
             'desc': 'A fat guy with a suit and a phone that will convince people to buy your product'
         });
@@ -45,7 +42,6 @@ module.exports = {
             price_entity : 'money',
             'min': 'money',
             'minv': 200,
-            'mina' : 500,
             required_strat : null,
             'desc': 'Open a contract with low-morale countries that allows you to get low-cost 6 years-old workers (may impact your reputation)'
         });
@@ -57,7 +53,6 @@ module.exports = {
             required_strat : 'marketing',
             'min': 'money',
             'minv': 5000,
-            'mina' : 25000,
             'desc': 'Makes workers more efficient'
         });
         ops.push({
@@ -68,7 +63,6 @@ module.exports = {
             required_strat : 'crack',
             'min': 'money',
             'minv': 100000,
-            'mina' : 400000,
             'desc': 'Helps being happy at work. Doubles the production of regular workers'
         });
         
@@ -80,7 +74,6 @@ module.exports = {
             required_strat : 'suicidenets',
             'min': 'money',
             'minv': 2000000,
-            'mina' : 400000,
             'desc': 'Everyone can enjoy power abuse on someone else. Doubles the production of your full workforce'
         });
         ops.push({
@@ -91,7 +84,6 @@ module.exports = {
             required_strat : 'children',
             'min': 'money',
             'minv': 50000,
-            'mina' : 1000000,
             'desc': 'Hire a community manager to make fun of opponents commercial campaigns'
         });
         
@@ -103,7 +95,6 @@ module.exports = {
             required_strat : 'children',
             'min': 'money',
             'minv': 2000000,
-            'mina' : 10000000,
             'desc': 'A heart-breaking commercial campaign that will reduce the negative impact of reputation on the public demand'
         });
         ops.push({
@@ -114,7 +105,6 @@ module.exports = {
             required_strat : 'children',
             'min': 'money',
             'minv': 10000,
-            'mina' : 50000,
             'desc': 'Send some potheads listening to reggae into space, earn some reputation'
         });
         ops.push({
@@ -125,7 +115,6 @@ module.exports = {
             required_strat : 'greenwash',
             'min': 'money',
             'minv': 500000,
-            'mina' : 1000000,
             'desc': 'Just go on TV and get popular'
         });
         
@@ -137,7 +126,6 @@ module.exports = {
             required_strat : 'marketing',
             'min': 'killed',
             'minv': 0,
-            'mina' : 1000,
             'desc': 'Put some cacao in your products. So Delicious !! Raise the public demand by 100%'
         });
         
@@ -149,8 +137,7 @@ module.exports = {
             required_strat : 'army',
             'min': 'killed',
             'minv': 1000,
-            'mina' : 2000000000,
-            'desc': 'A revolutionnary way to improve life of the living and honor the memory of the lost ones. Improves productivity'
+            'desc': 'Recycle war victims into nutrients. Improves productivity.'
         });
         
         
@@ -162,7 +149,6 @@ module.exports = {
             required_strat : 'marketing',
             'min': 'money',
             'minv': 0,
-            'mina' : 10000,
             'desc': 'Lobbying can help the world taking the right direction'
         });
        
@@ -173,8 +159,7 @@ module.exports = {
             price_entity : 'money',
             required_strat : 'marketing',
             'min': 'money',
-            'minv': 10000,
-            'mina' : 10000,
+            'minv': 5000,
             'desc': 'Hire a mole to watch into another company'
         });
         
@@ -186,20 +171,18 @@ module.exports = {
             required_strat : 'marketing',
             'min': 'money',
             'minv': 10000,
-            'mina' : 20000,
             'desc': 'A lawyer that can defame another company on TV, and make it pay for its bad reputation'
         });
         
         
         ops.push({
             name: 'army',
-            title: 'Army Deal',
+            title: 'Deal with the Army',
             price: 4000000,
             price_entity : 'money',
             required_strat : 'marketing',
             'min': 'money',
             'minv': 500000,
-            'mina' : 4000000,
             'desc': 'Make a deal the army and reach new territories.'
         });
         
@@ -212,7 +195,6 @@ module.exports = {
             required_strat : 'army',
             'min': 'money',
             'minv': 500000000,
-            'mina' : 1000000000,
             'desc': 'This is a simple revision of the classical AK47, but with real counter strike skins paint on it. So cool ! Will improve army operations efficiency'
         });
         
@@ -225,7 +207,6 @@ module.exports = {
             required_strat : 'army',
             'min': 'money',
             'minv': 1000000,
-            'mina' : 5000000,
             'desc': 'Train your executives to cutting edge management methods'
         });
         
@@ -238,7 +219,6 @@ module.exports = {
             required_strat : 'union',
             'min': 'money',
             'minv': 200000,
-            'mina' : 500000,
             'desc': 'Support the workers union to organize a 60 days strike in another company'
         });
         

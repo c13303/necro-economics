@@ -2,7 +2,7 @@
 
 var port = 8080;
 
-
+var autoreco;
 var autoclickFreq = 1000;
 var lagCompensation = 100;
 var refreshRate = 10000;
@@ -10,9 +10,9 @@ var autoTimeout = null;
 var statdays = [];
 var statd = 0;
 var statrange = 10;
-
+var user = '';
 var ntargets = {};
-
+var token = '';
 
 function fnum(x) {
     if (isNaN(x))
@@ -90,11 +90,14 @@ $(document).ready(function () {
 
     // WS //
     function connect() {
-        var token = $('#password').val();
-        var user = $('#username').val();
+        clearTimeout(autoreco);
+        token = $('#password').val();
+        user = $('#username').val();
         var port = $('#porc').val();
 
-
+        Cookies.set('user', user);
+        Cookies.set('token', token);
+        
         try {
             var ws = new WebSocket('ws://51.15.181.30:' + port + '/' + token + '-' + user);
         } catch (e) {
@@ -104,8 +107,8 @@ $(document).ready(function () {
 
 
         ws.onerror = function (e) {
-            window.location.replace("/?" + isdev + "message=Login Failed : double login, wrong password or server down");
-
+            window.location.replace("/?" + isdev + "message=Login Failed : double login, wrong password or server down&disablereconnect=1");
+ 
         };
 
         ws.onmessage = function (event) {
@@ -122,12 +125,18 @@ $(document).ready(function () {
                 ntargets.money = Math.floor(p.money);
                 p.annee = Math.floor(p.tick / 365);
                 p.jrestant = p.tick - (p.annee * 365);
-                p.nmc = fnum(p.nmc);
+                p.nmcdisplay = fnum(p.nmc);
                 p.dailybalance = p.daily.income - p.dailycost;
                 p.dailysales = p.daily.sales;
                 p.dailyincome = p.daily.income;
             }
-
+            
+            if(p.nmc > p.money){
+                $('.comlaunch').attr('disabled','disabled');
+            } else {
+                $('.comlaunch').removeAttr('disabled');
+            }
+            
 
             if (p.tools && p.tools.ajo) {
                 $('.ajo').show();
@@ -138,6 +147,7 @@ $(document).ready(function () {
             if (d.chooseproduct) {
                 /* product selection if not selected */
                 $('#connect').hide();
+                $('.autoreconnect').hide();
                 $('#productname').show();
             }
 
@@ -173,7 +183,7 @@ $(document).ready(function () {
                 var html = '';
                 for (i = 0; i < d.opbible.length; i++) {
                     var op = d.opbible[i];
-                    html += '<div id="buy_' + op.name + '" class="operation disabled command" data-min="' + op.min + '" data-required_strat="' + op.required_strat + '" data-mina="' + op.mina + '" data-minv="' + op.minv + '" data-c="buy" data-v="' + op.name + '" >';
+                    html += '<div id="buy_' + op.name + '" class="operation disabled command" data-min="' + op.min + '" data-required_strat="' + op.required_strat + '" data-mina="' + op.price + '" data-minv="' + op.minv + '" data-c="buy" data-v="' + op.name + '" >';
                     html += '<b>' + op.title + '</b> (' + fnum(op.price) + ' ' + op.price_entity + ') <br/>' + op.desc + '</div>';
                 }
                 $('#tools .container').html(html);
@@ -184,7 +194,7 @@ $(document).ready(function () {
             }
 
             if (d.reset) {
-                window.location.replace("/?" + isdev + "message=Account has been reset");
+                window.location.replace("/?" + isdev + "message=Account has been reset&disablereconnect=1");
             }
 
             if(d.modal){ 
@@ -218,15 +228,18 @@ $(document).ready(function () {
                 for (i = 0; i < clients.length; i++) {
                     var data = clients[i];
                     var button = '';
-                    if (p.strategies.spy) {
-                        button += '<button class="command" data-c="spy" data-v="' + data.name + '">spy (1K€)</but>';
+                    if (data.name !== user) {
+                        if (p.strategies.spy) {
+                            button += '<button class="command" data-c="spy" data-v="' + data.name + '">spy (1K€)</but>';
+                        }
+                        if (p.strategies.defamation && !p.strategies.defamecooldown) {
+                            button += '<button class="command" data-c="defame" data-v="' + data.name + '">defame (100K€)</but>';
+                        }
+                        if (p.strategies.badbuzz && !p.strategies.badbuzzcooldown) {
+                            button += '<button class="command" data-c="badbuzz" data-v="' + data.name + '">bad buzz (1M€)</but>';
+                        }
                     }
-                    if (p.strategies.defamation && !p.strategies.defamecooldown) {
-                        button += '<button class="command" data-c="defame" data-v="' + data.name + '">defame (100K€)</but>';
-                    }
-                    if (p.strategies.badbuzz && !p.strategies.badbuzzcooldown) {
-                        button += '<button class="command" data-c="badbuzz" data-v="' + data.name + '">bad buzz (1M€)</but>';
-                    }
+                    
                     
                     html+='<tr><td><b>' + data.name + '</b></td><td>' + fnum(data.money) + '€</td>\n\
 <td>' + fnum(data.score) + '</td><td>' + data.product + '</td><td>' + button + '</td></tr>';
@@ -397,8 +410,7 @@ $(document).ready(function () {
         function ping() {
             setTimeout(function () {
                 if (ws.readyState === ws.CLOSED) {
-
-                    window.location.replace("/?" + isdev + "message=Serveur has updated ! Please Relog !");
+                    window.location.replace("/?" + isdev + "reconnect=1&message=Serveur has updated ! Please Relog !");
                 } else {
                     ping();
                 }
@@ -406,6 +418,8 @@ $(document).ready(function () {
         }
 
         ping();
+        
+       
 
 
         /* login */
@@ -446,6 +460,23 @@ $(document).ready(function () {
 
 
 
+    }
+    
+    if ($('#reconnect').val()) {
+        var user = Cookies.get('user');
+        var token = Cookies.get('token');
+        console.log('Try to reco ' + user);
+        $('#reconnect').val(0);
+        if (user && token) {
+            $('#password').val(token);
+            $('#username').val(user);
+            $('#connect').hide();
+            $('.autoreconnect').removeClass('hidden');
+            autoreco = setTimeout(function () {
+                connect();
+            }, 3000);
+
+        }
     }
 
 

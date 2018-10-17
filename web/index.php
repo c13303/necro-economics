@@ -7,6 +7,10 @@ $title = 'Necro-Economics<br/>Idler Pro';
 $unit = '€';
 $isdev = filter_input(INPUT_GET, "dev", FILTER_SANITIZE_NUMBER_INT);
 $message = filter_input(INPUT_GET, "message", FILTER_SANITIZE_STRING);
+$reconnect = filter_input(INPUT_GET, "reconnect", FILTER_SANITIZE_STRING);
+$disablereconnect = filter_input(INPUT_GET, "disablereconnect", FILTER_SANITIZE_STRING);
+
+
 
 if ($isdev) {
     $title .= " Dev";
@@ -21,6 +25,10 @@ if ($isdev) {
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
         <link rel="stylesheet" type="text/css" href="bootstrap/bootstrap.min.css">
         <script src="bootstrap/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+        <link rel="icon" type="image/png" href="favicon.png" />
+        
+        
         <script src="js/client.js?v=<?= $v; ?>"></script>
         <link rel="stylesheet" type="text/css" href="css/style.css?v=<?= $v; ?>">
 
@@ -53,7 +61,9 @@ if ($isdev) {
                 <input type="password" placeholder="password" id="password" />
                 <input type="submit" id="submit" value="login" />
                 <div class="info">Log in or create account</div>
+                
             </form> 
+            <div class="autoreconnect hidden">Automatic reconnexion in progress ....</div>
             <div id="productname">
                 <form id="pname">
                     <p>What is the name of your product brand?</p>
@@ -103,8 +113,8 @@ if ($isdev) {
                     <p>Public demand : <span id="demand" class="stat" data-p="demand">0</span> %</p>
                     <div class="marketing strategic" data-strat="marketing">
                         <p>Commercials : <span class="stat" data-p="commercials"></span> 
-                            <button class="command hcommand" data-c="commercialbuy" data-v="1">Launch</button></p>
-                        <p> Next : <span class="stat" data-p="nmc"></span><?= $unit; ?></p>
+                            <button class="comlaunch command hcommand" data-c="commercialbuy" data-v="1">Launch</button></p>
+                        <p> Next : <span class="stat" data-p="nmcdisplay"></span><?= $unit; ?></p>
                     </div>
                 </div> 
 
@@ -214,7 +224,10 @@ if ($isdev) {
 
                 </div>
             </div>
-        </div>
-
+        </div>  
+       
+        <?php if (!$disablereconnect): ?>
+             <input type="hidden" id="reconnect" value="1" />
+        <?php endif; ?>
     </body>
 </html>

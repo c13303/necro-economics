@@ -35,7 +35,7 @@ module.exports = {
     getDemand: function (ws) {
         /* base on price attraction */
         var percent = 200 / (Math.pow(ws.data.price, this.price_evol_coef));
-
+        var percent = 20 - (Math.pow(20,ws.data.price/20));
         /*marketing */
         if (ws.data.strategies.marketing > 1 &&  !ws.data.strategies.badbuzzvictim) {
             percent = percent * ws.data.strategies.marketing;
