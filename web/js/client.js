@@ -13,8 +13,14 @@ var statrange = 10;
 var user = '';
 var ntargets = {};
 var token = '';
+var actions = {};
 
 function fnum(x) {
+    
+    if(!x){
+        return 0;
+    }
+    
     if (isNaN(x))
         return x;
 
@@ -23,7 +29,7 @@ function fnum(x) {
     }
 
     if (x < 9999) {
-        return x;
+        return x.toLocaleString();
     }
 
     if (x < 1000000) {
@@ -78,11 +84,14 @@ $(document).ready(function () {
         $('.stat').each(function () {
             var stat = $(this).data('p');
             var strat = $(this).data('s');
-            if(stat)
-            $(this).html(p[stat]);
-            if(strat && p.strategies)
+            if (stat)
+                $(this).html(fnum(p[stat]));
+            if (strat && p.strategies)
                 $(this).html(fnum(p.strategies[strat]));
         });
+
+        
+
     }
 
 
@@ -125,17 +134,17 @@ $(document).ready(function () {
                 ntargets.money = Math.floor(p.money);
                 p.annee = Math.floor(p.tick / 365);
                 p.jrestant = p.tick - (p.annee * 365);
-                p.nmcdisplay = fnum(p.nmc);
-                p.dailybalance = p.daily.income - p.dailycost;
+                p.dailybalance = fnum(p.daily.income - p.dailycost);
+                if(p.hw) p.lobbyprice = p.hw.price;
                 p.dailysales = p.daily.sales;
-                p.dailyincome = p.daily.income;
+                
+                
             }
             
-            if(p.nmc > p.money){
-                $('.comlaunch').attr('disabled','disabled');
-            } else {
-                $('.comlaunch').removeAttr('disabled');
-            }
+          
+            
+            
+            
             
 
             if (p.tools && p.tools.ajo) {
@@ -171,8 +180,6 @@ $(document).ready(function () {
                 $.each(p.spydata.strategies, function (index, value) {
                      p.spydata.strats += '['+index+':'+value+']';
                 }); 
-              
-                
                 
                 $('#spydata .field').each(function () {
                     $(this).html('<b>' + $(this).data('f') + '</b> : ' + p.spydata[$(this).data('f')]);
@@ -185,7 +192,12 @@ $(document).ready(function () {
                     var op = d.opbible[i];
                     html += '<div id="buy_' + op.name + '" class="operation disabled command" data-min="' + op.min + '" data-required_strat="' + op.required_strat + '" data-mina="' + op.price + '" data-minv="' + op.minv + '" data-c="buy" data-v="' + op.name + '" >';
                     html += '<b>' + op.title + '</b> (' + fnum(op.price) + ' ' + op.price_entity + ') <br/>' + op.desc + '</div>';
+                    if(op.actionprice){
+                        actions[op.name] = {};
+                        actions[op.name].price = op.actionprice;
+                    }
                 }
+                console.log(actions);
                 $('#tools .container').html(html);
             }
 
@@ -228,16 +240,28 @@ $(document).ready(function () {
                 for (i = 0; i < clients.length; i++) {
                     var data = clients[i];
                     var button = '';
-                    if (data.name !== user) {
+                    if (data.name !== user && actions) {
                         if (p.strategies.spy) {
-                            button += '<button class="command" data-c="spy" data-v="' + data.name + '">spy (1K€)</but>';
+                            var isdisabled = p.money >= actions.spy.price ? '' : 'disabled="disabled"';
+                            button += '<button '+isdisabled+' class="command" data-c="spy" data-v="' + data.name + '">spy ('+fnum(actions.spy.price)+'€)</but>';
                         }
-                        if (p.strategies.defamation && !p.strategies.defamecooldown) {
-                            button += '<button class="command" data-c="defame" data-v="' + data.name + '">defame (100K€)</but>';
+                        if (p.strategies.defamation) {
+                            var isdisabled = p.money >= actions.defamation.price ? '' : 'disabled="disabled"';
+                            if(p.strategies.defamecooldown) isdisabled = 'disabled="disabled"';
+                            button += '<button '+isdisabled+' class="command" data-c="defame" data-v="' + data.name + '">defame ('+fnum(actions.defamation.price)+'€)</but>';
                         }
-                        if (p.strategies.badbuzz && !p.strategies.badbuzzcooldown) {
-                            button += '<button class="command" data-c="badbuzz" data-v="' + data.name + '">bad buzz (1M€)</but>';
+                        if (p.strategies.badbuzz) {
+                            var isdisabled = p.money >= actions.badbuzz.price ? '' : 'disabled="disabled"';
+                            if(p.strategies.badbuzzcooldown) isdisabled = 'disabled="disabled"';
+                            button += '<button '+isdisabled+' class="command" data-c="badbuzz" data-v="' + data.name + '">bad buzz ('+fnum(actions.badbuzz.price)+'€)</but>';
                         }
+                        if (p.strategies.strike && !p.strategies.strikecooldown) {
+                            var isdisabled = p.money >= actions.strike.price ? '' : 'disabled="disabled"';
+                            if(p.strategies.strikecooldown) isdisabled = 'disabled="disabled"';
+                            button += '<button '+isdisabled+' class="command" data-c="strike" data-v="' + data.name + '">strike ('+fnum(actions.strike.price)+'€)</but>';
+                        }
+                        
+                        
                     }
                     
                     
@@ -403,7 +427,25 @@ $(document).ready(function () {
 
             numbers_refresh();
 
+            /* update securities */
+            if (p.strategies) {
+                $('.security').each(function () {
+                    var ref = $(this).data('security');
+                    if (!ref) {
+                        ref = $(this).data('nostratsecurity');
+                        ref = p[ref];
+                    } else {
+                        ref = p.strategies[ref];
+                    }
 
+                    if (ref >= p.money) {
+                        $(this).attr('disabled', 'disabled');
+                    } else {
+                        $(this).removeAttr('disabled');
+                    }
+                });
+            }
+            
 
         };
 

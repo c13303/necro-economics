@@ -207,8 +207,8 @@ function info_clients() {
             infos.push({
                 'name': clients[i].name,
                 'product': clients[i].data.product,
-                'score': Math.floor(clients[i].data.score),
-                'money': Math.floor(clients[i].data.money)
+                'score': clients[i].data.score,
+                'money': clients[i].data.money
             });
         }
     }
@@ -362,20 +362,23 @@ wss.on('connection', function myconnection(ws, request) {
             }
 
             if (json.command === 'raise') {
-                ws.data.price++;
+                ws.data.price+=json.value;
 
             }
             if (json.command === 'lower' && ws.data.price > 1) {
-                ws.data.price--;
+                ws.data.price-=json.value;
 
             }
 
             if (json.command === 'spy') {
                 var spydata = getOneClient(json.value);
-                if (spydata) {
+                var op = opbible.findOp('spy');
+                var cost = op.actionprice;
+                
+                if (spydata && ws.data.money > cost) {
+                    ws.data.money-=cost;
                     spydata.data.reputation = biz.getReputation(spydata);
-                    ws.send(JSON.stringify({'spydata': spydata.data, 'tick': tic}));
-                    ws.data.money -= biz.spycost;
+                    ws.send(JSON.stringify({'spydata': spydata.data, 'tick': tic}));                    
                     wss.consoleAll(ws.name + ' watches ' + spydata.name);
                 } else
                     console.log('spy target not found');
@@ -384,11 +387,13 @@ wss.on('connection', function myconnection(ws, request) {
 
             if (json.command === 'defame' && !ws.data.strategies.defamecooldown && ws.data.strategies.defamation) {
                 var target = getOneClient(json.value);
-                if (target) {
-                    ws.data.money -= biz.defamecost;
+                var op = opbible.findOp('defamation');
+                var cost = op.actionprice;
+                if (target && ws.data.money >= cost) {
+                    ws.data.money -= cost;
                     var steal = -1 * target.data.money * (biz.getReputation(target) / biz.defame_ratio);
                     if (steal > 0) {
-                        wss.consoleAll(ws.name + ' defames ' + target.name + ' for ' + steal + '€');
+                        wss.consoleAll(ws.name + ' defames ' + target.name + ' for ' + steal.toLocaleString() + '€');
                         var notice = 'You have been defamed by ' + ws.name + ' and lost ' + steal.toLocaleString() + '€';
                         target.data.console.push(notice);
                         target.send(JSON.stringify({'modal': notice}));
@@ -413,21 +418,40 @@ wss.on('connection', function myconnection(ws, request) {
 
             if (json.command === 'badbuzz' && !ws.data.strategies.badbuzzcooldown && ws.data.strategies.badbuzz) {
                 var target = getOneClient(json.value);
-                if (target) {
+                var op = opbible.findOp('badbuzz');
+                var cost = op.actionprice;
+                if (target && ws.data.money >= cost) {
+                    ws.data.money-=cost;
                     wss.consoleAll(ws.name + ' creates a bad buzz on ' + target.name + '');
                     var notice = 'You have been victim of a bad buzz from ' + ws.name + ' ! Your product marketing is divided and you have a bad reputation for ' + biz.badbuzzduration + ' days ';
                     target.data.console.push(notice);
                     target.send(JSON.stringify({'modal': notice}));
                     target.data.strategies.badbuzzvictim = biz.badbuzzduration;
                     ws.data.strategies.badbuzzcooldown = biz.badbuzzcooldown;
-
                     var notice = 'You successfully created a bad buzz around ' + target.name;
                     ws.send(JSON.stringify({'modal': notice}));
-
-
+                } else {
+                    console.log('refused bad buzz '+ws.data.money+' on '+target);
+                    console.log(op);
                 }
             }
 
+
+            if (json.command === 'strike' && !ws.data.strategies.strikecooldown && ws.data.strategies.strike) {
+                var target = getOneClient(json.value);
+                var op = opbible.findOp('strike');
+                var cost = op.actionprice;
+                if (target && ws.data.money >= cost) {
+                    ws.data.money -= cost;
+                    var notice = 'Your workers are on strike !! They stop working for '+op.duration+' days. ' + ws.name + ' seems behind that ...';
+                    target.send(JSON.stringify({'modal': notice}));
+                    wss.consoleAll(ws.name + ' triggers a strike at ' + target.name + '');
+                    target.data.strategies.onstrike = op.duration;
+                    ws.data.strategies.strikecooldown = op.cooldown;
+                    var notice = 'You successfully created a strike at ' + target.name;
+                    ws.send(JSON.stringify({'modal': notice}));
+                }
+            }
 
 
             if (json.command === 'hire') {
@@ -456,10 +480,12 @@ wss.on('connection', function myconnection(ws, request) {
             }
 
             if (json.command === 'armyprog' && ws.data.strategies.army) {
-                ws.data.strategies.army_p++;
-                ws.data.strategies.army++;
-                ws.data.money -= biz.getArmyProgNextCost(ws);
-
+                var cost = biz.getArmyProgNextCost(ws);
+                if (ws.data.money >= cost) {
+                    ws.data.strategies.army_p++;
+                    ws.data.strategies.army++;
+                    ws.data.money -= biz.getArmyProgNextCost(ws);
+                }
             }
 
 
@@ -623,6 +649,15 @@ function tick() {
             }
             if (clients[i].data.strategies.badbuzzvictim && clients[i].data.strategies.badbuzzvictim > 0) {
                 clients[i].data.strategies.badbuzzvictim--;
+            }
+            
+            
+            /*strike */
+            if (clients[i].data.strategies.strikecooldown && clients[i].data.strategies.strikecooldown > 0) {
+                clients[i].data.strategies.strikecooldown--;
+            }
+            if (clients[i].data.strategies.onstrike && clients[i].data.strategies.onstrike > 0) {
+                clients[i].data.strategies.onstrike--;
             }
 
         } else {

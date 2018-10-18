@@ -1,6 +1,6 @@
 <?php
 
-$statut = 'Last update : V0.06 - Bad Buzz & Defamation update';
+$statut = 'Last update : V0.07 - New prices, Strikes !';
 
 $v = time();
 $title = 'Necro-Economics<br/>Idler Pro';
@@ -50,8 +50,8 @@ if ($isdev) {
         <div id="hobby_window" class="hidden">
             <div class="hobbyist" >
                 <img src="/img/parly.png" alt="cahuzac" />
-                <div class="speaker">"About your taxes ... "</div>
-                <button class="command" data-c="getlob" data-v="1"><span class="stat" data-p="hobbyprice"></span></button>
+                <div class="speaker">"Wanna dodge taxes ?"</div>
+                <button class="command security" data-nostratsecurity="lobbyprice" data-c="getlob" data-v="1"><span class="stat" data-p="hobbyprice"></span></button>
             </div>
         </div>
 
@@ -85,41 +85,33 @@ if ($isdev) {
                     <div id="stats" class="strategic" data-strat="accountant">
                         <h2>Accountant Data</h2>
                         <p>Daily Sales : <span class="stat" data-p="dailysales"></span> <span class="prodnamedisplay stat" data-p="product"></span>(s)</p>
-                       <!-- <p>Daily Income : <span class="stat" data-p="dailyincome"></span> <?= $unit; ?></p>
-                        <p>Daily Costs : <span class="stat" data-p="dailycost"></span> <?= $unit; ?></p> -->
                         <p>Daily Income : <span class="stat" data-p="dailybalance"></span> <?= $unit; ?></p>
                         <p>Worker Avg. : <span class="stat" data-p="workeravg"></span> <?= $unit; ?></p>
 
-                   <!-- <h3><span class="stat" data-p="statrange"></span>-Period</h3>
-                    <p>Daily Income : <span class="stat" data-p="period_dailyincome"></span> <?= $unit; ?></p>
-                    <p>Sales : <span class="stat" data-p="period_sales"></span> <?= $unit; ?></p> -->
-
-                        <!-- <h3>All time</h3>
-                        <p>Days of activity : <span class="stat" data-p="totalticks"></span></p>
-                        <p>Sales  : <span class="stat" data-p="sold"></span></p>
-                        <p>Sales per day : <span class="stat" data-p="salesperday"></span></p>
-                        <p>Money per day : <span class="stat" data-p="moneyperday"></span> <?= $unit; ?></p> -->
+                   
                     </div>
 
                 </div>
 
                 <div id="play">
                     <h2>Sales, year <span class="stat" data-p="annee"></span>, day <span class="stat" data-p="jrestant"></span></h2>
-                    <p>Unit Price : <span class="stat" data-p="price">0</span> <?= $unit; ?>
-                        <button class="command" data-c="lower" data-v="1">-</button>
-                        <button class="command" data-c="raise" data-v="1">+</button>
+                    <p>Unit Price : <span class="stat statprice" data-p="price">0</span> <?= $unit; ?>
+                        <button class="command" data-c="lower" data-v="0.1">-0,1</button>
+                        <button class="command" data-c="raise" data-v="0.1">+0,1</button>
+                        <button class="command" data-c="lower" data-v="1">-1</button>
+                        <button class="command" data-c="raise" data-v="1">+1</button>
                     </p>                
                     <p>Unsold : <span id="unsold" class="stat" data-p="unsold">0</span> <span class="prodnamedisplay stat" data-p="product"></span>(s) </p>
                     <p>Public demand : <span id="demand" class="stat" data-p="demand">0</span> %</p>
                     <div class="marketing strategic" data-strat="marketing">
                         <p>Commercials : <span class="stat" data-p="commercials"></span> 
-                            <button class="comlaunch command hcommand" data-c="commercialbuy" data-v="1">Launch</button></p>
-                        <p> Next : <span class="stat" data-p="nmcdisplay"></span><?= $unit; ?></p>
+                            <button class="comlaunch security command hcommand" data-nostratsecurity="nmc" data-c="commercialbuy" data-v="1">Launch</button></p>
+                        <p> Next : <span class="stat" data-p="nmc"></span><?= $unit; ?></p>
                     </div>
                 </div> 
 
                 <div id="factory">
-                    <h2>Factory</h2>
+                    <h2>Factory<span class="strategic" data-strat="onstrike">- On Strike! -</span></h2>
                     <p>Produced : <span id="score" class="stat" data-p="score">0</span> <span class="prodnamedisplay stat" data-p="product"></span>(s)</p>
                     <button id="make" >Make a <span class="stat" data-p="product"></span></button>
                     <div id="workers" class="strategic" data-strat="workers">
@@ -141,9 +133,9 @@ if ($isdev) {
                     <h2>International Operations</h2>
                     <p>Army Partnership Programs : <span class="stat" data-s="army_p"></span><br/>
                         Next Cost : <span class="stat" data-s="army_p_nc"></span> € 
-                        <button class="command" data-c="armyprog" data-v="1">Launch</button></p>               
+                        <button class="command security" data-security="army_p_nc" data-c="armyprog" data-v="1">Launch</button></p>               
                     <p>Killed : <span class="stat" data-s="killed"></span></p>
-                    <div class="strategic" data-s="magic">
+                    <div class="strategic" data-strat="magic">
                         <h2>Cult</h2>
                         <p>Black Energy : <span class="stat" data-s="energy"></span></p>
                     </div>
@@ -202,7 +194,6 @@ if ($isdev) {
                             <p class="field" data-f="unsold"></p>
                             <p class="field" data-f="reputation"></p>
                             <p class="field" data-f="score"></p>
-                            <p class="field" data-f="workers"></p>
                             <p class="field" data-f="strats"></p>
                         </div>
                     </div>

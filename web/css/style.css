@@ -110,6 +110,10 @@ body {
     body #game .stats {
       font-size: 12px;
       padding: 10px; }
+    body #game .statprice {
+      width: 50px;
+      display: inline-block;
+      text-align: right; }
     body #game #shop {
       display: none; }
       body #game #shop .item {
@@ -153,3 +157,5 @@ body {
   body button:disabled,
   body button[disabled] {
     opacity: 0.2; }
+  body button {
+    font-size: 13px; }

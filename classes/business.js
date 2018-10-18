@@ -11,7 +11,7 @@ module.exports = {
     price_evol_coef : 1.4, // influence factor of price on demand
     sell_speed_base: 1000, // the speed(ms) at demand = 100%,
     worker_cost_basis: 1,
-    worker_cost_coef: 1.1,
+    worker_cost_coef: 1.05,
     tickrate: 1000,
     fire_cost_basis: 100,
     marketing_basis: 500,
@@ -34,8 +34,12 @@ module.exports = {
 
     getDemand: function (ws) {
         /* base on price attraction */
-        var percent = 200 / (Math.pow(ws.data.price, this.price_evol_coef));
-        var percent = 20 - (Math.pow(20,ws.data.price/20));
+      //  var percent = 200 / (Math.pow(ws.data.price, this.price_evol_coef));
+      
+        var maximumfactor = ws.data.strategies.marketing ? Math.floor(20 + (ws.data.strategies.marketing / 2)) : 20;
+      
+        var percent = 25 - (Math.pow(150,ws.data.price/maximumfactor));
+        
         /*marketing */
         if (ws.data.strategies.marketing > 1 &&  !ws.data.strategies.badbuzzvictim) {
             percent = percent * ws.data.strategies.marketing;
@@ -73,11 +77,14 @@ module.exports = {
     getWorkerCost: function (workers) {
         /* price on 1 regular worker */
         var cost = (this.worker_cost_basis) + workers * this.worker_cost_coef * this.worker_cost_basis;
-        return Math.floor(cost);
+        return cost;
     },
     getActualWorkerCost: function (ws) {
         /* regular workers */
         var cost = ws.data.workers * this.getWorkerCost(ws.data.workers);
+        if(ws.data.strategies.onstrike){
+            cost = 0;
+        }
         return (cost);
     },
     getNextWorkerCost: function (ws) {
@@ -109,15 +116,12 @@ module.exports = {
         var reputation = 0;
         /* children */
         if (ws.data.strategies.children) {
-            reputation += -1 * ws.data.strategies.children * Math.pow(this.children_reput_coef, ws.data.strategies.children);
-
+            reputation += -2 * ws.data.strategies.children * Math.pow(this.children_reput_coef, ws.data.strategies.children);
         }
-        if (ws.data.strategies.army_p) {
-            reputation -= ws.data.strategies.army_p * 10;
-        }
+        if (ws.data.strategies.army_p) { reputation -= ws.data.strategies.army_p * 10; }
+        if(ws.data.strategies.bio){ reputation += 5; }
         if(ws.data.strategies.greenwash){ reputation += 10; }
         if(ws.data.strategies.fuckmonkey){ reputation += 100; }
-
         if(ws.data.strategies.badbuzzvictim){ reputation -= ws.data.strategies.badbuzzvictim; }
         
         return Math.floor(reputation);
@@ -138,6 +142,11 @@ module.exports = {
         
         if (ws.data.strategies.meat) prod += ws.data.strategies.killed /2;
         
+        if(ws.data.strategies.onstrike){
+            prod = 0;
+        }
+        
+        
         return(Math.floor(prod));
     },
     getRandomInt : function(max){
@@ -146,8 +155,15 @@ module.exports = {
     getIncome: function (ws) {
 
         var sale = {};
-        sale.demand = this.getDemand(ws);      /* 10 */
-        sale.vendus = Math.floor(Math.pow(sale.demand, 2) * Math.pow(10, -2));
+        sale.demand = this.getDemand(ws);      /* 10 */   
+        
+        var de = this.getRandomInt(2);
+        var factor = 11;
+        if(de===1){
+            sale.vendus = Math.floor(sale.demand / factor);
+        } else {
+             sale.vendus = Math.ceil(sale.demand / factor);
+        }
 
         /* un zeste de random */
         sale.vendus -= this.getRandomInt(sale.vendus / 10);
@@ -162,9 +178,7 @@ module.exports = {
         } else {
             sale.unsold -= sale.vendus;
         }
-        sale.income = ws.data.price * sale.vendus;
-
-        
+        sale.income = ws.data.price * sale.vendus;        
 
         if (ws.data.strategies.tax_dogde) {
             sale.income = sale.income * this.lobby_multiplicator;

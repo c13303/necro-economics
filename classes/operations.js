@@ -67,6 +67,19 @@ module.exports = {
         });
         
         ops.push({
+            name: 'bio',
+            title: 'Bio Label',
+            price: 5000,
+            price_entity : 'money',
+            required_strat : 'marketing',
+            'min': 'money',
+            'minv': 1000,
+            'desc': 'Buy a nice attractive packaging that will raise your reputation'
+        });
+        
+        
+        
+        ops.push({
             name: 'torture',
             title: 'Pyramidical Torture Management',
             price: 2000000,
@@ -74,7 +87,7 @@ module.exports = {
             required_strat : 'suicidenets',
             'min': 'money',
             'minv': 2000000,
-            'desc': 'Everyone can enjoy power abuse on someone else. Doubles the production of your full workforce'
+            'desc': 'Everyone can enjoy power abuse on someone else. Doubles the production of your full workforce !'
         });
         ops.push({
             name: 'badbuzz',
@@ -84,7 +97,8 @@ module.exports = {
             required_strat : 'children',
             'min': 'money',
             'minv': 50000,
-            'desc': 'Hire a community manager to make fun of opponents commercial campaigns'
+            'desc': 'Hire a community manager to make fun of opponents commercial campaigns',
+            'actionprice' : 1000000
         });
         
         ops.push({
@@ -160,7 +174,8 @@ module.exports = {
             required_strat : 'marketing',
             'min': 'money',
             'minv': 5000,
-            'desc': 'Hire a mole to watch into another company'
+            'desc': 'Hire a mole to watch into another company',
+            'actionprice' : 1000
         });
         
         ops.push({
@@ -171,7 +186,8 @@ module.exports = {
             required_strat : 'marketing',
             'min': 'money',
             'minv': 10000,
-            'desc': 'A lawyer that can defame another company on TV, and make it pay for its bad reputation'
+            'desc': 'A lawyer that can defame another company on TV, and make it pay for its bad reputation',
+            'actionprice' : 100000
         });
         
         
@@ -216,28 +232,19 @@ module.exports = {
             title: 'Worker\'s union',
             price: 500000,
             price_entity : 'money',
-            required_strat : 'union',
+            required_strat : 'defamation',
             'min': 'money',
-            'minv': 200000,
-            'desc': 'Support the workers union to organize a 60 days strike in another company'
+            'minv': 2000000,
+            'desc': 'Support the workers union to organize a 60 days strike in another company',
+            'actionprice' : 10000000,
+            'duration' : 30,
+            'cooldown' : 360,
         });
         
         
-        /*
-        ops.push({
-            name: 'partner',
-            title: 'Partnership',
-            price: 50000,
-            price_entity : 'money',
-            required_strat : 'marketing',
-            'min': 'money',
-            'minv': 20000,
-            'mina' : 20000,
-            'desc': 'Pay for a somehow win-win partnership with another company'
-        });
+        
+        
        
-        
-        */
        
         
         

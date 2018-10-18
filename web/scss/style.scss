@@ -158,6 +158,11 @@ body{
             font-size:12px;
             padding:10px;
         }
+        .statprice{
+            width: 50px;
+            display: inline-block;
+            text-align: right;
+        }
 
         #shop{
             display:none;
@@ -218,6 +223,10 @@ body{
     button:disabled,
     button[disabled]{
         opacity:0.2;
+    }
+    button{
+       font-size: 13px;
+
     }
 
 }
