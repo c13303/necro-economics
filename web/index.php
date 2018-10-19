@@ -1,6 +1,6 @@
 <?php
 
-$statut = 'Last update : V0.07 - New prices, Strikes !';
+$statut = 'Last update : V0.08 - End implemented';
 
 $v = time();
 $title = 'Necro-Economics<br/>Idler Pro';
@@ -72,8 +72,11 @@ if ($isdev) {
                 </form>
             </div>
         </div>
+        <div id="satan" class="hidden">
 
+        </div>
         <div id="game">
+            
             <div class="row">
                 <div id="company">
                     <h2>Company</h2>
@@ -112,7 +115,9 @@ if ($isdev) {
 
                 <div id="factory">
                     <h2>Factory<span class="strategic" data-strat="onstrike">- On Strike! -</span></h2>
-                    <p>Produced : <span id="score" class="stat" data-p="score">0</span> <span class="prodnamedisplay stat" data-p="product"></span>(s)</p>
+                    <p>Produced : <span id="score" class="stat" data-p="score">0</span> <span class="prodnamedisplay stat" data-p="product"></span>(s) 
+                        <br/>(<span class="stat" data-p="dp"></span> per day)
+                    </p>
                     <button id="make" >Make a <span class="stat" data-p="product"></span></button>
                     <div id="workers" class="strategic" data-strat="workers">
                         <p><span class="nb stat" data-p="workers"></span> worker(s)
@@ -134,10 +139,12 @@ if ($isdev) {
                     <p>Army Partnership Programs : <span class="stat" data-s="army_p"></span><br/>
                         Next Cost : <span class="stat" data-s="army_p_nc"></span> € 
                         <button class="command security" data-security="army_p_nc" data-c="armyprog" data-v="1">Launch</button></p>               
-                    <p>Killed : <span class="stat" data-s="killed"></span></p>
+                    <p>Killed : <span class="stat" data-p="killed"></span></p>
                     <div class="strategic" data-strat="magic">
-                        <h2>Cult</h2>
-                        <p>Black Energy : <span class="stat" data-s="energy"></span></p>
+                        <h2>R&D</h2>
+                        <p>Black Energy : <span class="stat" data-p="magicpower"></span></p>
+                        <button class="command consume security" data-security-entity="killed" data-security="magicnextcost" data-c="consume" data-v="1">Consume</button>
+                        <p>Cost : <span class="stat" data-s="magicnextcost"></span> corpses</p>
                     </div>
 
                 </div>
@@ -187,13 +194,11 @@ if ($isdev) {
                         <div id="spydata">
                             <h2>Spy Report</h2>
                             <p class="field" data-f="day"></p>
-                            <p class="field" data-f="name"></p>
-                            <p class="field" data-f="money"></p>
-                            <p class="field" data-f="income"></p>
+                            <p><span class="field" data-f="name"></span> <span class="field" data-f="reputation"></span></p>
+                            <p><span class="field" data-f="money"></span> <span class="field" data-f="income"></span></p>
                             <p><span class="field" data-f="product"></span> <span class="field" data-f="price"></span></p>
-                            <p class="field" data-f="unsold"></p>
-                            <p class="field" data-f="reputation"></p>
-                            <p class="field" data-f="score"></p>
+                            <p><span class="field" data-f="unsold"></span> <span class="field" data-f="score"></span></p>
+
                             <p class="field" data-f="strats"></p>
                         </div>
                     </div>

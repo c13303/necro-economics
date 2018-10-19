@@ -14,6 +14,17 @@ var user = '';
 var ntargets = {};
 var token = '';
 var actions = {};
+var opbible = {};
+
+function findOp(name) {
+    for (i = 0; i < this.opbible.length; i++) {
+        if (this.opbible[i].name === name) {
+            return(this.opbible[i]);
+        }
+    }
+    return null;
+}
+                
 
 function fnum(x) {
     
@@ -59,8 +70,6 @@ var p = {
     product: '',
     time: 0,
     money: 0,
-    marketing_level: 0,
-    source_level: 0,
     workers: 0,
 };
 p.max = 1000;
@@ -129,14 +138,14 @@ $(document).ready(function () {
 
             /* format some values for display */
             if (p.r) {
-                p.moneydisplay = Math.floor(p.money);
-                p.moneydisplay = p.moneydisplay.toLocaleString();
+                p.moneydisplay = p.money.toLocaleString();
                 ntargets.money = Math.floor(p.money);
                 p.annee = Math.floor(p.tick / 365);
                 p.jrestant = p.tick - (p.annee * 365);
                 p.dailybalance = fnum(p.daily.income - p.dailycost);
                 if(p.hw) p.lobbyprice = p.hw.price;
                 p.dailysales = p.daily.sales;
+              //  p.demand = p.demand / 10;
                 
                 
             }
@@ -145,7 +154,15 @@ $(document).ready(function () {
             
             
             
-            
+            if(p.endoftimes){
+                $('#game').hide();
+                $('#satan').removeClass("hidden");
+                $('#satan').html(p.endoftimes.txt);
+                $('#satan').append("<br/>SCORE : " + fnum(p.data.score));
+                $('#satan').append("<br/>MONEY : " + p.data.money.toLocaleString()+'€');
+                $('#satan').append('<br/><br/><button class="command" data-c="reset" data-v="1">Reset account</button>');
+                
+            }
 
             if (p.tools && p.tools.ajo) {
                 $('.ajo').show();
@@ -174,30 +191,35 @@ $(document).ready(function () {
                 p.jrestant = p.tick - (p.annee * 365);
                 p.spydata.day = 'year ' + p.annee + ', day ' + p.jrestant;
                 p.spydata.money = p.spydata.money.toLocaleString() + '€';
+                p.spydata.price = p.spydata.price.toLocaleString() + '€';
                 p.spydata.income = p.spydata.daily.income.toLocaleString() + '€';
-                p.spydata.commercials = fnum(p.spydata.marketing_level) + '';
                 p.spydata.strats = '';
                 $.each(p.spydata.strategies, function (index, value) {
-                     p.spydata.strats += '['+index+':'+value+']';
+                    var opname = findOp(index);
+                    if (opname) {
+                        p.spydata.strats += '<p><b>' + opname.title + '</b> : x <b>' + value + '</b>, ' + opname.desc + '</p>';
+                    }
                 }); 
                 
-                $('#spydata .field').each(function () {
+                $('#spydata .field').each(function () {                   
                     $(this).html('<b>' + $(this).data('f') + '</b> : ' + p.spydata[$(this).data('f')]);
                 });
             }
 
+            /* operations bible */
             if (d.opbible) {
+               opbible = d.opbible;
+                
                 var html = '';
                 for (i = 0; i < d.opbible.length; i++) {
                     var op = d.opbible[i];
-                    html += '<div id="buy_' + op.name + '" class="operation disabled command" data-min="' + op.min + '" data-required_strat="' + op.required_strat + '" data-mina="' + op.price + '" data-minv="' + op.minv + '" data-c="buy" data-v="' + op.name + '" >';
+                    html += '<div id="buy_' + op.name + '" class="operation disabled command" data-price_entity="'+op.price_entity+'" data-min="' + op.min + '" data-required_strat="' + op.required_strat + '" data-mina="' + op.price + '" data-minv="' + op.minv + '" data-c="buy" data-v="' + op.name + '" >';
                     html += '<b>' + op.title + '</b> (' + fnum(op.price) + ' ' + op.price_entity + ') <br/>' + op.desc + '</div>';
                     if(op.actionprice){
                         actions[op.name] = {};
                         actions[op.name].price = op.actionprice;
                     }
-                }
-                console.log(actions);
+                }                
                 $('#tools .container').html(html);
             }
 
@@ -240,6 +262,12 @@ $(document).ready(function () {
                 for (i = 0; i < clients.length; i++) {
                     var data = clients[i];
                     var button = '';
+                    if( data.name === user){
+                        if (p.strategies.spy) {
+                            var isdisabled = p.money >= actions.spy.price ? '' : 'disabled="disabled"';
+                            button += '<button '+isdisabled+' class="command" data-c="spy" data-v="' + data.name + '">audit ('+fnum(actions.spy.price)+'€)</but>';
+                        }
+                    }
                     if (data.name !== user && actions) {
                         if (p.strategies.spy) {
                             var isdisabled = p.money >= actions.spy.price ? '' : 'disabled="disabled"';
@@ -304,11 +332,10 @@ $(document).ready(function () {
                     var minv = $(this).data('minv');
                     var mina = $(this).data('mina');
                     var name = $(this).data('v');
+                    var price_entity = $(this).data('price_entity');
                     var required_strat = $(this).data('required_strat');
 
                     //console.log(name+ ' : ' + min+ ': '+p[min] + ' vs '+minv);
-
-
 
 
                     if (p[min] >= minv && !p.strategies[name] && (!required_strat || p.strategies[required_strat])) {
@@ -316,7 +343,7 @@ $(document).ready(function () {
                     } else {
                         $(this).hide();
                     }
-                    if (p[min] >= mina && !p.strategies[name]) {
+                    if (p[price_entity] >= mina && !p.strategies[name]) {
                         $(this).removeClass('disabled');
                     } else {
                         $(this).addClass('disabled');
@@ -437,8 +464,13 @@ $(document).ready(function () {
                     } else {
                         ref = p.strategies[ref];
                     }
-
-                    if (ref >= p.money) {
+                    
+                    if(!$(this).data('security-entity')){
+                        var entity = p.money;
+                    } else {
+                        var entity = p[$(this).data('security-entity')];
+                    }
+                    if (ref >= entity) {
                         $(this).attr('disabled', 'disabled');
                     } else {
                         $(this).removeAttr('disabled');
@@ -454,7 +486,8 @@ $(document).ready(function () {
                 if (ws.readyState === ws.CLOSED) {
                     window.location.replace("/?" + isdev + "reconnect=1&message=Serveur has updated ! Please Relog !");
                 } else {
-                    ping();
+                   
+                        ping();
                 }
             }, 1000);
         }

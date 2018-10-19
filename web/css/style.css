@@ -81,6 +81,10 @@ body {
     padding: 10px;
     height: 130px;
     overflow-y: scroll; }
+  body #satan {
+    text-align: center;
+    padding: 30px;
+    font-size: 26px; }
   body #game {
     display: none; }
     body #game .stat {

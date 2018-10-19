@@ -6,7 +6,7 @@
 
 
 module.exports = {
-
+    random : null,
     price_base: 7, // the price at demand = 100%
     price_evol_coef : 1.4, // influence factor of price on demand
     sell_speed_base: 1000, // the speed(ms) at demand = 100%,
@@ -15,7 +15,7 @@ module.exports = {
     tickrate: 1000,
     fire_cost_basis: 100,
     marketing_basis: 500,
-    marketing_coef: 1.2,
+    marketing_coef: 2,
     ajo: 0.01,
     children_reput_coef: 1.1,
     banqueroute: -1000000,
@@ -31,6 +31,8 @@ module.exports = {
     armyprog_coef : 1.2,
     badbuzzduration : 30,
     badbuzzcooldown : 450,
+    blackmagiccorpsesprice : 1000,
+    blackmagiccoef : 1.5,
 
     getDemand: function (ws) {
         /* base on price attraction */
@@ -74,21 +76,24 @@ module.exports = {
         var speed = parseInt(this.sell_speed_base + ws.data.workers);
         return speed;
     },
-    getWorkerCost: function (workers) {
+    getWorkerCost: function (workers,ws) {
         /* price on 1 regular worker */
         var cost = (this.worker_cost_basis) + workers * this.worker_cost_coef * this.worker_cost_basis;
+        if(ws.data.strategies.startup){   cost-=1; }
+        if(ws.data.strategies.suicidenets){   cost = cost * 0.75; }
+        if(ws.data.strategies.migration) { cost = cost / 2; }
         return cost;
     },
     getActualWorkerCost: function (ws) {
         /* regular workers */
-        var cost = ws.data.workers * this.getWorkerCost(ws.data.workers);
+        var cost = ws.data.workers * this.getWorkerCost(ws.data.workers,ws);
         if(ws.data.strategies.onstrike){
             cost = 0;
         }
         return (cost);
     },
     getNextWorkerCost: function (ws) {
-        return ((ws.data.workers + 1) * this.getWorkerCost(ws.data.workers + 1));
+        return ((ws.data.workers + 1) * this.getWorkerCost(ws.data.workers + 1,ws));
     },
     getDailyCost: function (ws) {
         var cost = this.getActualWorkerCost(ws);
@@ -101,7 +106,9 @@ module.exports = {
         return Math.floor(workers * this.worker_cost_coef * this.fire_cost_basis);
     },
     getNextMarketingCost: function (ws) {
-        return Math.floor((this.marketing_basis) + ((ws.data.strategies.marketing - 1) * Math.pow(this.marketing_basis, this.marketing_coef)));
+        var cost = this.marketing_basis + Math.pow(ws.data.strategies.marketing,4) ;
+        if(ws.data.strategies.bigdata) cost = cost / 2;
+        return Math.floor(cost);
     },
     getArmyProgNextCost: function (ws) {
         return Math.floor((this.armyprogbasis) + ((ws.data.strategies.army_p) * Math.pow(this.armyprogbasis, this.armyprog_coef)));
@@ -110,6 +117,10 @@ module.exports = {
         var killed = 0;
         killed = ws.data.strategies.army_p; 
         if(ws.data.strategies.weapons) killed += killed;
+        if(ws.data.strategies.education) killed += ws.data.strategies.children;
+        if(ws.data.strategies.smartphones) killed += ws.data.strategies.army_p;
+        if(ws.data.strategies.justice) killed+= this.getDemand(ws);
+        if(ws.data.strategies.toys) killed+=ws.data.workers * 10;
         return Math.floor(killed);
     },
     getReputation: function (ws) {
@@ -120,27 +131,24 @@ module.exports = {
         }
         if (ws.data.strategies.army_p) { reputation -= ws.data.strategies.army_p * 10; }
         if(ws.data.strategies.bio){ reputation += 5; }
-        if(ws.data.strategies.greenwash){ reputation += 10; }
-        if(ws.data.strategies.fuckmonkey){ reputation += 100; }
+        if(ws.data.strategies.spaceweedtv){ reputation += 10; }
+        if(ws.data.strategies.government){ reputation += 100; }
         if(ws.data.strategies.badbuzzvictim){ reputation -= ws.data.strategies.badbuzzvictim; }
         
         return Math.floor(reputation);
     },
     getDailyProduction: function (ws) {
         var prod = 0;
-        if (ws.data.workers)
-            prod += ws.data.workers;
-        if (ws.data.strategies.crack)
-            prod += ws.data.workers;
-        if (ws.data.strategies.suicidenets)
-            prod += ws.data.workers * 2;
+        if (ws.data.workers) prod += ws.data.workers;     
+      
         
-        if (ws.data.strategies.children)
-            prod += ws.data.strategies.children;
+        if (ws.data.strategies.children) prod += ws.data.strategies.children;
+        if (ws.data.strategies.remotework && ws.data.strategies.children) prod += ws.data.strategies.children;     
         
-        if (ws.data.strategies.torture) prod = prod * 2;
-        
-        if (ws.data.strategies.meat) prod += ws.data.strategies.killed /2;
+        if (ws.data.strategies.crack) prod += ws.data.workers;        
+        if (ws.data.strategies.wc)  prod += ws.data.workers;        
+        if (ws.data.strategies.torture) prod = prod * 2;        
+        if (ws.data.strategies.meat) prod += ws.data.killed /2;
         
         if(ws.data.strategies.onstrike){
             prod = 0;
@@ -158,16 +166,22 @@ module.exports = {
         sale.demand = this.getDemand(ws);      /* 10 */   
         
         var de = this.getRandomInt(2);
-        var factor = 11;
-        if(de===1){
-            sale.vendus = Math.floor(sale.demand / factor);
-        } else {
-             sale.vendus = Math.ceil(sale.demand / factor);
+        var factor = 9;
+    
+        sale.vendus = sale.demand / factor;
+        
+        if(ws.data.strategies.openspace){            
+            sale.vendus+=ws.data.workers / 2;            
+            if(ws.data.strategies.children) sale.vendus+=ws.data.strategies.children/2;
         }
+        
+        sale.vendus = Math.floor(sale.vendus);
 
         /* un zeste de random */
-        sale.vendus -= this.getRandomInt(sale.vendus / 10);
-        sale.vendus += this.getRandomInt(sale.vendus / 10);
+        if (this.random) {
+            sale.vendus -= this.getRandomInt(sale.vendus / 10);
+            sale.vendus += this.getRandomInt(sale.vendus / 10);
+        }
         sale.wanted = sale.vendus;
         sale.unsold = ws.data.unsold;
         ws.data.totalticks++;
@@ -185,6 +199,13 @@ module.exports = {
         }
         
         return(sale);
+
+    },
+    getBlackMagicNextCost: function(ws){
+        var cost = (this.blackmagiccorpsesprice) + ((ws.data.magicpower) *
+                Math.pow(this.blackmagiccorpsesprice, this.blackmagiccoef));
+        
+        return(Math.floor(cost));
 
     }
 
