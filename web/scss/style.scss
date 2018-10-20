@@ -139,9 +139,9 @@ body{
                 @include flexbox();
             }
             >div{
-                min-width:200px;
-                width:25%;
-                max-width:400px;
+                min-width:200px; 
+                width:100%;
+                
                 border: 1px solid #eaeaea;
                 padding: 10px;
                 display: inline-block;

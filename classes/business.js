@@ -13,10 +13,10 @@ module.exports = {
     worker_cost_basis: 1,
     worker_cost_coef: 1.05,
     tickrate: 1000,
-    fire_cost_basis: 100,
+    fire_cost_basis: 10,
     marketing_basis: 500,
     marketing_coef: 2,
-    ajo: 0.01,
+    ajo: 0.0,
     children_reput_coef: 1.1,
     banqueroute: -1000000,
     hobby_freq: 180,
@@ -103,7 +103,8 @@ module.exports = {
         return cost;
     },
     getFireCost: function (workers) {
-        return Math.floor(workers * this.worker_cost_coef * this.fire_cost_basis);
+        var cost = workers * this.worker_cost_coef * this.fire_cost_basis;
+        return Math.floor(cost);
     },
     getNextMarketingCost: function (ws) {
         var cost = this.marketing_basis + Math.pow(ws.data.strategies.marketing,4) ;

@@ -16,6 +16,8 @@ var token = '';
 var actions = {};
 var opbible = {};
 
+var datastorage = []; // for vizualisation
+
 function findOp(name) {
     for (i = 0; i < this.opbible.length; i++) {
         if (this.opbible[i].name === name) {

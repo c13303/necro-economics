@@ -195,8 +195,8 @@ function getOneClient(name) {
 
 wss.massrefresh = function broadcast(msg) {
     wss.clients.forEach(function each(client) {
-        if(!client.data.end)
-        client.refresh();
+        if(client.data && !client.data.end)
+            client.refresh();
     });
 };
 
@@ -350,15 +350,16 @@ wss.on('connection', function myconnection(ws, request) {
     ws.on('message', function incoming(message) {
         try
         {
+            console.log(ws.name + ' : '+message);
+           
              var json = JSON.parse(message);
             if (json.command === 'reset') {
                 ws.reset();
             }
-            if (ws.data.end) {
+            if (ws.data && ws.data.end) {
                 return null;
             }
-           
-            console.log(json);
+            
             if (json.command === 'make') {
                 var now = Date.now();
                 var last = ws.data.time;

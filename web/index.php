@@ -1,5 +1,4 @@
 <?php
-
 $statut = 'Last update : V0.08 - End implemented';
 
 $v = time();
@@ -27,10 +26,11 @@ if ($isdev) {
         <script src="bootstrap/bootstrap.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
         <link rel="icon" type="image/png" href="favicon.png" />
-        
-        
+
+
         <script src="js/client.js?v=<?= $v; ?>"></script>
         <link rel="stylesheet" type="text/css" href="css/style.css?v=<?= $v; ?>">
+        <link rel="stylesheet" type="text/css" href="css/extra.css?v=<?= $v; ?>">
 
 
 
@@ -61,7 +61,7 @@ if ($isdev) {
                 <input type="password" placeholder="password" id="password" />
                 <input type="submit" id="submit" value="login" />
                 <div class="info">Log in or create account</div>
-                
+
             </form> 
             <div class="autoreconnect hidden">Automatic reconnexion in progress ....</div>
             <div id="productname">
@@ -76,7 +76,7 @@ if ($isdev) {
 
         </div>
         <div id="game">
-            
+
             <div class="row">
                 <div id="company">
                     <h2>Company</h2>
@@ -91,14 +91,14 @@ if ($isdev) {
                         <p>Daily Income : <span class="stat" data-p="dailybalance"></span> <?= $unit; ?></p>
                         <p>Worker Avg. : <span class="stat" data-p="workeravg"></span> <?= $unit; ?></p>
 
-                   
+
                     </div>
 
                 </div>
 
                 <div id="play">
                     <h2>Sales, year <span class="stat" data-p="annee"></span>, day <span class="stat" data-p="jrestant"></span></h2>
-                    <p>Unit Price : <span class="stat statprice" data-p="price">0</span> <?= $unit; ?>
+                    <p>Unit Price : <span class="stat statprice" data-p="price">0</span> <?= $unit; ?><br/>
                         <button class="command" data-c="lower" data-v="0.1">-0,1</button>
                         <button class="command" data-c="raise" data-v="0.1">+0,1</button>
                         <button class="command" data-c="lower" data-v="1">-1</button>
@@ -178,8 +178,8 @@ if ($isdev) {
                 What : <input type="text" id="hack" value="money" /> Value : <input type="text" id="hackvalue" value="100000000" />
                 <button id="hacksubmit" >hack</button>    
             </div> <?php
-        } else
-            $port = 8080;
+    } else
+        $port = 8080;
         ?>
         <input type="hidden" id="porc" value="<?= $port; ?>" />
         <input type="hidden" id="isdev" value="<?= $isdev; ?>" />
@@ -206,24 +206,27 @@ if ($isdev) {
                 </div>
             </div>
         </div>
-        
+
         <div class="modal fade" id="infomodal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog" >
                 <div class="modal-content">
 
                     <div class="modal-body">
-                       
-                            <h2>Breaking News</h2>
-                         <div id="infomodal_content">
+
+                        <h2>Breaking News</h2>
+                        <div id="infomodal_content">
                         </div>
                     </div>
 
                 </div>
             </div>
         </div>  
-       
+
         <?php if (!$disablereconnect): ?>
-             <input type="hidden" id="reconnect" value="1" />
+            <input type="hidden" id="reconnect" value="1" />
         <?php endif; ?>
+        <div class="footer" style="float: right;">
+            <a href="https://twitter.com/ChineGames" target="_blank">2018 Charline Chie</a>
+        </div>
     </body>
 </html>
