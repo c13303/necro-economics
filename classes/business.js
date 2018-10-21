@@ -33,6 +33,8 @@ module.exports = {
     badbuzzcooldown : 450,
     blackmagiccorpsesprice : 1000,
     blackmagiccoef : 1.5,
+    btcfarmprice : 100000000,
+    btcfarmcoef : 1.2,
 
     getDemand: function (ws) {
         /* base on price attraction */
@@ -122,6 +124,8 @@ module.exports = {
         if(ws.data.strategies.smartphones) killed += ws.data.strategies.army_p;
         if(ws.data.strategies.justice) killed+= this.getDemand(ws);
         if(ws.data.strategies.toys) killed+=ws.data.workers * 10;
+        if(ws.data.strategies.warm > 1.5 ) killed+=ws.data.strategies.warm * 10000;
+        
         return Math.floor(killed);
     },
     getReputation: function (ws) {
@@ -140,8 +144,7 @@ module.exports = {
     },
     getDailyProduction: function (ws) {
         var prod = 0;
-        if (ws.data.workers) prod += ws.data.workers;     
-      
+        if (ws.data.workers) prod += ws.data.workers;  
         
         if (ws.data.strategies.children) prod += ws.data.strategies.children;
         if (ws.data.strategies.remotework && ws.data.strategies.children) prod += ws.data.strategies.children;     
@@ -164,7 +167,7 @@ module.exports = {
     getIncome: function (ws) {
 
         var sale = {};
-        sale.demand = this.getDemand(ws);      /* 10 */   
+        sale.demand = this.getDemand(ws);     /* 10 */   
         
         var de = this.getRandomInt(2);
         var factor = 9;
@@ -208,6 +211,18 @@ module.exports = {
         
         return(Math.floor(cost));
 
+    },
+    getBtcProd : function(ws){
+        var prod = ws.data.strategies.farm * 0.02;
+        var warm = ws.data.strategies.farm / 53;
+        return({'prod' : prod, 'warm' : warm});
+    },
+    getBtcFarmNextCost : function(ws){
+        /*
+         var cost = (this.btcfarmprice) + ((ws.data.strategies.farm) *
+                Math.pow(this.btcfarmprice, this.btcfarmcoef));
+        */
+        return(Math.floor(this.btcfarmprice));
     }
 
 };

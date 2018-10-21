@@ -16,6 +16,11 @@ var token = '';
 var actions = {};
 var opbible = {};
 
+var vizu_activated = false;
+var ctx;
+var selfMoneyChart;
+var multiChart;
+var comChart = null;
 var datastorage = []; // for vizualisation
 
 function findOp(name) {
@@ -26,14 +31,14 @@ function findOp(name) {
     }
     return null;
 }
-                
+
 
 function fnum(x) {
-    
-    if(!x){
+
+    if (!x) {
         return 0;
     }
-    
+
     if (isNaN(x))
         return x;
 
@@ -101,7 +106,7 @@ $(document).ready(function () {
                 $(this).html(fnum(p.strategies[strat]));
         });
 
-        
+
 
     }
 
@@ -117,7 +122,7 @@ $(document).ready(function () {
 
         Cookies.set('user', user);
         Cookies.set('token', token);
-        
+
         try {
             var ws = new WebSocket('ws://51.15.181.30:' + port + '/' + token + '-' + user);
         } catch (e) {
@@ -128,7 +133,7 @@ $(document).ready(function () {
 
         ws.onerror = function (e) {
             window.location.replace("/?" + isdev + "message=Login Failed : double login, wrong password or server down&disablereconnect=1");
- 
+
         };
 
         ws.onmessage = function (event) {
@@ -145,25 +150,28 @@ $(document).ready(function () {
                 p.annee = Math.floor(p.tick / 365);
                 p.jrestant = p.tick - (p.annee * 365);
                 p.dailybalance = fnum(p.daily.income - p.dailycost);
-                if(p.hw) p.lobbyprice = p.hw.price;
+                if (p.hw)
+                    p.lobbyprice = p.hw.price;
                 p.dailysales = p.daily.sales;
-              //  p.demand = p.demand / 10;
-                
-                
+                //  p.demand = p.demand / 10;
+
+
+
+
             }
-            
-          
-            
-            
-            
-            if(p.endoftimes){
+
+
+
+
+
+            if (p.endoftimes) {
                 $('#game').hide();
                 $('#satan').removeClass("hidden");
                 $('#satan').html(p.endoftimes.txt);
                 $('#satan').append("<br/>SCORE : " + fnum(p.data.score));
-                $('#satan').append("<br/>MONEY : " + p.data.money.toLocaleString()+'€');
+                $('#satan').append("<br/>MONEY : " + p.data.money.toLocaleString() + '€');
                 $('#satan').append('<br/><br/><button class="command" data-c="reset" data-v="1">Reset account</button>');
-                
+
             }
 
             if (p.tools && p.tools.ajo) {
@@ -201,27 +209,27 @@ $(document).ready(function () {
                     if (opname) {
                         p.spydata.strats += '<p><b>' + opname.title + '</b> : x <b>' + value + '</b>, ' + opname.desc + '</p>';
                     }
-                }); 
-                
-                $('#spydata .field').each(function () {                   
+                });
+
+                $('#spydata .field').each(function () {
                     $(this).html('<b>' + $(this).data('f') + '</b> : ' + p.spydata[$(this).data('f')]);
                 });
             }
 
             /* operations bible */
             if (d.opbible) {
-               opbible = d.opbible;
-                
+                opbible = d.opbible;
+
                 var html = '';
                 for (i = 0; i < d.opbible.length; i++) {
                     var op = d.opbible[i];
-                    html += '<div id="buy_' + op.name + '" class="operation disabled command" data-price_entity="'+op.price_entity+'" data-min="' + op.min + '" data-required_strat="' + op.required_strat + '" data-mina="' + op.price + '" data-minv="' + op.minv + '" data-c="buy" data-v="' + op.name + '" >';
+                    html += '<div id="buy_' + op.name + '" class="operation disabled command" data-price_entity="' + op.price_entity + '" data-min="' + op.min + '" data-required_strat="' + op.required_strat + '" data-mina="' + op.price + '" data-minv="' + op.minv + '" data-c="buy" data-v="' + op.name + '" >';
                     html += '<b>' + op.title + '</b> (' + fnum(op.price) + ' ' + op.price_entity + ') <br/>' + op.desc + '</div>';
-                    if(op.actionprice){
+                    if (op.actionprice) {
                         actions[op.name] = {};
                         actions[op.name].price = op.actionprice;
                     }
-                }                
+                }
                 $('#tools .container').html(html);
             }
 
@@ -233,13 +241,13 @@ $(document).ready(function () {
                 window.location.replace("/?" + isdev + "message=Account has been reset&disablereconnect=1");
             }
 
-            if(d.modal){ 
+            if (d.modal) {
                 if ($("#infomodal").hasClass('in')) {
-                     $('#infomodal_content').append('<br/>'+d.modal);
+                    $('#infomodal_content').append('<br/>' + d.modal);
                 } else {
                     $('#infomodal_content').html(d.modal);
                     $('#infomodal').modal('show');
-                }               
+                }
             }
 
 
@@ -264,47 +272,58 @@ $(document).ready(function () {
                 for (i = 0; i < clients.length; i++) {
                     var data = clients[i];
                     var button = '';
-                    if( data.name === user){
+                    if (data.name === user) {
                         if (p.strategies.spy) {
                             var isdisabled = p.money >= actions.spy.price ? '' : 'disabled="disabled"';
-                            button += '<button '+isdisabled+' class="command" data-c="spy" data-v="' + data.name + '">audit ('+fnum(actions.spy.price)+'€)</but>';
+                            button += '<button ' + isdisabled + ' class="command" data-c="spy" data-v="' + data.name + '">audit (' + fnum(actions.spy.price) + '€)</but>';
                         }
                     }
                     if (data.name !== user && actions) {
                         if (p.strategies.spy) {
                             var isdisabled = p.money >= actions.spy.price ? '' : 'disabled="disabled"';
-                            button += '<button '+isdisabled+' class="command" data-c="spy" data-v="' + data.name + '">spy ('+fnum(actions.spy.price)+'€)</but>';
+                            button += '<button ' + isdisabled + ' class="command" data-c="spy" data-v="' + data.name + '">spy (' + fnum(actions.spy.price) + '€)</but>';
                         }
                         if (p.strategies.defamation) {
                             var isdisabled = p.money >= actions.defamation.price ? '' : 'disabled="disabled"';
-                            if(p.strategies.defamecooldown) isdisabled = 'disabled="disabled"';
-                            button += '<button '+isdisabled+' class="command" data-c="defame" data-v="' + data.name + '">defame ('+fnum(actions.defamation.price)+'€)</but>';
+                            if (p.strategies.defamecooldown)
+                                isdisabled = 'disabled="disabled"';
+                            button += '<button ' + isdisabled + ' class="command" data-c="defame" data-v="' + data.name + '">defame (' + fnum(actions.defamation.price) + '€)</but>';
                         }
                         if (p.strategies.badbuzz) {
                             var isdisabled = p.money >= actions.badbuzz.price ? '' : 'disabled="disabled"';
-                            if(p.strategies.badbuzzcooldown) isdisabled = 'disabled="disabled"';
-                            button += '<button '+isdisabled+' class="command" data-c="badbuzz" data-v="' + data.name + '">bad buzz ('+fnum(actions.badbuzz.price)+'€)</but>';
+                            if (p.strategies.badbuzzcooldown)
+                                isdisabled = 'disabled="disabled"';
+                            button += '<button ' + isdisabled + ' class="command" data-c="badbuzz" data-v="' + data.name + '">bad buzz (' + fnum(actions.badbuzz.price) + '€)</but>';
                         }
                         if (p.strategies.strike && !p.strategies.strikecooldown) {
                             var isdisabled = p.money >= actions.strike.price ? '' : 'disabled="disabled"';
-                            if(p.strategies.strikecooldown) isdisabled = 'disabled="disabled"';
-                            button += '<button '+isdisabled+' class="command" data-c="strike" data-v="' + data.name + '">strike ('+fnum(actions.strike.price)+'€)</but>';
+                            if (p.strategies.strikecooldown)
+                                isdisabled = 'disabled="disabled"';
+                            button += '<button ' + isdisabled + ' class="command" data-c="strike" data-v="' + data.name + '">strike (' + fnum(actions.strike.price) + '€)</but>';
                         }
-                        
-                        
+
                     }
-                    
-                    
-                    html+='<tr><td><b>' + data.name + '</b></td><td>' + fnum(data.money) + '€</td>\n\
-<td>' + fnum(data.score) + '</td><td>' + data.product + '</td><td>' + button + '</td></tr>';
+
+
+                    html += '<tr><td><b>' + data.name + '</b></td><td>' + fnum(data.money) + '€</td>\n\
+<td>' + fnum(data.score) + '</td><td>' + data.product + '</td></tr><tr><td colspan="4" class="lined">' + button + '</td></tr>';
                 }
-                $('#clients').html(html+'</table>');
+                $('#clients').html(html + '</table>');
+            } /* end refresh competitors */
+
+
+            if (vizu_activated && p.r) {
+                //datastorage.push(p);
+                vizu_update(p);
             }
+
+
+
 
             /* console display */
             if (p.console) {
                 for (i = 0; i < p.console.length; i++) {
-                    $('#console').append('<br/>' + p.tick + ' : ' + p.console[i]);
+                    $('#console').append('<br/>' + p.console[i]);
                 }
                 var wtf = $('#console');
                 var height = wtf[0].scrollHeight;
@@ -389,7 +408,7 @@ $(document).ready(function () {
                     p.commercials = p.strategies.marketing;
 
                 }
-                if (p.strategies.army){
+                if (p.strategies.army) {
                 }
 
 
@@ -398,7 +417,7 @@ $(document).ready(function () {
                     p.sold = (p.score - p.unsold);
                     p.salesperday = Math.round(p.sold / p.totalticks, 2);
                     p.moneyperday = Math.floor(p.money / p.totalticks);
-                    p.workeravg = fnum(Math.floor(p.actual_worker_cost / p.workers ));
+                    p.workeravg = fnum(Math.floor(p.actual_worker_cost / p.workers));
                     statdays[statd] = {
                         'dailyincome': p.daily.income,
                         'sales': p.daily.sales,
@@ -435,6 +454,17 @@ $(document).ready(function () {
                 } else {
                     $('#hobby_window').addClass('hidden');
                 }
+                
+                
+                if(p.strategies && p.strategies.warm){
+                    var value = Math.floor(255 * p.strategies.warm / 2);
+                    if(value > 255) value = 255;
+                    var r = 255;
+                    var g = 255 - value;
+                    var b = 255 - value;
+                    
+                    $('.warming').css('background','rgb('+r+','+g+','+b+')');
+                }
 
             }
             /* update requirements */
@@ -466,8 +496,8 @@ $(document).ready(function () {
                     } else {
                         ref = p.strategies[ref];
                     }
-                    
-                    if(!$(this).data('security-entity')){
+
+                    if (!$(this).data('security-entity')) {
                         var entity = p.money;
                     } else {
                         var entity = p[$(this).data('security-entity')];
@@ -479,7 +509,7 @@ $(document).ready(function () {
                     }
                 });
             }
-            
+
 
         };
 
@@ -488,15 +518,15 @@ $(document).ready(function () {
                 if (ws.readyState === ws.CLOSED) {
                     window.location.replace("/?" + isdev + "reconnect=1&message=Serveur has updated ! Please Relog !");
                 } else {
-                   
-                        ping();
+
+                    ping();
                 }
             }, 1000);
         }
 
         ping();
-        
-       
+
+
 
 
         /* login */
@@ -538,7 +568,7 @@ $(document).ready(function () {
 
 
     }
-    
+
     if ($('#reconnect').val()) {
         var user = Cookies.get('user');
         var token = Cookies.get('token');
@@ -554,6 +584,139 @@ $(document).ready(function () {
             }, 3000);
 
         }
+    }
+
+
+
+
+
+
+    /*
+     * visu
+     * 
+     */
+    if (1) {
+        vizu_activated = true;
+        console.log('start vizu');
+        function addData(chart, label, readydata) {
+            chart.data.labels.push(label);
+            chart.data.datasets.forEach((dataset) => {
+                if (dataset.label === 'CA$HMON€Y') {
+                    dataset.data.push(readydata.money);
+                }
+                if (dataset.data.length > 10) {
+                    chart.data.labels.shift();
+                    dataset.data.shift();
+                }
+            });
+            chart.update();
+        }
+
+        function removeData(chart) {
+            console.log('clearing');
+            chart.data.labels.pop();
+            chart.data.datasets.forEach((dataset) => {
+                dataset.data = [];
+            });
+            chart.update();
+        }
+
+        $('.clear_vizu').click(function () {
+            removeData(selfMoneyChart);
+        });
+
+
+        /* refreshing charts */
+        function vizu_update(p) {
+            
+            if (selfMoneyChart && p.tick && p.money) {
+                var label = p.jrestant;
+                var readydata = {
+                    'money': Math.floor(p.money),
+                    //'income' :Math.floor(parseInt(p.dailybalance))
+                }
+                addData(selfMoneyChart, label, readydata);
+            }
+            
+            if(multiChart && p.refresh){
+                var udata = [];
+                var ulabels = [];
+                var ubg = [];
+                var alt = 0;
+                for(i=0;i<p.refresh.length;i++){
+                    var man = p.refresh[i];
+                    udata.push(Math.floor(man.money));
+                    ulabels.push(man.name);
+                    if (alt === 0) {
+                        ubg.push('rgb(0, 0, 0)');
+                        alt = 1;
+                    } else {
+                        ubg.push('rgb(240, 240, 240)');
+                        alt = 0;
+                    }
+                }
+                var chart = multiChart;
+                chart.data.labels = ulabels;
+                chart.data.datasets.forEach((dataset) => {                    
+                    dataset.data = udata;
+                    dataset.backgroundColor = ubg;
+                });
+                chart.update();
+            }
+            
+        }
+
+        var ctxcash = document.getElementById("cash").getContext('2d');
+        $('.visurow').removeClass('hidden');
+        var vdata = {};
+        vdata.labels = [];
+        vdata.datasets = [{
+                label: 'CA$HMON€Y',
+                backgroundColor: 'rgb(0, 0, 0)',
+                borderColor: 'rgb(0, 0, 0)',
+                data: [],
+                fill: false,
+            }
+        ];
+        var voptions = [];
+        selfMoneyChart = new Chart(ctxcash, {
+            type: 'line',
+            data: vdata,
+            options: voptions
+        });
+        
+        var ctxmulti = document.getElementById("multi").getContext('2d');
+        var config = {
+            type: 'pie',
+            data: {
+                datasets: [{
+                        data: [],
+                        backgroundColor: [],
+                        label: 'multi' // for legend
+                    }],
+                labels: []
+            },
+        };
+        multiChart = new Chart(ctxmulti, config);
+        
+        
+        
+        /*
+        if ($('#isdev').val()) {
+            var ctxradar = document.getElementById("comchart").getContext('2d');
+            var config = {
+                type: 'radar',
+                data: {
+                    datasets: [{
+                            data: [],
+                            backgroundColor: [],
+                            label: 'radar' // for legend
+                        }],
+                    labels: []
+                },
+            };
+            comChart = new Chart(ctxradar,config);
+        }*/
     }
 
 

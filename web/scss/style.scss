@@ -33,9 +33,9 @@ body{
     .header{
         display:block;
         width:100%;    
-       
+
         @media (min-width:$bp){
-             height: 135px;
+            height: 135px;
             @include flexbox();
             .title{
                 width:30%;
@@ -54,24 +54,24 @@ body{
                 height:auto;
             }
         }
-        
-    }
-   
-        .hobbyist{
-            position : absolute;
-            background : white;           
-            padding: 20px; 
-            border: 1px solid #CCC;
-            border-radius : 10px;
-            top: 0;
-            right: 40px;
-             z-index: 200;
 
-        }
-    
-    
-    
-    
+    }
+
+    .hobbyist{
+        position : absolute;
+        background : white;           
+        padding: 20px; 
+        border: 1px solid #CCC;
+        border-radius : 10px;
+        top: 0;
+        right: 40px;
+        z-index: 200;
+
+    }
+
+
+
+
     .hidden{
         display:none !important;
     }
@@ -125,9 +125,9 @@ body{
         overflow-y: scroll;        
     }
     #satan{
-            text-align: center;
-    padding: 30px;
-    font-size: 26px;
+        text-align: center;
+        padding: 30px;
+        font-size: 26px;
     }
     #game{
         display:none;
@@ -141,7 +141,7 @@ body{
             >div{
                 min-width:200px; 
                 width:100%;
-                
+
                 border: 1px solid #eaeaea;
                 padding: 10px;
                 display: inline-block;
@@ -152,9 +152,17 @@ body{
                 @media(max-width:$bp){
                     width:100%;
                 }
+                &#tools{
+                    @media(min-width:$bp){
+                        max-width:50%;
+                    }
+                }
+                .regchart{
+                    max-width:300px;
+                }
             }
         }
-        
+
         #unite{
             border:none;
         }
@@ -199,39 +207,80 @@ body{
                 margin: 5px;
             }
         }
-        
+
         #clientsbox{
             table,tr{
                 width: 100%;
+
                 td{
-                    width:12%;
-                    &:last-of-type{
-                        width:30%;
+                    overflow: hidden;
+                    width:25%;      
+                    &.lined{
+                        border-bottom: 1Px solid #CCC;
                     }
                 }
             }
             @media (min-width:$bp){
-            max-width:none;
-                
-            width:60%;
+                max-width:none;
+
+                width:60%;
             }
         }
     }
 
 
     td{
-        border-bottom: 1Px solid #CCC;
+
         padding:10px;
         font-size:14px;
     }
-    
+
     button:disabled,
-    button[disabled]{
+        button[disabled]{
         opacity:0.2;
     }
     button{
-       font-size: 13px;
+        font-size: 13px;
 
     }
+    .visurow{
+        width: 50% ! important;
+    }
+    .red{
+        color : red;
+    }
+    canvas{
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
 
+    .hiddendev{
+        display:none !important;
+    }
+
+    &.dev{
+        .hiddendev{
+            display: block !important;
+        }        
+    }
+
+    .chart {
+        display: block;
+        width: 100%;
+    } 
+    .strategic{
+        position : relative;
+    }
+    .warming{
+        position: absolute;
+        right: 0;
+        top: 20px;
+        border: 1px solid #9393bf;
+        border-radius: 100px;
+        height: 100px;
+        width: 100px;
+        text-align: center;
+        padding-top: 35px;
+    }
 }

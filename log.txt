@@ -1,1 +1,29 @@
-Lancement serveur ------------------------------------------------------
+Lancement serveur port 8080------------------------------------------------------
+---------------
+selbst connected
+---------------
+ours connected
+All Set Buffer tax_dogde to null
+hobby win open at 16358
+ours : {"command":"getlob","value":1}
+ours uses a lobbyist !!
+broadcast : ours catches the Tax Dodge ! Income x 3
+ours : {"command":"buy","value":"weapons"}
+broadcast : ours acquired AK47 Mark XI for 1,000,000,000€
+ours : {"command":"buy","value":"toys"}
+broadcast : ours acquired War Games for 10,000€
+hobby win close
+mass save
+selbst data saved
+ours data saved
+All Set Buffer tax_dogde to null
+hobby win open at 16072
+hobby win close
+mass save
+selbst data saved
+ours data saved
+ours data saved
+ours disconnected
+All Set Buffer tax_dogde to null
+hobby win open at 14974
+hobby win close

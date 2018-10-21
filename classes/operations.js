@@ -198,8 +198,20 @@ module.exports = {
             price_entity: 'money',
             required_strat: 'suicidenets',
             'min': 'money',
-            'minv': 2000000,
+            'minv': 1000000,
             'desc': 'Everyone can enjoy power abuse on someone else. Doubles the production of your full workforce !'
+        });
+        
+         /*5M*/
+        ops.push({
+            name: 'btc',
+            title: 'Bitcoin mining',
+            price: 5000000,
+            price_entity: 'money',
+            required_strat: 'workers',
+            'min': 'money',
+            'minv': 2000000,
+            'desc': 'Get virtually rich and truly warm the planet'
         });
 
 

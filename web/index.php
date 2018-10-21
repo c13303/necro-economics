@@ -1,15 +1,13 @@
 <?php
-$statut = 'Last update : V0.08 - End implemented';
+$statut = 'Last update : V0.1 - BTC mining & global warming';
 
 $v = time();
-$title = 'Necro-Economics<br/>Idler Pro';
+$title = 'Necro-Economics<br/> Idler Pro';
 $unit = '€';
 $isdev = filter_input(INPUT_GET, "dev", FILTER_SANITIZE_NUMBER_INT);
 $message = filter_input(INPUT_GET, "message", FILTER_SANITIZE_STRING);
 $reconnect = filter_input(INPUT_GET, "reconnect", FILTER_SANITIZE_STRING);
 $disablereconnect = filter_input(INPUT_GET, "disablereconnect", FILTER_SANITIZE_STRING);
-
-
 
 if ($isdev) {
     $title .= " Dev";
@@ -23,21 +21,20 @@ if ($isdev) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
         <link rel="stylesheet" type="text/css" href="bootstrap/bootstrap.min.css">
-        <script src="bootstrap/bootstrap.min.js"></script>
+        <script src="bootstrap/bootstrap.min.js"></script>       
         <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-        <link rel="icon" type="image/png" href="favicon.png" />
-
-
+        <link rel="icon" type="image/png" href="favicon.png" />       
         <script src="js/client.js?v=<?= $v; ?>"></script>
         <link rel="stylesheet" type="text/css" href="css/style.css?v=<?= $v; ?>">
         <link rel="stylesheet" type="text/css" href="css/extra.css?v=<?= $v; ?>">
 
-
+ <!-- <script src="https://d3js.org/d3.v5.min.js"></script> -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
 
 
         <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
     </head>
-    <body>
+    <body class="<?= $isdev ? "dev" : ""; ?>">
 
         <div class="header">
             <div class="logo"><img src="/img/JID.png" alt="<?= $title; ?>" /></div>
@@ -81,7 +78,7 @@ if ($isdev) {
                 <div id="company">
                     <h2>Company</h2>
                     <div id="money">
-                        <p>Money : <span class="value stat" data-p="moneydisplay"></span> <?= $unit; ?></p>
+                        <p>Money : <span class="red value stat" data-p="moneydisplay"></span> <?= $unit; ?></p>
                         <p class="ajo">Overdraft charges : <span class="stat" data-p="ajo"></span> <?= $unit; ?></p>
                         <p class="reputation hidden">Reputation : <span class="value stat" data-p="reputation"></span></p>
                     </div>
@@ -90,7 +87,9 @@ if ($isdev) {
                         <p>Daily Sales : <span class="stat" data-p="dailysales"></span> <span class="prodnamedisplay stat" data-p="product"></span>(s)</p>
                         <p>Daily Income : <span class="stat" data-p="dailybalance"></span> <?= $unit; ?></p>
                         <p>Worker Avg. : <span class="stat" data-p="workeravg"></span> <?= $unit; ?></p>
-
+                         <div class="regchart">
+                            <canvas id="cash" ></canvas>
+                         </div>
 
                     </div>
 
@@ -111,11 +110,12 @@ if ($isdev) {
                             <button class="comlaunch security command hcommand" data-nostratsecurity="nmc" data-c="commercialbuy" data-v="1">Launch</button></p>
                         <p> Next : <span class="stat" data-p="nmc"></span><?= $unit; ?></p>
                     </div>
+                    
                 </div> 
 
                 <div id="factory">
                     <h2>Factory<span class="strategic" data-strat="onstrike">- On Strike! -</span></h2>
-                    <p>Produced : <span id="score" class="stat" data-p="score">0</span> <span class="prodnamedisplay stat" data-p="product"></span>(s) 
+                    <p>Produced : <span id="score" class="red stat" data-p="score">0</span> <span class="prodnamedisplay stat" data-p="product"></span>(s) 
                         <br/>(<span class="stat" data-p="dp"></span> per day)
                     </p>
                     <button id="make" >Make a <span class="stat" data-p="product"></span></button>
@@ -133,6 +133,20 @@ if ($isdev) {
                             <button class="command hcommand" data-c="firechildren" data-v="1">Fire</button>
                         </p>
                     </div>
+                    <div class="strategic" data-strat="btc">
+                        <h2>Bitcoin mining</h2>
+                        <p>BTC : <span class="stat" data-s="btcprod"></span></p>
+                        <p>Farms : <span class="stat" data-s="farm"></span> 
+                            <button class="command hcommand security" data-security="farm_next_cost" data-c="buildfarm" data-v="1">+1</button> 
+                            <button class="command hcommand security" data-security="farm_next_cost100" data-c="buildfarm" data-v="100">+100</button> 
+                        <br/>Cost : <span class="farm_next_cost stat" data-s="farm_next_cost"></span> €
+                        <span class="hidden farm_next_cost stat" data-s="farm_next_cost100"></span>
+                        </p>
+                        <div class="warming">
+                            <span class="stat" data-s="warm"></span>°C
+                        </div>
+                    </div>
+                    
                 </div>
                 <div id="international" class="strategic" data-strat="army">
                     <h2>International Operations</h2>
@@ -163,8 +177,21 @@ if ($isdev) {
                     <!--<p><button class="command" data-c="refresh" data-v="1" >Refresh</button></p> -->
                     <div id="clients">                    
                     </div>
+                    <div id="multivizu" class="">
+                        <canvas id="multi" ></canvas>
+                    </div>
+                    
                 </div>
+               
             </div>
+            <div class="row" >
+                 
+            </div>
+            
+            
+            
+            
+            
             <div id="account">
                 <button class="command" data-c="reset" data-v="1">Reset account</button>
             </div>

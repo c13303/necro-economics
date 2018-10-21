@@ -108,6 +108,11 @@ body {
       @media (max-width: 780px) {
         body #game .row > div {
           width: 100%; } }
+      @media (min-width: 780px) {
+        body #game .row > div#tools {
+          max-width: 50%; } }
+      body #game .row > div .regchart {
+        max-width: 300px; }
     body #game #unite {
       border: none; }
     body #game .stats {
@@ -146,15 +151,15 @@ body {
     body #game #clientsbox table, body #game #clientsbox tr {
       width: 100%; }
       body #game #clientsbox table td, body #game #clientsbox tr td {
-        width: 12%; }
-        body #game #clientsbox table td:last-of-type, body #game #clientsbox tr td:last-of-type {
-          width: 30%; }
+        overflow: hidden;
+        width: 25%; }
+        body #game #clientsbox table td.lined, body #game #clientsbox tr td.lined {
+          border-bottom: 1Px solid #CCC; }
     @media (min-width: 780px) {
       body #game #clientsbox {
         max-width: none;
         width: 60%; } }
   body td {
-    border-bottom: 1Px solid #CCC;
     padding: 10px;
     font-size: 14px; }
   body button:disabled,
@@ -162,3 +167,30 @@ body {
     opacity: 0.2; }
   body button {
     font-size: 13px; }
+  body .visurow {
+    width: 50% !important; }
+  body .red {
+    color: red; }
+  body canvas {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none; }
+  body .hiddendev {
+    display: none !important; }
+  body.dev .hiddendev {
+    display: block !important; }
+  body .chart {
+    display: block;
+    width: 100%; }
+  body .strategic {
+    position: relative; }
+  body .warming {
+    position: absolute;
+    right: 0;
+    top: 20px;
+    border: 1px solid #9393bf;
+    border-radius: 100px;
+    height: 100px;
+    width: 100px;
+    text-align: center;
+    padding-top: 35px; }

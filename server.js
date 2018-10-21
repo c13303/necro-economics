@@ -276,7 +276,7 @@ wss.on('connection', function myconnection(ws, request) {
 
 
     /* refresh player own information */
-    ws.refresh = function refr() {
+    ws.refresh = function refr(istick = true) {
         try {
             if (ws.data) {
                 ws.send(JSON.stringify({
@@ -294,7 +294,7 @@ wss.on('connection', function myconnection(ws, request) {
                     'max': biz.getSpeed(ws), //max speed
                     'daily': ws.data.daily,
                     'refresh': info_clients(),
-                    'tick': tic,
+                    'tick': istick ? tic : null,
                     'totalticks': ws.data.totalticks,
                     'console': ws.data.console,
                     'strategies': ws.data.strategies,
@@ -397,6 +397,14 @@ wss.on('connection', function myconnection(ws, request) {
                 ws.data.magicpower++;
 
             }
+            
+            
+            if (json.command === 'buildfarm' && ws.data.money >= (biz.getBtcFarmNextCost(ws) * json.value)) {
+                ws.data.money -= biz.getBtcFarmNextCost(ws);
+                ws.data.strategies.farm+= json.value;
+
+            }
+            
 
 
             if (json.command === 'spy') {
@@ -556,7 +564,7 @@ wss.on('connection', function myconnection(ws, request) {
             }
 
             if (json.command) {
-                ws.refresh();
+                ws.refresh(false);
             }
 
 
@@ -683,6 +691,19 @@ function tick() {
                 clients[i].data.strategies.magicnextcost = biz.getBlackMagicNextCost(clients[i]);
 
             }
+            
+            /* btc */
+            if(clients[i].data.strategies.btc){
+                if(!clients[i].data.strategies.farm) clients[i].data.strategies.farm = 0;
+                var prod = biz.getBtcProd(clients[i]);
+                clients[i].data.strategies.btcprod += prod.prod;
+                clients[i].data.strategies.warm = prod.warm;
+                clients[i].data.strategies.farm_next_cost = biz.getBtcFarmNextCost(clients[i]);
+                clients[i].data.strategies.farm_next_cost100 = biz.getBtcFarmNextCost(clients[i]) * 100;
+            }
+            
+            
+            
 
             /* army */
             if (clients[i].data.strategies.army) {
