@@ -241,6 +241,8 @@ body{
     }
     button{
         font-size: 13px;
+            height: 40px;
+
 
     }
     .visurow{
@@ -282,5 +284,15 @@ body{
         width: 100px;
         text-align: center;
         padding-top: 35px;
+    }
+    #piston{
+        float: left;
+        margin-right: 20px;
+        height:100%;
+        .inner{
+            background-color: black;
+            width:20px;
+        }
+        
     }
 }

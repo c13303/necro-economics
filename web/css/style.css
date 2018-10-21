@@ -166,7 +166,8 @@ body {
   body button[disabled] {
     opacity: 0.2; }
   body button {
-    font-size: 13px; }
+    font-size: 13px;
+    height: 40px; }
   body .visurow {
     width: 50% !important; }
   body .red {
@@ -194,3 +195,10 @@ body {
     width: 100px;
     text-align: center;
     padding-top: 35px; }
+  body #piston {
+    float: left;
+    margin-right: 20px;
+    height: 100%; }
+    body #piston .inner {
+      background-color: black;
+      width: 20px; }

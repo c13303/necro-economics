@@ -23,6 +23,8 @@ var multiChart;
 var comChart = null;
 var datastorage = []; // for vizualisation
 
+var piston;
+
 function findOp(name) {
     for (i = 0; i < this.opbible.length; i++) {
         if (this.opbible[i].name === name) {
@@ -148,14 +150,16 @@ $(document).ready(function () {
                 p.moneydisplay = p.money.toLocaleString();
                 ntargets.money = Math.floor(p.money);
                 p.annee = Math.floor(p.tick / 365);
-                p.jrestant = p.tick - (p.annee * 365);
+               if(p.tick) p.jrestant = p.tick - (p.annee * 365);
                 p.dailybalance = fnum(p.daily.income - p.dailycost);
                 if (p.hw)
                     p.lobbyprice = p.hw.price;
                 p.dailysales = p.daily.sales;
                 //  p.demand = p.demand / 10;
 
-
+                if(p.dp && p.tick){
+                    piston(p.dp);
+                }
 
 
             }
@@ -541,6 +545,7 @@ $(document).ready(function () {
 
         /* send make */
         $('#make').click(function () {
+             piston();
             var command = JSON.stringify({command: 'make', value: 1});
             ws.send(command);
             $('#make').attr('disabled', 'disabled');
@@ -700,6 +705,48 @@ $(document).ready(function () {
         multiChart = new Chart(ctxmulti, config);
         
         
+        
+        if (!Date.now) {
+            Date.now = function () {
+                return new Date().getTime();
+            }
+        }
+        
+        function piston(nb = 1) {
+             nb = 1;
+                   
+            var piston = 0;     
+            var goal = 100 / nb;
+            var duration = 1;    
+           
+            coup2piston(nb,goal, piston, duration);                
+            
+        }
+        var pistonTimer;
+        function coup2piston(nb,goal,piston, duration) {
+            clearTimeout(pistonTimer);
+             var size = 100;
+            if(nb>10) {
+                $('#piston .inner').css('height',size+'px');
+                return(null);
+            }
+          
+            
+            var pistonsize = piston * size / goal;
+            $('#piston .inner').css('height',pistonsize+'px');
+            if(isNaN(piston)) return false;
+            if (piston >= goal) {
+                piston = 0;
+                nb--;
+                if(nb===0) return false;
+            }
+            var dt = duration / goal; 
+            piston++;
+            pistonTimer = setTimeout(function () {
+                coup2piston(nb,goal, piston, duration);
+            }, dt);
+        }
+     
         
         /*
         if ($('#isdev').val()) {

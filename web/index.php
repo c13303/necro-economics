@@ -21,7 +21,8 @@ if ($isdev) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
         <link rel="stylesheet" type="text/css" href="bootstrap/bootstrap.min.css">
-        <script src="bootstrap/bootstrap.min.js"></script>       
+        <script src="bootstrap/bootstrap.min.js"></script>      
+       
         <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
         <link rel="icon" type="image/png" href="favicon.png" />       
         <script src="js/client.js?v=<?= $v; ?>"></script>
@@ -90,9 +91,7 @@ if ($isdev) {
                          <div class="regchart">
                             <canvas id="cash" ></canvas>
                          </div>
-
                     </div>
-
                 </div>
 
                 <div id="play">
@@ -115,6 +114,9 @@ if ($isdev) {
 
                 <div id="factory">
                     <h2>Factory<span class="strategic" data-strat="onstrike">- On Strike! -</span></h2>
+                    <div id="piston" class="">
+                        <div class="inner"></div>
+                    </div>
                     <p>Produced : <span id="score" class="red stat" data-p="score">0</span> <span class="prodnamedisplay stat" data-p="product"></span>(s) 
                         <br/>(<span class="stat" data-p="dp"></span> per day)
                     </p>
