@@ -1,5 +1,16 @@
 /* fromage server */
 
+
+var realBTC = true;
+
+if(realBTC){
+    var CoinMarketCap = require("node-coinmarketcap");
+    var coinmarketcap = new CoinMarketCap();
+}
+
+var BTCprice = 0;
+
+
 var mysql = require('mysql');
 var biz = require('./classes/business.js');
 var port = 8080;
@@ -170,7 +181,6 @@ wss.broadcast = function broadcast(msg) {
 };
 
 wss.setAllStrategyBuffer = function setAllStrategyBuffer(what, value = null) {
-    console.log('All Set Buffer ' + what + ' to ' + value);
     wss.clients.forEach(function each(client) {
         client.data.strategies[what] = value;
     });
@@ -259,9 +269,16 @@ wss.on('connection', function myconnection(ws, request) {
                 ws.data.daily = {};
             /* send upgrades to clients */
             ws.send(JSON.stringify({'opbible': opbible.operations}));
+            wss.broadcast(JSON.stringify({'enter' : ws.name}));
+            
+            
             if (ws.data.product) { /* already init, just load the player */
                 ws.data.init = 1;
-                ws.send(JSON.stringify({'init': 1, 'user': ws.name}));
+                ws.send(JSON.stringify({
+                    'init': 1, 
+                    'user': ws.name,
+                    'btcprice' : BTCprice
+                }));
                 ws.refresh();
             } else {
                 /* initialisation */
@@ -305,7 +322,7 @@ wss.on('connection', function myconnection(ws, request) {
                     'hw': ws.data.strategies.lobby ? hobby_window : null,
                     'killed': ws.data.killed,
                     'dp': biz.getDailyProduction(ws),
-                    'magicpower': ws.data.magicpower
+                    'magicpower': ws.data.magicpower,
                 }));
                 ws.data.console = [];
             }
@@ -332,6 +349,7 @@ wss.on('connection', function myconnection(ws, request) {
         console.log(ws.name + ' disconnected');
         var index = clients.indexOf(ws);
         clients.splice(index, 1);
+        wss.broadcast(JSON.stringify({'gone' : ws.name}));
     };
 
     ws.reset = function () {
@@ -383,10 +401,13 @@ wss.on('connection', function myconnection(ws, request) {
 
                 ws.send(JSON.stringify({'init': 1, 'user': ws.name}));
             }
+            
+            if (json.command === 'ngo') {
+                ws.data.strategies.ngo += json.value;
+            }
 
             if (json.command === 'raise') {
                 ws.data.price += json.value;
-
             }
             if (json.command === 'lower' && ws.data.price > 1) {
                 ws.data.price -= json.value;
@@ -402,6 +423,14 @@ wss.on('connection', function myconnection(ws, request) {
             if (json.command === 'buildfarm' && ws.data.money >= (biz.getBtcFarmNextCost(ws) * json.value)) {
                 ws.data.money -= biz.getBtcFarmNextCost(ws);
                 ws.data.strategies.farm+= json.value;
+
+            }
+            
+            if (json.command === 'sellbtc' && ws.data.strategies.btcprod > 0) {
+                var amount = ws.data.strategies.btcprod * BTCprice;
+                wss.consoleAll(ws.name + ' sold ' + biz.fnum(ws.data.strategies.btcprod) + ' BTC for ' + biz.fnum(amount) + '€');
+                ws.data.money += amount;
+                ws.data.strategies.btcprod = 0;
 
             }
             
@@ -428,21 +457,26 @@ wss.on('connection', function myconnection(ws, request) {
                 var cost = op.actionprice;
                 if (target && ws.data.money >= cost) {
                     ws.data.money -= cost;
-                    var steal = -1 * target.data.money * (biz.getReputation(target) / biz.defame_ratio);
+                    var reputDiff = biz.getReputation(ws) - biz.getReputation(target)
+                    
+                    var steal = target.data.money * (reputDiff / biz.defame_ratio);
+                    console.log("Defame Diff " + reputDiff+' equals steal : '+steal);
+                    
+                    
                     if (steal > 0) {
-                        wss.consoleAll(ws.name + ' defames ' + target.name + ' for ' + steal.toLocaleString() + '€');
-                        var notice = 'You have been defamed by ' + ws.name + ' and lost ' + steal.toLocaleString() + '€';
+                        wss.consoleAll(ws.name + ' defames ' + target.name + '('+reputDiff+' rep. pts.) for ' + steal.toLocaleString() + '€');
+                        var notice = 'You have been defamed by ' + ws.name + '('+reputDiff+' rep. pts.) and lost ' + steal.toLocaleString() + '€';
                         target.data.console.push(notice);
                         target.send(JSON.stringify({'modal': notice}));
-                        ws.send(JSON.stringify({'modal': 'You defamed ' + target.name + ' and won ' + steal.toLocaleString() + '€'}));
+                        ws.send(JSON.stringify({'modal': 'You defamed ' + target.name + ' ('+reputDiff+' rep. pts.) and won ' + steal.toLocaleString() + '€'}));
                     }
                     if (steal < 0) {
-                        wss.consoleAll(ws.name + ' failed to defame ' + target.name + ' and must pay ' + steal.toLocaleString() + '€');
-                        ws.send(JSON.stringify({'modal': 'You failed to defame ' + target.name + ' and must pay ' + steal.toLocaleString() + '€'}));
+                        wss.consoleAll(ws.name + ' failed to defame ' + target.name + ' ('+reputDiff+' rep. pts.) and must pay ' + steal.toLocaleString() + '€');
+                        ws.send(JSON.stringify({'modal': 'You failed to defame ' + target.name + ' ('+reputDiff+' rep. pts.) and must pay ' + steal.toLocaleString() + '€'}));
                     }
                     if (steal === 0) {
-                        wss.consoleAll(ws.name + ' failed to defame ' + target.name + '');
-                        ws.send(JSON.stringify({'modal': 'You failed to defame ' + target.name + ''}));
+                        wss.consoleAll(ws.name + ' failed to defame ' + target.name + ' ('+reputDiff+' rep. pts.) ');
+                        ws.send(JSON.stringify({'modal': 'You failed to defame ' + target.name + ' ('+reputDiff+' rep. pts.) '}));
                     }
                     ws.data.money += steal;
                     ws.data.strategies.defamecooldown = biz.defamecooldown;
@@ -593,10 +627,41 @@ wss.on('connection', function myconnection(ws, request) {
 /* tick operations */
 var tic = 0;
 
+var btctick = 0;
+var btctickmax = 60;
+
+
+function btc_callback(){
+    console.log('update btc ' + BTCprice);
+    wss.broadcast(JSON.stringify({'btcprice':BTCprice}));
+}
 
 function tick() {
     tic++;
 
+    
+    /* BTC TICK */
+    if (btctick ===0) {
+        if (realBTC) {
+            coinmarketcap.get("bitcoin", coin => {
+                //    console.log(coin.price_usd); // Prints the price in USD of BTC at the moment.
+                BTCprice = coin.price_usd;
+                btc_callback();
+            });
+        } else {
+            BTCprice = 500 + biz.getRandomInt(15000);
+            btc_callback();
+        }
+        
+    }
+     if (btctick ===btctickmax) {
+         btctick = 0;
+     } else {
+         btctick++;
+     }
+    
+    /* PLAYER TICK */
+    
     for (i = 0; i < clients.length; i++) {
         /* cb de vendus */
 
@@ -670,12 +735,10 @@ function tick() {
                 wss.setAllStrategyBuffer('tax_dogde', null);
                 hobby_price = biz.getRandomInt(10000) + biz.hobbybribemin;
                 hobby_window = {'hw': true, 'price': hobby_price};
-                console.log('hobby win open at ' + hobby_price);
             }
             if (hobby_clock >= (biz.hobby_freq + biz.hobby_window)) {
                 hobby_window = false;
                 hobby_clock = 0;
-                console.log('hobby win close');
             }
 
             /* cooldowns */
@@ -702,6 +765,11 @@ function tick() {
                 clients[i].data.strategies.farm_next_cost100 = biz.getBtcFarmNextCost(clients[i]) * 100;
             }
             
+             /* greenwashing */
+            if(clients[i].data.strategies.greenwashing){
+                if(!clients[i].data.strategies.ngo) clients[i].data.strategies.ngo = 0;
+               
+            }
             
             
 

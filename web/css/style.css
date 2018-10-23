@@ -5,7 +5,8 @@
 */
 body {
   font-family: 'Quicksand', sans-serif;
-  position: relative; }
+  position: relative;
+  background-image: url(../img/tile.png); }
   body h2 {
     margin-top: 0; }
   body input {
@@ -55,7 +56,9 @@ body {
     margin-bottom: 10px;
     border: 1px solid #333; }
     body .operation.disabled {
-      opacity: 0.3;
+      background: #EEE;
+      color: #999;
+      border-color: #999;
       cursor: default; }
   body .date {
     position: absolute;
@@ -97,6 +100,7 @@ body {
         display: -webkit-flex;
         display: flex; } }
     body #game .row > div {
+      background: white;
       min-width: 200px;
       width: 100%;
       border: 1px solid #eaeaea;
@@ -151,7 +155,6 @@ body {
     body #game #clientsbox table, body #game #clientsbox tr {
       width: 100%; }
       body #game #clientsbox table td, body #game #clientsbox tr td {
-        overflow: hidden;
         width: 25%; }
         body #game #clientsbox table td.lined, body #game #clientsbox tr td.lined {
           border-bottom: 1Px solid #CCC; }
@@ -198,7 +201,7 @@ body {
   body #piston {
     float: left;
     margin-right: 20px;
-    height: 100%; }
+    height: 100px; }
     body #piston .inner {
       background-color: black;
       width: 20px; }

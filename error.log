@@ -1,1 +1,2 @@
 [Sat Oct 20 17:07:45.337386 2018] [:error] [pid 16223] [client 82.240.205.105:64254] script '/home/charles/idler_pro/web/dev.php' not found or unable to stat
+[Sun Oct 21 21:06:27.454340 2018] [autoindex:error] [pid 826] [client 82.240.205.105:53408] AH01276: Cannot serve directory /home/charles/idler_pro/web/img/: No matching DirectoryIndex (index.html,index.cgi,index.pl,index.php,index.xhtml,index.htm) found, and server-generated directory index forbidden by Options directive

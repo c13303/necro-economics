@@ -15,6 +15,10 @@ var ntargets = {};
 var token = '';
 var actions = {};
 var opbible = {};
+var people = [];
+
+
+
 
 var vizu_activated = false;
 var ctx;
@@ -45,18 +49,18 @@ function fnum(x) {
         return x;
 
     if (x < 0) {
-        return x.toLocaleString();
+        return (Math.round(x * 100) / 100).toLocaleString();
     }
 
     if (x < 9999) {
-        return x.toLocaleString();
+        return (Math.round(x * 100) / 100).toLocaleString();
     }
 
     if (x < 1000000) {
-        return x.toLocaleString();
+        return (Math.round(x * 100) / 100).toLocaleString();
     }
     if (x < 10000000) {
-        return (x / 1000000).toFixed(2) + "M";
+        return ((Math.round(x * 100) / 100) / 1000000).toFixed(2) + "M";
     }
 
     if (x < 1000000000) {
@@ -149,15 +153,21 @@ $(document).ready(function () {
             if (p.r) {
                 p.moneydisplay = p.money.toLocaleString();
                 ntargets.money = Math.floor(p.money);
-                p.annee = Math.floor(p.tick / 365);
-               if(p.tick) p.jrestant = p.tick - (p.annee * 365);
+
+                if (p.tick) {
+                    var annee = Math.floor(p.tick / 365);
+                    var jrestant = p.tick - (annee * 365);
+
+                    $('.annee').html(annee);
+                    $('.jrestant').html(jrestant);
+                }
                 p.dailybalance = fnum(p.daily.income - p.dailycost);
                 if (p.hw)
                     p.lobbyprice = p.hw.price;
                 p.dailysales = p.daily.sales;
                 //  p.demand = p.demand / 10;
 
-                if(p.dp && p.tick){
+                if (p.dp && p.tick) {
                     piston(p.dp);
                 }
 
@@ -166,7 +176,9 @@ $(document).ready(function () {
 
 
 
-
+            if (p.btcprice) {
+                $('.btcprice').html(Math.round(p.btcprice * 100) / 100);
+            }
 
             if (p.endoftimes) {
                 $('#game').hide();
@@ -225,9 +237,16 @@ $(document).ready(function () {
                 opbible = d.opbible;
 
                 var html = '';
+                var balloon;
                 for (i = 0; i < d.opbible.length; i++) {
                     var op = d.opbible[i];
-                    html += '<div id="buy_' + op.name + '" class="operation disabled command" data-price_entity="' + op.price_entity + '" data-min="' + op.min + '" data-required_strat="' + op.required_strat + '" data-mina="' + op.price + '" data-minv="' + op.minv + '" data-c="buy" data-v="' + op.name + '" >';
+                    if(op.buf){
+                        balloon = 'data-balloon="'+op.buf+'" data-balloon-pos="right"';
+                    } else 
+                    {
+                        balloon = '';
+                    }
+                    html += '<div '+balloon+' id="buy_' + op.name + '" class="operation disabled command" data-price_entity="' + op.price_entity + '" data-min="' + op.min + '" data-required_strat="' + op.required_strat + '" data-mina="' + op.price + '" data-minv="' + op.minv + '" data-c="buy" data-v="' + op.name + '" >';
                     html += '<b>' + op.title + '</b> (' + fnum(op.price) + ' ' + op.price_entity + ') <br/>' + op.desc + '</div>';
                     if (op.actionprice) {
                         actions[op.name] = {};
@@ -235,6 +254,21 @@ $(document).ready(function () {
                     }
                 }
                 $('#tools .container').html(html);
+                /* tooltips JS */
+                /*
+                for (i = 0; i < d.opbible.length; i++) {
+                    var op = d.opbible[i];
+                    if (op.buf) {
+                        var id = "buy_" + op.name;
+                        var referenceElement = $(document).find('#' + id);
+                        new Tooltip(referenceElement, {
+                            placement: 'top', // or bottom, left, right, and variations
+                            title: op.buf
+                        });
+                    }
+
+                }
+                */
             }
 
             if (d.banqueroute) {
@@ -267,50 +301,76 @@ $(document).ready(function () {
                 }
             }
 
-
+            if (d.gone) {
+                $('.player-' + d.gone).remove();
+            }
 
             if (d.refresh) {
                 /* refresh competitors */
                 var clients = d.refresh;
                 var html = '<table>';
+
+
+
                 for (i = 0; i < clients.length; i++) {
                     var data = clients[i];
-                    var button = '';
-                    if (data.name === user) {
-                        if (p.strategies.spy) {
-                            var isdisabled = p.money >= actions.spy.price ? '' : 'disabled="disabled"';
-                            button += '<button ' + isdisabled + ' class="command" data-c="spy" data-v="' + data.name + '">audit (' + fnum(actions.spy.price) + '€)</but>';
+                    if (people.indexOf(data.name) < 0) {  /* new people */
+                        console.log(data.name + ' entered the tekken');
+                        people.push(data.name);
+                        var html = $('#clientsmodele table').clone();
+                        html.find('tr').addClass('player-' + data.name);
+                        html.find('.command').attr('data-v', data.name);
+                        html.find('.mp-spy').html('spy (' + fnum(actions.spy.price) + '€)');
+                        html.find('.mp-defame').html('defame (' + fnum(actions.defamation.price) + '€)');
+                        html.find('.mp-badbuzz').html('badbuzz (' + fnum(actions.badbuzz.price) + '€)');
+                        html.find('.mp-strike').html('strike (' + fnum(actions.spy.price) + '€)');
+
+                        if (data.name === user) {
+                            html.find('table').addClass('selfplayer');
+                            html.find('.mp-spy').html('audit (' + fnum(actions.spy.price) + '€)');
+                            html.find('.noself').remove();
                         }
+                        html.find('.name').html('<b class="playaname">' + data.name + '<b>');
+
+                        $('#clients2').append(html.html());
+
+
                     }
+                    var html = $('.player-' + data.name);
+                    html.find('.money').html(fnum(data.money) + '€');
+                    html.find('.score').html(fnum(data.score));
+                    html.find('.product').html(data.product);
+
                     if (data.name !== user && actions) {
-                        if (p.strategies.spy) {
-                            var isdisabled = p.money >= actions.spy.price ? '' : 'disabled="disabled"';
-                            button += '<button ' + isdisabled + ' class="command" data-c="spy" data-v="' + data.name + '">spy (' + fnum(actions.spy.price) + '€)</but>';
-                        }
-                        if (p.strategies.defamation) {
-                            var isdisabled = p.money >= actions.defamation.price ? '' : 'disabled="disabled"';
-                            if (p.strategies.defamecooldown)
-                                isdisabled = 'disabled="disabled"';
-                            button += '<button ' + isdisabled + ' class="command" data-c="defame" data-v="' + data.name + '">defame (' + fnum(actions.defamation.price) + '€)</but>';
-                        }
-                        if (p.strategies.badbuzz) {
-                            var isdisabled = p.money >= actions.badbuzz.price ? '' : 'disabled="disabled"';
-                            if (p.strategies.badbuzzcooldown)
-                                isdisabled = 'disabled="disabled"';
-                            button += '<button ' + isdisabled + ' class="command" data-c="badbuzz" data-v="' + data.name + '">bad buzz (' + fnum(actions.badbuzz.price) + '€)</but>';
-                        }
-                        if (p.strategies.strike && !p.strategies.strikecooldown) {
-                            var isdisabled = p.money >= actions.strike.price ? '' : 'disabled="disabled"';
-                            if (p.strategies.strikecooldown)
-                                isdisabled = 'disabled="disabled"';
-                            button += '<button ' + isdisabled + ' class="command" data-c="strike" data-v="' + data.name + '">strike (' + fnum(actions.strike.price) + '€)</but>';
-                        }
 
+
+
+
+                        if (p.money >= actions.spy.price) {
+                            html.find('.mp-spy').removeAttr('disabled');
+                        } else {
+                            html.find('.mp-spy').attr('disabled', 'disabled');
+                        }
+                        if (p.money >= actions.defamation.price && !p.strategies.defamecooldown) {
+                            html.find('.mp-defame').removeAttr('disabled');
+                        } else {
+                            html.find('.mp-defame').attr('disabled', 'disabled');
+                        }
+                        if (p.money >= actions.badbuzz.price && !p.strategies.badbuzzcooldown) {
+                            html.find('.mp-badbuzz').removeAttr('disabled');
+                        } else {
+                            html.find('.mp-badbuzz').attr('disabled', 'disabled');
+                        }
+                        if (p.money >= actions.strike.price && !p.strategies.strikecooldown) {
+                            html.find('.mp-strike').removeAttr('disabled');
+                        } else {
+                            html.find('.mp-strike').attr('disabled', 'disabled');
+                        }
                     }
 
 
-                    html += '<tr><td><b>' + data.name + '</b></td><td>' + fnum(data.money) + '€</td>\n\
-<td>' + fnum(data.score) + '</td><td>' + data.product + '</td></tr><tr><td colspan="4" class="lined">' + button + '</td></tr>';
+
+
                 }
                 $('#clients').html(html + '</table>');
             } /* end refresh competitors */
@@ -458,16 +518,17 @@ $(document).ready(function () {
                 } else {
                     $('#hobby_window').addClass('hidden');
                 }
-                
-                
-                if(p.strategies && p.strategies.warm){
+
+
+                if (p.strategies && p.strategies.warm) {
                     var value = Math.floor(255 * p.strategies.warm / 2);
-                    if(value > 255) value = 255;
+                    if (value > 255)
+                        value = 255;
                     var r = 255;
                     var g = 255 - value;
                     var b = 255 - value;
-                    
-                    $('.warming').css('background','rgb('+r+','+g+','+b+')');
+
+                    $('.warming').css('background', 'rgb(' + r + ',' + g + ',' + b + ')');
                 }
 
             }
@@ -514,6 +575,19 @@ $(document).ready(function () {
                 });
             }
 
+            /*htmlsecurituy */
+            $('.htmlsecurity').each(function () {
+                var ref = $(this).data('security');
+                var limitvalue = $(this).data('securityvalue');
+                var refvalue = parseInt($('.' + ref).html());
+
+                if (refvalue > parseInt(limitvalue)) {
+                    $(this).removeAttr('disabled');
+                } else {
+                    $(this).attr('disabled', 'disabled');
+                }
+            });
+
 
         };
 
@@ -545,7 +619,7 @@ $(document).ready(function () {
 
         /* send make */
         $('#make').click(function () {
-             piston();
+            piston();
             var command = JSON.stringify({command: 'make', value: 1});
             ws.send(command);
             $('#make').attr('disabled', 'disabled');
@@ -633,7 +707,7 @@ $(document).ready(function () {
 
         /* refreshing charts */
         function vizu_update(p) {
-            
+
             if (selfMoneyChart && p.tick && p.money) {
                 var label = p.jrestant;
                 var readydata = {
@@ -642,13 +716,13 @@ $(document).ready(function () {
                 }
                 addData(selfMoneyChart, label, readydata);
             }
-            
-            if(multiChart && p.refresh){
+
+            if (multiChart && p.refresh) {
                 var udata = [];
                 var ulabels = [];
                 var ubg = [];
                 var alt = 0;
-                for(i=0;i<p.refresh.length;i++){
+                for (i = 0; i < p.refresh.length; i++) {
                     var man = p.refresh[i];
                     udata.push(Math.floor(man.money));
                     ulabels.push(man.name);
@@ -662,13 +736,13 @@ $(document).ready(function () {
                 }
                 var chart = multiChart;
                 chart.data.labels = ulabels;
-                chart.data.datasets.forEach((dataset) => {                    
+                chart.data.datasets.forEach((dataset) => {
                     dataset.data = udata;
                     dataset.backgroundColor = ubg;
                 });
                 chart.update();
             }
-            
+
         }
 
         var ctxcash = document.getElementById("cash").getContext('2d');
@@ -689,7 +763,7 @@ $(document).ready(function () {
             data: vdata,
             options: voptions
         });
-        
+
         var ctxmulti = document.getElementById("multi").getContext('2d');
         var config = {
             type: 'pie',
@@ -703,67 +777,69 @@ $(document).ready(function () {
             },
         };
         multiChart = new Chart(ctxmulti, config);
-        
-        
-        
+
+
+
         if (!Date.now) {
             Date.now = function () {
                 return new Date().getTime();
             }
         }
-        
+
         function piston(nb = 1) {
-             nb = 1;
-                   
-            var piston = 0;     
+            nb = 1;
+
+            var piston = 0;
             var goal = 100 / nb;
-            var duration = 1;    
-           
-            coup2piston(nb,goal, piston, duration);                
-            
+            var duration = 1;
+
+            coup2piston(nb, goal, piston, duration);
+
         }
         var pistonTimer;
-        function coup2piston(nb,goal,piston, duration) {
+        function coup2piston(nb, goal, piston, duration) {
             clearTimeout(pistonTimer);
-             var size = 100;
-            if(nb>10) {
-                $('#piston .inner').css('height',size+'px');
+            var size = 100;
+            if (nb > 10) {
+                $('#piston .inner').css('height', size + 'px');
                 return(null);
             }
-          
-            
+
+
             var pistonsize = piston * size / goal;
-            $('#piston .inner').css('height',pistonsize+'px');
-            if(isNaN(piston)) return false;
+            $('#piston .inner').css('height', pistonsize + 'px');
+            if (isNaN(piston))
+                return false;
             if (piston >= goal) {
                 piston = 0;
                 nb--;
-                if(nb===0) return false;
+                if (nb === 0)
+                    return false;
             }
-            var dt = duration / goal; 
+            var dt = duration / goal;
             piston++;
             pistonTimer = setTimeout(function () {
-                coup2piston(nb,goal, piston, duration);
+                coup2piston(nb, goal, piston, duration);
             }, dt);
         }
-     
-        
+
+
         /*
-        if ($('#isdev').val()) {
-            var ctxradar = document.getElementById("comchart").getContext('2d');
-            var config = {
-                type: 'radar',
-                data: {
-                    datasets: [{
-                            data: [],
-                            backgroundColor: [],
-                            label: 'radar' // for legend
-                        }],
-                    labels: []
-                },
-            };
-            comChart = new Chart(ctxradar,config);
-        }*/
+         if ($('#isdev').val()) {
+         var ctxradar = document.getElementById("comchart").getContext('2d');
+         var config = {
+         type: 'radar',
+         data: {
+         datasets: [{
+         data: [],
+         backgroundColor: [],
+         label: 'radar' // for legend
+         }],
+         labels: []
+         },
+         };
+         comChart = new Chart(ctxradar,config);
+         }*/
     }
 
 

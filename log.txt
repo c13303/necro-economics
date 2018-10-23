@@ -1,1425 +1,1158 @@
 Lancement serveur port 8080------------------------------------------------------
----------------
-selbst connected
----------------
-ours connected
-All Set Buffer tax_dogde to null
-hobby win open at 16358
-ours : {"command":"getlob","value":1}
-ours uses a lobbyist !!
-broadcast : ours catches the Tax Dodge ! Income x 3
-ours : {"command":"buy","value":"weapons"}
-broadcast : ours acquired AK47 Mark XI for 1,000,000,000€
-ours : {"command":"buy","value":"toys"}
-broadcast : ours acquired War Games for 10,000€
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 16072
-hobby win close
-mass save
-selbst data saved
-ours data saved
-ours data saved
-ours disconnected
-All Set Buffer tax_dogde to null
-hobby win open at 14974
-hobby win close
-mass save
-selbst data saved
----------------
-becky2 connected
-becky2 : {"command":"raise","value":1}
-mass save
-selbst data saved
-becky2 data saved
-All Set Buffer tax_dogde to null
-hobby win open at 19748
-becky2 : {"command":"buy","value":"remotework"}
-broadcast : becky2 acquired Remote Work for 50,000€
-hobby win close
-All Set Buffer tax_dogde to null
-hobby win open at 12615
-mass save
-selbst data saved
-becky2 data saved
-hobby win close
-All Set Buffer tax_dogde to null
-hobby win open at 16755
-hobby win close
-mass save
-selbst data saved
-becky2 data saved
-All Set Buffer tax_dogde to null
-hobby win open at 19135
-hobby win close
-mass save
-selbst data saved
-becky2 data saved
-All Set Buffer tax_dogde to null
-hobby win open at 16695
-hobby win close
-mass save
-selbst data saved
-becky2 data saved
-All Set Buffer tax_dogde to null
-hobby win open at 12240
-hobby win close
-mass save
-selbst data saved
-becky2 data saved
-All Set Buffer tax_dogde to null
-hobby win open at 18947
-hobby win close
-mass save
-selbst data saved
-becky2 data saved
-All Set Buffer tax_dogde to null
-hobby win open at 17116
-hobby win close
-mass save
-selbst data saved
-becky2 data saved
-All Set Buffer tax_dogde to null
-hobby win open at 15930
-hobby win close
-All Set Buffer tax_dogde to null
-hobby win open at 10641
-mass save
-selbst data saved
-becky2 data saved
-hobby win close
-All Set Buffer tax_dogde to null
-hobby win open at 15797
-hobby win close
-mass save
-selbst data saved
-becky2 data saved
-All Set Buffer tax_dogde to null
-hobby win open at 17765
-hobby win close
-mass save
-selbst data saved
-becky2 data saved
-All Set Buffer tax_dogde to null
-hobby win open at 17095
-hobby win close
-mass save
-selbst data saved
-becky2 data saved
-All Set Buffer tax_dogde to null
-hobby win open at 16835
-hobby win close
-mass save
-selbst data saved
-becky2 data saved
-All Set Buffer tax_dogde to null
-hobby win open at 12171
-hobby win close
-mass save
-selbst data saved
-becky2 data saved
-All Set Buffer tax_dogde to null
-hobby win open at 18224
-hobby win close
----------------
-lol connected
-All Set Buffer tax_dogde to null
-hobby win open at 11678
-mass save
-selbst data saved
-becky2 data saved
-lol data saved
-lol : {"command":"buy","value":"bigdata"}
-broadcast : lol acquired Big Data for 400,000€
-lol : {"command":"spy","value":"selbst"}
-broadcast : lol watches selbst
-hobby win close
-All Set Buffer tax_dogde to null
-hobby win open at 16156
-hobby win close
-mass save
-selbst data saved
-becky2 data saved
-lol data saved
-All Set Buffer tax_dogde to null
-hobby win open at 11107
-hobby win close
-All Set Buffer tax_dogde to null
-hobby win open at 12720
-hobby win close
-mass save
-selbst data saved
-becky2 data saved
-lol data saved
-All Set Buffer tax_dogde to null
-hobby win open at 13288
-hobby win close
+update btc 6483.716175
+{"btcprice":"6483.716175"}
 ---------------
 ours connected
-ours : {"command":"reset","value":1}
-ours data saved
-ours data saved
-ours disconnected
-lol data saved
-lol disconnected
----------------
-ours connected
-ours : {"command":"submitproduct","value":"steak"}
-All Set Buffer tax_dogde to null
-hobby win open at 13757
-hobby win close
-mass save
-selbst data saved
-becky2 data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 14163
-hobby win close
-mass save
-selbst data saved
-becky2 data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 12398
-hobby win close
-ours data saved
-ours disconnected
----------------
-ours connected
-ours data saved
-ours disconnected
----------------
-ours connected
-ours data saved
-ours disconnected
-All Set Buffer tax_dogde to null
-hobby win open at 10027
-hobby win close
-mass save
-selbst data saved
-becky2 data saved
-All Set Buffer tax_dogde to null
-hobby win open at 10379
-hobby win close
-mass save
-selbst data saved
-becky2 data saved
-All Set Buffer tax_dogde to null
-hobby win open at 14772
-hobby win close
-mass save
-selbst data saved
-becky2 data saved
-All Set Buffer tax_dogde to null
-hobby win open at 10190
-hobby win close
-mass save
-selbst data saved
-becky2 data saved
-All Set Buffer tax_dogde to null
-hobby win open at 14365
-hobby win close
-mass save
-selbst data saved
-becky2 data saved
-All Set Buffer tax_dogde to null
-hobby win open at 14014
-hobby win close
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":0.1}
-selbst : {"command":"lower","value":1}
-selbst : {"command":"lower","value":1}
-selbst : {"command":"raise","value":1}
-selbst : {"command":"raise","value":0.1}
-selbst : {"command":"raise","value":0.1}
-selbst : {"command":"lower","value":0.1}
-All Set Buffer tax_dogde to null
-hobby win open at 12901
-selbst : {"command":"getlob","value":1}
-selbst uses a lobbyist !!
-broadcast : selbst catches the Tax Dodge ! Income x 3
-mass save
-selbst data saved
-becky2 data saved
-hobby win close
-becky2 data saved
-becky2 disconnected
-mass save
-selbst data saved
-All Set Buffer tax_dogde to null
-hobby win open at 13143
-selbst : {"command":"getlob","value":1}
-selbst uses a lobbyist !!
-broadcast : selbst catches the Tax Dodge ! Income x 3
-hobby win close
-mass save
-selbst data saved
-mass save
-selbst data saved
-All Set Buffer tax_dogde to null
-hobby win open at 18396
-selbst : {"command":"getlob","value":1}
-selbst uses a lobbyist !!
-broadcast : selbst catches the Tax Dodge ! Income x 3
-hobby win close
-mass save
-selbst data saved
-All Set Buffer tax_dogde to null
-hobby win open at 13474
-mass save
-selbst data saved
-hobby win close
-mass save
-selbst data saved
-All Set Buffer tax_dogde to null
-hobby win open at 11122
-hobby win close
-mass save
-selbst data saved
-mass save
-selbst data saved
-selbst : {"command":"lower","value":1}
-All Set Buffer tax_dogde to null
-hobby win open at 17905
-selbst : {"command":"getlob","value":1}
-selbst uses a lobbyist !!
-broadcast : selbst catches the Tax Dodge ! Income x 3
-selbst : {"command":"lower","value":1}
-selbst : {"command":"raise","value":1}
-selbst : {"command":"raise","value":1}
-selbst : {"command":"raise","value":1}
-selbst : {"command":"raise","value":1}
-selbst : {"command":"raise","value":1}
-selbst : {"command":"raise","value":1}
-hobby win close
-mass save
-selbst data saved
-mass save
-selbst data saved
-All Set Buffer tax_dogde to null
-hobby win open at 16030
-hobby win close
-mass save
-selbst data saved
-All Set Buffer tax_dogde to null
-hobby win open at 12754
-mass save
-selbst data saved
-hobby win close
-mass save
-selbst data saved
-All Set Buffer tax_dogde to null
-hobby win open at 19600
-hobby win close
-mass save
-selbst data saved
-mass save
-selbst data saved
-All Set Buffer tax_dogde to null
-hobby win open at 19761
-hobby win close
-mass save
-selbst data saved
-mass save
-selbst data saved
-All Set Buffer tax_dogde to null
-hobby win open at 17027
-hobby win close
-mass save
-selbst data saved
-All Set Buffer tax_dogde to null
-hobby win open at 14451
-mass save
-selbst data saved
-hobby win close
-mass save
-selbst data saved
-All Set Buffer tax_dogde to null
-hobby win open at 14303
-hobby win close
-mass save
-selbst data saved
-mass save
-selbst data saved
-All Set Buffer tax_dogde to null
-hobby win open at 11882
-hobby win close
-mass save
-selbst data saved
-mass save
-selbst data saved
-All Set Buffer tax_dogde to null
-hobby win open at 16953
-hobby win close
----------------
-ours connected
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 13598
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 17328
-hobby win close
-All Set Buffer tax_dogde to null
-hobby win open at 17924
-mass save
-selbst data saved
-ours data saved
-hobby win close
-All Set Buffer tax_dogde to null
-hobby win open at 19419
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 15949
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 14518
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 12168
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 16135
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 17490
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 18586
-hobby win close
-All Set Buffer tax_dogde to null
-hobby win open at 17650
-mass save
-selbst data saved
-ours data saved
-hobby win close
-All Set Buffer tax_dogde to null
-hobby win open at 13362
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 10234
-selbst : {"command":"getlob","value":1}
-selbst uses a lobbyist !!
-broadcast : selbst catches the Tax Dodge ! Income x 3
-hobby win close
-mass save
-selbst data saved
-ours data saved
-selbst : {"command":"buy","value":"defamation"}
-broadcast : selbst acquired Defamation for 20,000€
-selbst : {"command":"buy","value":"strike"}
-broadcast : selbst acquired Worker's union for 500,000€
-All Set Buffer tax_dogde to null
-hobby win open at 11786
-selbst : {"command":"getlob","value":1}
-selbst uses a lobbyist !!
-broadcast : selbst catches the Tax Dodge ! Income x 3
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 16772
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 16266
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 14242
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 13103
-hobby win close
-All Set Buffer tax_dogde to null
-hobby win open at 13641
-mass save
-selbst data saved
-ours data saved
-hobby win close
-All Set Buffer tax_dogde to null
-hobby win open at 17716
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 17313
-selbst : {"command":"getlob","value":1}
-selbst uses a lobbyist !!
-broadcast : selbst catches the Tax Dodge ! Income x 3
-hobby win close
-selbst : {"command":"defame","value":"ours"}
-broadcast : selbst failed to defame ours
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 11574
-hobby win close
-ours : {"command":"make","value":1}
-ours data saved
-ours disconnected
----------------
-ours connected
-ours : {"command":"make","value":1}
-ours is tooquick1540123110965 1540123110023 1005
-mass save
-selbst data saved
-ours data saved
-ours data saved
-ours disconnected
----------------
-ours connected
-ours : {"command":"reset","value":1}
-ours data saved
-ours data saved
-ours disconnected
----------------
-ours connected
-ours : {"command":"submitproduct","value":"steak"}
-ours : {"command":"make","value":1}
-ours : {"command":"make","value":1}
-ours : {"command":"make","value":1}
-ours : {"command":"buy","value":"workers"}
-broadcast : ours acquired Workers for 10€
-ours : {"command":"hire","value":1}
-ours : {"command":"hire","value":1}
-All Set Buffer tax_dogde to null
-hobby win open at 17312
-ours data saved
-ours disconnected
----------------
-ours connected
-ours : {"command":"hire","value":1}
-hobby win close
-ours : {"command":"hire","value":1}
-ours data saved
-ours disconnected
----------------
-ours connected
-ours : {"command":"make","value":1}
-ours : {"command":"hire","value":1}
-mass save
-selbst data saved
-ours data saved
-ours data saved
-ours disconnected
----------------
-ours connected
-ours : {"command":"hire","value":1}
-ours : {"command":"make","value":1}
-ours : {"command":"make","value":1}
-ours data saved
-ours disconnected
----------------
-ours connected
-ours : {"command":"make","value":1}
-ours : {"command":"make","value":1}
-ours : {"command":"hire","value":1}
-ours : {"command":"hire","value":1}
-ours : {"command":"hire","value":1}
-ours : {"command":"reset","value":1}
-ours data saved
-ours data saved
-ours disconnected
----------------
-ours connected
-ours : {"command":"submitproduct","value":"steak"}
-ours : {"command":"make","value":1}
-All Set Buffer tax_dogde to null
-hobby win open at 11317
-ours : {"command":"make","value":1}
-ours : {"command":"make","value":1}
-ours : {"command":"buy","value":"workers"}
-broadcast : ours acquired Workers for 10€
-ours : {"command":"hire","value":1}
-hobby win close
-ours : {"command":"make","value":1}
-ours : {"command":"hire","value":1}
-ours : {"command":"hire","value":1}
-ours : {"command":"make","value":1}
-ours : {"command":"hire","value":1}
-ours : {"command":"raise","value":1}
-ours : {"command":"raise","value":1}
-ours : {"command":"raise","value":1}
-ours : {"command":"raise","value":1}
-ours : {"command":"raise","value":1}
-ours : {"command":"raise","value":1}
-ours : {"command":"lower","value":1}
-ours : {"command":"lower","value":1}
-ours : {"command":"lower","value":1}
-ours : {"command":"lower","value":1}
-ours : {"command":"fire","value":1}
-ours : {"command":"fire","value":1}
-ours : {"command":"fire","value":1}
-mass save
-selbst data saved
-ours data saved
-ours : {"command":"buy","value":"accountant"}
-broadcast : ours acquired Accountant for 200€
-All Set Buffer tax_dogde to null
-hobby win open at 16193
-ours : {"command":"raise","value":1}
-ours : {"command":"raise","value":1}
-ours : {"command":"raise","value":1}
-ours : {"command":"raise","value":1}
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 12005
-ours : {"command":"buy","value":"marketing"}
-broadcast : ours acquired Marketing Departement for 500€
-ours : {"command":"commercialbuy","value":1}
-hobby win close
-ours : {"command":"buy","value":"children"}
-broadcast : ours acquired Low Cost Workers for 500€
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 10507
-hobby win close
-ours data saved
-ours disconnected
-All Set Buffer tax_dogde to null
-hobby win open at 17822
-mass save
-selbst data saved
----------------
-ours connected
-ours data saved
-ours disconnected
----------------
-ours connected
-hobby win close
-ours : {"command":"commercialbuy","value":1}
-All Set Buffer tax_dogde to null
-hobby win open at 13864
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 17248
-ours : {"command":"buy","value":"bio"}
-broadcast : ours acquired Bio Label for 5,000€
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 18275
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 16036
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 19136
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 15453
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 10199
-hobby win close
-ours : {"command":"buy","value":"spy"}
-broadcast : ours acquired Industrial Spying for 10,000€
-All Set Buffer tax_dogde to null
-hobby win open at 14803
-mass save
-selbst data saved
-ours data saved
-hobby win close
-All Set Buffer tax_dogde to null
-hobby win open at 14002
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 12017
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 10697
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 17186
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 11984
-selbst : {"command":"getlob","value":1}
-selbst uses a lobbyist !!
-broadcast : selbst catches the Tax Dodge ! Income x 3
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 16356
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 14273
-selbst : {"command":"getlob","value":1}
-selbst uses a lobbyist !!
-broadcast : selbst catches the Tax Dodge ! Income x 3
-hobby win close
-All Set Buffer tax_dogde to null
-hobby win open at 19399
-mass save
-selbst data saved
-ours data saved
-selbst : {"command":"getlob","value":1}
-selbst uses a lobbyist !!
-broadcast : selbst catches the Tax Dodge ! Income x 3
-hobby win close
-All Set Buffer tax_dogde to null
-hobby win open at 15219
-selbst : {"command":"getlob","value":1}
-selbst uses a lobbyist !!
-broadcast : selbst catches the Tax Dodge ! Income x 3
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 12232
-hobby win close
-mass save
-selbst data saved
-ours data saved
-All Set Buffer tax_dogde to null
-hobby win open at 19333
-hobby win close
+{"enter":"ours"}
 ---------------
 melenchon connected
-mass save
-selbst data saved
+{"enter":"melenchon"}
+update btc 6483.716175
+{"btcprice":"6483.716175"}
 ours data saved
-melenchon data saved
-All Set Buffer tax_dogde to null
-hobby win open at 15460
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"raise","value":1}
-hobby win close
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"lower","value":1}
-All Set Buffer tax_dogde to null
-hobby win open at 14572
-hobby win close
+ours disconnected
+{"gone":"ours"}
 mass save
-selbst data saved
-ours data saved
 melenchon data saved
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"lower","value":1}
-All Set Buffer tax_dogde to null
-hobby win open at 11103
-hobby win close
-melenchon : {"command":"hirechildren","value":1}
-melenchon : {"command":"lower","value":1}
+update btc 6487.4603098
+{"btcprice":"6487.4603098"}
+---------------
+oim connected
+{"enter":"oim"}
+oim : {"command":"spy","value":"melenchon"}
+broadcast : oim watches melenchon
+update btc 6487.4603098
+{"btcprice":"6487.4603098"}
 mass save
-selbst data saved
-ours data saved
 melenchon data saved
-All Set Buffer tax_dogde to null
-hobby win open at 18756
-hobby win close
-melenchon : {"command":"buy","value":"bio"}
-broadcast : melenchon acquired Bio Label for 5,000€
-All Set Buffer tax_dogde to null
-hobby win open at 11410
-hobby win close
+oim data saved
+update btc 6487.4603098
+{"btcprice":"6487.4603098"}
+update btc 6474.70213538
+{"btcprice":"6474.70213538"}
 mass save
-selbst data saved
-ours data saved
 melenchon data saved
-All Set Buffer tax_dogde to null
-hobby win open at 10359
+oim data saved
+update btc 6474.70213538
+{"btcprice":"6474.70213538"}
+update btc 6478.69703053
+{"btcprice":"6478.69703053"}
+mass save
+melenchon data saved
+oim data saved
+update btc 6478.69703053
+{"btcprice":"6478.69703053"}
+oim data saved
+oim disconnected
+{"gone":"oim"}
+---------------
+oim connected
+{"enter":"oim"}
+update btc 6478.69703053
+{"btcprice":"6478.69703053"}
+mass save
+melenchon data saved
+oim data saved
+update btc 6472.42124867
+{"btcprice":"6472.42124867"}
+oim data saved
+oim disconnected
+{"gone":"oim"}
+---------------
+oim connected
+{"enter":"oim"}
+oim : {"command":"make","value":1}
+update btc 6472.42124867
+{"btcprice":"6472.42124867"}
+oim data saved
+oim disconnected
+{"gone":"oim"}
+---------------
+oim connected
+{"enter":"oim"}
+oim : {"command":"commercialbuy","value":1}
+oim : {"command":"commercialbuy","value":1}
+oim : {"command":"commercialbuy","value":1}
+oim : {"command":"commercialbuy","value":1}
+mass save
+melenchon data saved
+oim data saved
+update btc 6469.56064216
+{"btcprice":"6469.56064216"}
+oim data saved
+oim disconnected
+{"gone":"oim"}
+---------------
+oim connected
+{"enter":"oim"}
+update btc 6469.56064216
+{"btcprice":"6469.56064216"}
+oim data saved
+oim disconnected
+{"gone":"oim"}
+---------------
+oim connected
+{"enter":"oim"}
+mass save
+melenchon data saved
+oim data saved
+update btc 6469.56064216
+{"btcprice":"6469.56064216"}
+oim data saved
+oim disconnected
+{"gone":"oim"}
+---------------
+oim connected
+{"enter":"oim"}
+oim data saved
+oim disconnected
+{"gone":"oim"}
+---------------
+oim connected
+{"enter":"oim"}
+oim data saved
+oim disconnected
+{"gone":"oim"}
+---------------
+oim connected
+{"enter":"oim"}
+update btc 6474.36824309
+{"btcprice":"6474.36824309"}
+oim data saved
+oim disconnected
+{"gone":"oim"}
+---------------
+oim connected
+{"enter":"oim"}
+mass save
+melenchon data saved
+oim data saved
+oim : {"command":"consume","value":1}
+oim : {"command":"consume","value":1}
+oim : {"command":"consume","value":1}
+update btc 6474.36824309
+{"btcprice":"6474.36824309"}
+oim : {"command":"getlob","value":1}
+oim uses a lobbyist !!
+broadcast : oim catches the Tax Dodge ! Income x 3
+oim : {"command":"commercialbuy","value":1}
+update btc 6475.02224268
+{"btcprice":"6475.02224268"}
+oim data saved
+oim disconnected
+{"gone":"oim"}
+mass save
+melenchon data saved
+update btc 6475.02224268
+{"btcprice":"6475.02224268"}
+update btc 6475.02224268
+{"btcprice":"6475.02224268"}
+mass save
+melenchon data saved
+update btc 6472.29079916
+{"btcprice":"6472.29079916"}
+update btc 6472.29079916
+{"btcprice":"6472.29079916"}
+mass save
+melenchon data saved
+update btc 6477.85165596
+{"btcprice":"6477.85165596"}
+update btc 6477.85165596
+{"btcprice":"6477.85165596"}
+mass save
+melenchon data saved
+update btc 6466.75593476
+{"btcprice":"6466.75593476"}
+update btc 6466.75593476
+{"btcprice":"6466.75593476"}
+mass save
+melenchon data saved
+update btc 6466.75593476
+{"btcprice":"6466.75593476"}
+update btc 6470.36841199
+{"btcprice":"6470.36841199"}
+mass save
+melenchon data saved
+update btc 6470.36841199
+{"btcprice":"6470.36841199"}
+update btc 6476.70128567
+{"btcprice":"6476.70128567"}
+mass save
+melenchon data saved
+update btc 6476.70128567
+{"btcprice":"6476.70128567"}
+update btc 6476.70128567
+{"btcprice":"6476.70128567"}
+mass save
+melenchon data saved
+update btc 6481.38092116
+{"btcprice":"6481.38092116"}
+update btc 6481.38092116
+{"btcprice":"6481.38092116"}
+mass save
+melenchon data saved
+update btc 6480.15733351
+{"btcprice":"6480.15733351"}
+update btc 6480.15733351
+{"btcprice":"6480.15733351"}
+mass save
+melenchon data saved
+update btc 6480.15733351
+{"btcprice":"6480.15733351"}
+update btc 6479.92617485
+{"btcprice":"6479.92617485"}
+mass save
+melenchon data saved
+update btc 6479.92617485
+{"btcprice":"6479.92617485"}
+update btc 6485.09317872
+{"btcprice":"6485.09317872"}
+mass save
+melenchon data saved
+update btc 6485.09317872
+{"btcprice":"6485.09317872"}
+update btc 6485.09317872
+{"btcprice":"6485.09317872"}
+mass save
+melenchon data saved
+update btc 6479.33891388
+{"btcprice":"6479.33891388"}
+update btc 6479.33891388
+{"btcprice":"6479.33891388"}
+mass save
+melenchon data saved
+update btc 6478.24253959
+{"btcprice":"6478.24253959"}
+update btc 6478.24253959
+{"btcprice":"6478.24253959"}
+mass save
+melenchon data saved
+update btc 6478.24253959
+{"btcprice":"6478.24253959"}
+update btc 6480.97631941
+{"btcprice":"6480.97631941"}
+mass save
+melenchon data saved
+update btc 6480.97631941
+{"btcprice":"6480.97631941"}
+update btc 6480.42811366
+{"btcprice":"6480.42811366"}
+mass save
+melenchon data saved
+update btc 6480.42811366
+{"btcprice":"6480.42811366"}
+update btc 6480.42811366
+{"btcprice":"6480.42811366"}
+mass save
+melenchon data saved
+update btc 6474.7440934
+{"btcprice":"6474.7440934"}
+update btc 6474.7440934
+{"btcprice":"6474.7440934"}
+mass save
+melenchon data saved
+update btc 6478.60308996
+{"btcprice":"6478.60308996"}
+update btc 6478.60308996
+{"btcprice":"6478.60308996"}
+mass save
+melenchon data saved
+update btc 6478.60308996
+{"btcprice":"6478.60308996"}
+update btc 6470.47954873
+{"btcprice":"6470.47954873"}
+mass save
+melenchon data saved
+update btc 6470.47954873
+{"btcprice":"6470.47954873"}
+mass save
+melenchon data saved
+update btc 6474.82065829
+{"btcprice":"6474.82065829"}
+update btc 6474.82065829
+{"btcprice":"6474.82065829"}
+mass save
+melenchon data saved
+update btc 6474.82065829
+{"btcprice":"6474.82065829"}
+update btc 6481.52837858
+{"btcprice":"6481.52837858"}
+mass save
+melenchon data saved
+update btc 6481.52837858
+{"btcprice":"6481.52837858"}
+update btc 6480.35709645
+{"btcprice":"6480.35709645"}
+mass save
+melenchon data saved
+update btc 6480.35709645
+{"btcprice":"6480.35709645"}
+update btc 6480.35709645
+{"btcprice":"6480.35709645"}
+mass save
+melenchon data saved
+update btc 6483.4638036
+{"btcprice":"6483.4638036"}
+update btc 6483.4638036
+{"btcprice":"6483.4638036"}
+mass save
+melenchon data saved
+update btc 6485.7286183
+{"btcprice":"6485.7286183"}
+update btc 6485.7286183
+{"btcprice":"6485.7286183"}
+mass save
+melenchon data saved
+update btc 6485.7286183
+{"btcprice":"6485.7286183"}
+update btc 6483.74300785
+{"btcprice":"6483.74300785"}
+mass save
+melenchon data saved
+update btc 6483.74300785
+{"btcprice":"6483.74300785"}
+update btc 6482.13944439
+{"btcprice":"6482.13944439"}
+mass save
+melenchon data saved
+update btc 6482.13944439
+{"btcprice":"6482.13944439"}
+update btc 6482.13944439
+{"btcprice":"6482.13944439"}
+mass save
+melenchon data saved
+update btc 6479.56363552
+{"btcprice":"6479.56363552"}
+update btc 6479.56363552
+{"btcprice":"6479.56363552"}
+---------------
+oim connected
+{"enter":"oim"}
+mass save
+melenchon data saved
+oim data saved
+update btc 6479.80060056
+{"btcprice":"6479.80060056"}
+update btc 6479.80060056
+{"btcprice":"6479.80060056"}
+mass save
+melenchon data saved
+oim data saved
+update btc 6479.80060056
+{"btcprice":"6479.80060056"}
+update btc 6480.05846347
+{"btcprice":"6480.05846347"}
+mass save
+melenchon data saved
+oim data saved
+update btc 6480.05846347
+{"btcprice":"6480.05846347"}
+oim data saved
+oim disconnected
+{"gone":"oim"}
+update btc 6479.14111664
+{"btcprice":"6479.14111664"}
+mass save
+melenchon data saved
+update btc 6479.14111664
+{"btcprice":"6479.14111664"}
+update btc 6479.14111664
+{"btcprice":"6479.14111664"}
+mass save
+melenchon data saved
+update btc 6481.56409529
+{"btcprice":"6481.56409529"}
+update btc 6481.56409529
+{"btcprice":"6481.56409529"}
+mass save
+melenchon data saved
+update btc 6478.41718987
+{"btcprice":"6478.41718987"}
+update btc 6478.41718987
+{"btcprice":"6478.41718987"}
+mass save
+melenchon data saved
+update btc 6478.41718987
+{"btcprice":"6478.41718987"}
+update btc 6469.72136233
+{"btcprice":"6469.72136233"}
+mass save
+melenchon data saved
+update btc 6469.72136233
+{"btcprice":"6469.72136233"}
+update btc 6468.61186616
+{"btcprice":"6468.61186616"}
+mass save
+melenchon data saved
+update btc 6468.61186616
+{"btcprice":"6468.61186616"}
+update btc 6468.61186616
+{"btcprice":"6468.61186616"}
+mass save
+melenchon data saved
+update btc 6468.61186616
+{"btcprice":"6468.61186616"}
+update btc 6468.61186616
+{"btcprice":"6468.61186616"}
+mass save
+melenchon data saved
+update btc 6475.28821829
+{"btcprice":"6475.28821829"}
 melenchon : {"command":"getlob","value":1}
 melenchon uses a lobbyist !!
 broadcast : melenchon catches the Tax Dodge ! Income x 3
-hobby win close
-melenchon : {"command":"buy","value":"spy"}
-broadcast : melenchon acquired Industrial Spying for 10,000€
-melenchon : {"command":"spy","value":"selbst"}
-broadcast : melenchon watches selbst
-All Set Buffer tax_dogde to null
-hobby win open at 11557
-melenchon : {"command":"getlob","value":1}
-melenchon uses a lobbyist !!
-broadcast : melenchon catches the Tax Dodge ! Income x 3
-hobby win close
+update btc 6475.28821829
+{"btcprice":"6475.28821829"}
+melenchon : {"command":"buy","value":"meat"}
+broadcast : melenchon acquired Soylent Green for 2,000,000,000€
 mass save
-selbst data saved
-ours data saved
 melenchon data saved
-melenchon : {"command":"buy","value":"spaceweedtv"}
-broadcast : melenchon acquired Space Weed TV Reality for 50,000€
-melenchon : {"command":"buy","value":"startup"}
-broadcast : melenchon acquired Startup Human Resources for 30,000€
-melenchon : {"command":"buy","value":"wc"}
-broadcast : melenchon acquired More Toilets for 50,000€
-All Set Buffer tax_dogde to null
-hobby win open at 14217
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+update btc 6475.28821829
+{"btcprice":"6475.28821829"}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+update btc 6474.76931432
+{"btcprice":"6474.76931432"}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+mass save
+melenchon data saved
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+update btc 6474.76931432
+{"btcprice":"6474.76931432"}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"raise","value":1}
+update btc 6467.53644177
+{"btcprice":"6467.53644177"}
+mass save
+melenchon data saved
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+update btc 6467.53644177
+{"btcprice":"6467.53644177"}
+melenchon : {"command":"raise","value":1}
+---------------
+evi connected
+{"enter":"evi"}
+evi : {"command":"buy","value":"btc"}
+broadcast : evi acquired Bitcoin mining for 5,000,000€
 melenchon : {"command":"getlob","value":1}
 melenchon uses a lobbyist !!
 broadcast : melenchon catches the Tax Dodge ! Income x 3
-hobby win close
+update btc 6467.53644177
+{"btcprice":"6467.53644177"}
+melenchon : {"command":"raise","value":0.1}
+melenchon : {"command":"raise","value":0.1}
+mass save
+melenchon data saved
+melenchon : {"command":"raise","value":0.1}
+evi data saved
+melenchon : {"command":"raise","value":0.1}
+melenchon : {"command":"raise","value":0.1}
+melenchon : {"command":"raise","value":0.1}
+melenchon : {"command":"raise","value":0.1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+update btc 6468.50181609
+{"btcprice":"6468.50181609"}
+melenchon : {"command":"sellbtc","value":1}
+broadcast : melenchon sold 1,454.72 BTC for 9.41M€
+melenchon : {"command":"getlob","value":1}
+melenchon uses a lobbyist !!
+broadcast : melenchon catches the Tax Dodge ! Income x 3
+melenchon : {"command":"spy","value":"evi"}
+broadcast : melenchon watches evi
+update btc 6468.50181609
+{"btcprice":"6468.50181609"}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+mass save
+melenchon data saved
+evi data saved
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+melenchon : {"command":"consume","value":1}
+update btc 6468.50181609
+{"btcprice":"6468.50181609"}
+melenchon : {"command":"hire","value":1}
+melenchon : {"command":"hire","value":1}
+melenchon : {"command":"hire","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"getlob","value":1}
+melenchon uses a lobbyist !!
+broadcast : melenchon catches the Tax Dodge ! Income x 3
+update btc 6468.50181609
+{"btcprice":"6468.50181609"}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"fire","value":1}
+mass save
+melenchon data saved
+evi data saved
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"getlob","value":1}
+melenchon uses a lobbyist !!
+broadcast : melenchon catches the Tax Dodge ! Income x 3
+update btc 6468.50181609
+{"btcprice":"6468.50181609"}
+update btc 6468.50181609
+{"btcprice":"6468.50181609"}
+mass save
+melenchon data saved
+evi data saved
+update btc 6468.50181609
+{"btcprice":"6468.50181609"}
+update btc 6469.68045276
+{"btcprice":"6469.68045276"}
+mass save
+melenchon data saved
+evi data saved
+update btc 6469.68045276
+{"btcprice":"6469.68045276"}
+update btc 6469.68045276
+{"btcprice":"6469.68045276"}
+mass save
+melenchon data saved
+evi data saved
+evi : {"command":"getlob","value":1}
+evi uses a lobbyist !!
+broadcast : evi catches the Tax Dodge ! Income x 3
+evi : {"command":"lower","value":0.1}
+evi : {"command":"lower","value":0.1}
+evi : {"command":"raise","value":0.1}
+evi : {"command":"lower","value":0.1}
+evi : {"command":"raise","value":0.1}
+evi : {"command":"lower","value":0.1}
+update btc 6463.20522466
+{"btcprice":"6463.20522466"}
+evi : {"command":"getlob","value":1}
+evi uses a lobbyist !!
+broadcast : evi catches the Tax Dodge ! Income x 3
+update btc 6463.20522466
+{"btcprice":"6463.20522466"}
+mass save
+melenchon data saved
+evi data saved
+update btc 6462.44326865
+{"btcprice":"6462.44326865"}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"getlob","value":1}
+melenchon uses a lobbyist !!
+broadcast : melenchon catches the Tax Dodge ! Income x 3
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"raise","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+melenchon : {"command":"lower","value":1}
+mass save
+melenchon data saved
+evi data saved
+update btc 6462.44326865
+{"btcprice":"6462.44326865"}
+melenchon : {"command":"sellbtc","value":1}
+broadcast : melenchon sold 16.12 BTC for 104,174.59€
+update btc 6465.53210376
+{"btcprice":"6465.53210376"}
+mass save
+melenchon data saved
+evi data saved
+update btc 6465.53210376
+{"btcprice":"6465.53210376"}
+update btc 6465.53210376
+{"btcprice":"6465.53210376"}
+mass save
+melenchon data saved
+evi data saved
+update btc 6470.51970933
+{"btcprice":"6470.51970933"}
+evi : {"command":"getlob","value":1}
+evi uses a lobbyist !!
+broadcast : evi catches the Tax Dodge ! Income x 3
+update btc 6470.51970933
+{"btcprice":"6470.51970933"}
+mass save
+melenchon data saved
+evi data saved
+update btc 6471.9783163
+{"btcprice":"6471.9783163"}
+melenchon : {"command":"getlob","value":1}
+melenchon uses a lobbyist !!
+broadcast : melenchon catches the Tax Dodge ! Income x 3
+update btc 6471.9783163
+{"btcprice":"6471.9783163"}
 melenchon : {"command":"spy","value":"melenchon"}
 broadcast : melenchon watches melenchon
-All Set Buffer tax_dogde to null
-hobby win open at 12461
+melenchon : {"command":"spy","value":"melenchon"}
+broadcast : melenchon watches melenchon
+melenchon : {"command":"spy","value":"melenchon"}
+broadcast : melenchon watches melenchon
 mass save
-selbst data saved
-ours data saved
 melenchon data saved
-hobby win close
-All Set Buffer tax_dogde to null
-hobby win open at 13541
+evi data saved
+update btc 6471.9783163
+{"btcprice":"6471.9783163"}
 melenchon : {"command":"getlob","value":1}
 melenchon uses a lobbyist !!
 broadcast : melenchon catches the Tax Dodge ! Income x 3
-hobby win close
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
+melenchon : {"command":"fire","value":1}
+melenchon : {"command":"sellbtc","value":1}
+broadcast : melenchon sold 10.08 BTC for 65,237.54€
+update btc 6475.47652526
+{"btcprice":"6475.47652526"}
+melenchon : {"command":"sellbtc","value":1}
+broadcast : melenchon sold 1.28 BTC for 8,288.61€
 mass save
-selbst data saved
-ours data saved
 melenchon data saved
-melenchon : {"command":"hire","value":1}
-melenchon : {"command":"lower","value":1}
-All Set Buffer tax_dogde to null
-hobby win open at 19663
+evi data saved
 melenchon : {"command":"getlob","value":1}
 melenchon uses a lobbyist !!
 broadcast : melenchon catches the Tax Dodge ! Income x 3
-hobby win close
-melenchon : {"command":"buy","value":"remotework"}
-broadcast : melenchon acquired Remote Work for 50,000€
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
-All Set Buffer tax_dogde to null
-hobby win open at 15793
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"lower","value":1}
-hobby win close
+update btc 6475.47652526
+{"btcprice":"6475.47652526"}
+update btc 6471.85082882
+{"btcprice":"6471.85082882"}
+evi : {"command":"getlob","value":1}
+evi uses a lobbyist !!
+broadcast : evi catches the Tax Dodge ! Income x 3
 mass save
-selbst data saved
-ours data saved
 melenchon data saved
-All Set Buffer tax_dogde to null
-hobby win open at 17043
+evi data saved
+update btc 6471.85082882
+{"btcprice":"6471.85082882"}
+update btc 6471.85082882
+{"btcprice":"6471.85082882"}
 melenchon : {"command":"getlob","value":1}
 melenchon uses a lobbyist !!
 broadcast : melenchon catches the Tax Dodge ! Income x 3
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-hobby win close
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"spy","value":"selbst"}
-broadcast : melenchon watches selbst
-melenchon : {"command":"defame","value":"selbst"}
-broadcast : melenchon defames selbst for 1,317,682,243.208€
-All Set Buffer tax_dogde to null
-hobby win open at 19953
-hobby win close
-melenchon : {"command":"buy","value":"suicidenets"}
-broadcast : melenchon acquired Anti-Suicide Nets for 400,000€
-melenchon : {"command":"buy","value":"openspace"}
-broadcast : melenchon acquired Open Space Village 2.0 for 500,000€
+melenchon : {"command":"spy","value":"evi"}
+broadcast : melenchon watches evi
 mass save
-selbst data saved
-ours data saved
 melenchon data saved
-melenchon : {"command":"buy","value":"government"}
-broadcast : melenchon acquired Government  for 1,000,000€
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-All Set Buffer tax_dogde to null
-hobby win open at 11473
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"getlob","value":1}
-melenchon uses a lobbyist !!
-broadcast : melenchon catches the Tax Dodge ! Income x 3
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-hobby win close
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-selbst : {"command":"defame","value":"melenchon"}
-broadcast : selbst failed to defame melenchon and must pay -746,327,189.354€
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-broadcast : selbst banqueroute !!!! 
-melenchon : {"command":"raise","value":1}
-selbst data saved
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-Error: WebSocket is not open: readyState 2 (CLOSING)
-    at WebSocket.send (/home/charles/idler_pro/node_modules/ws/lib/websocket.js:314:19)
-    at WebSocket.refr [as refresh] (/home/charles/idler_pro/server.js:282:20)
-    at each (/home/charles/idler_pro/server.js:199:20)
-    at Set.forEach (<anonymous>)
-    at WebSocketServer.broadcast [as massrefresh] (/home/charles/idler_pro/server.js:197:17)
-    at tick (/home/charles/idler_pro/server.js:754:9)
-    at Timeout._onTimeout (/home/charles/idler_pro/server.js:763:9)
-    at ontimeout (timers.js:466:11)
-    at tryOnTimeout (timers.js:304:5)
-    at Timer.listOnTimeout (timers.js:267:5)
-melenchon : {"command":"raise","value":1}
-selbst data saved
-selbst disconnected
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"lower","value":1}
+evi data saved
+update btc 6470.29706253
+{"btcprice":"6470.29706253"}
+melenchon data saved
+melenchon disconnected
+{"gone":"melenchon"}
+update btc 6470.29706253
+{"btcprice":"6470.29706253"}
 mass save
-ours data saved
-melenchon data saved
-melenchon : {"command":"buy","value":"torture"}
-broadcast : melenchon acquired Pyramidical Torture Management for 2,000,000€
-melenchon : {"command":"buy","value":"btc"}
-broadcast : melenchon acquired Bitcoin mining for 5,000,000€
-All Set Buffer tax_dogde to null
-hobby win open at 10641
-melenchon : {"command":"buy","value":"unitedcolors"}
-broadcast : melenchon acquired United Colors of Liberty for 10,000,000€
-hobby win close
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"commercialbuy","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"raise","value":1}
+evi data saved
+update btc 6464.04807919
+{"btcprice":"6464.04807919"}
+update btc 6464.04807919
+{"btcprice":"6464.04807919"}
 mass save
-ours data saved
-melenchon data saved
-All Set Buffer tax_dogde to null
-hobby win open at 11739
-melenchon : {"command":"getlob","value":1}
-melenchon uses a lobbyist !!
-broadcast : melenchon catches the Tax Dodge ! Income x 3
-melenchon : {"command":"lower","value":1}
-hobby win close
-All Set Buffer tax_dogde to null
-hobby win open at 13445
-melenchon : {"command":"getlob","value":1}
-melenchon uses a lobbyist !!
-broadcast : melenchon catches the Tax Dodge ! Income x 3
+evi data saved
+update btc 6464.04807919
+{"btcprice":"6464.04807919"}
+update btc 6456.14992007
+{"btcprice":"6456.14992007"}
 mass save
-ours data saved
-melenchon data saved
-hobby win close
-melenchon : {"command":"buy","value":"bigdata"}
-broadcast : melenchon acquired Big Data for 400,000€
-All Set Buffer tax_dogde to null
-hobby win open at 17488
-melenchon : {"command":"getlob","value":1}
-melenchon uses a lobbyist !!
-broadcast : melenchon catches the Tax Dodge ! Income x 3
-hobby win close
+evi data saved
+update btc 6456.14992007
+{"btcprice":"6456.14992007"}
+update btc 6461.11908042
+{"btcprice":"6461.11908042"}
 mass save
-ours data saved
-melenchon data saved
-All Set Buffer tax_dogde to null
-hobby win open at 17355
-melenchon : {"command":"getlob","value":1}
-melenchon uses a lobbyist !!
-broadcast : melenchon catches the Tax Dodge ! Income x 3
-melenchon : {"command":"raise","value":1}
-hobby win close
-melenchon : {"command":"hire","value":1}
-melenchon : {"command":"hire","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
+evi data saved
+update btc 6461.11908042
+{"btcprice":"6461.11908042"}
+update btc 6461.11908042
+{"btcprice":"6461.11908042"}
 mass save
-ours data saved
-melenchon data saved
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"hire","value":1}
-melenchon : {"command":"hire","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"buildfarm","value":1}
-All Set Buffer tax_dogde to null
-hobby win open at 19270
-melenchon : {"command":"getlob","value":1}
-melenchon uses a lobbyist !!
-broadcast : melenchon catches the Tax Dodge ! Income x 3
-hobby win close
+evi data saved
+update btc 6459.76844734
+{"btcprice":"6459.76844734"}
+update btc 6459.76844734
+{"btcprice":"6459.76844734"}
+evi : {"command":"raise","value":0.1}
+evi : {"command":"raise","value":0.1}
+evi : {"command":"lower","value":0.1}
+evi : {"command":"lower","value":0.1}
+evi : {"command":"raise","value":0.1}
+evi : {"command":"raise","value":0.1}
+evi : {"command":"lower","value":0.1}
+evi : {"command":"lower","value":0.1}
 mass save
-ours data saved
-melenchon data saved
-All Set Buffer tax_dogde to null
-hobby win open at 15966
-melenchon : {"command":"getlob","value":1}
-melenchon uses a lobbyist !!
-broadcast : melenchon catches the Tax Dodge ! Income x 3
-hobby win close
+evi data saved
+evi : {"command":"raise","value":0.1}
+update btc 6470.06469544
+{"btcprice":"6470.06469544"}
+update btc 6470.06469544
+{"btcprice":"6470.06469544"}
 mass save
-ours data saved
-melenchon data saved
-All Set Buffer tax_dogde to null
-hobby win open at 13778
-melenchon : {"command":"getlob","value":1}
-melenchon uses a lobbyist !!
-broadcast : melenchon catches the Tax Dodge ! Income x 3
-hobby win close
-melenchon : {"command":"hirechildren","value":1}
-melenchon : {"command":"hirechildren","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"lower","value":1}
+evi data saved
+update btc 6470.06469544
+{"btcprice":"6470.06469544"}
+update btc 6462.73367861
+{"btcprice":"6462.73367861"}
 mass save
-ours data saved
-melenchon data saved
-melenchon : {"command":"hirechildren","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"hirechildren","value":1}
-melenchon : {"command":"hirechildren","value":1}
-melenchon : {"command":"hirechildren","value":1}
-melenchon : {"command":"lower","value":1}
-All Set Buffer tax_dogde to null
-hobby win open at 14903
-melenchon : {"command":"getlob","value":1}
-melenchon uses a lobbyist !!
-broadcast : melenchon catches the Tax Dodge ! Income x 3
-melenchon : {"command":"firechildren","value":1}
-melenchon : {"command":"firechildren","value":1}
-melenchon : {"command":"firechildren","value":1}
-melenchon : {"command":"firechildren","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-hobby win close
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"buy","value":"army"}
-broadcast : melenchon acquired Deal with the Army for 4,000,000€
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"raise","value":0.1}
-melenchon : {"command":"lower","value":0.1}
-melenchon : {"command":"lower","value":0.1}
-melenchon : {"command":"raise","value":0.1}
-melenchon : {"command":"raise","value":0.1}
-melenchon : {"command":"raise","value":0.1}
-melenchon : {"command":"raise","value":0.1}
-melenchon : {"command":"raise","value":0.1}
-melenchon : {"command":"raise","value":0.1}
-melenchon : {"command":"raise","value":0.1}
-melenchon : {"command":"raise","value":0.1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":0.1}
-melenchon : {"command":"lower","value":0.1}
-melenchon : {"command":"lower","value":0.1}
-melenchon : {"command":"lower","value":0.1}
-melenchon : {"command":"lower","value":0.1}
-melenchon : {"command":"lower","value":0.1}
-melenchon : {"command":"lower","value":0.1}
+evi data saved
+update btc 6462.73367861
+{"btcprice":"6462.73367861"}
+update btc 6465.89517139
+{"btcprice":"6465.89517139"}
 mass save
-ours data saved
-melenchon data saved
-melenchon : {"command":"armyprog","value":1}
-All Set Buffer tax_dogde to null
-hobby win open at 13750
-melenchon : {"command":"getlob","value":1}
-melenchon uses a lobbyist !!
-broadcast : melenchon catches the Tax Dodge ! Income x 3
-hobby win close
-All Set Buffer tax_dogde to null
-hobby win open at 18317
+evi data saved
+update btc 6465.89517139
+{"btcprice":"6465.89517139"}
+update btc 6465.89517139
+{"btcprice":"6465.89517139"}
+evi : {"command":"getlob","value":1}
+evi uses a lobbyist !!
+broadcast : evi catches the Tax Dodge ! Income x 3
 mass save
-ours data saved
-melenchon data saved
-hobby win close
-All Set Buffer tax_dogde to null
-hobby win open at 13659
-hobby win close
+evi data saved
+update btc 6465.89517139
+{"btcprice":"6465.89517139"}
+update btc 6465.89517139
+{"btcprice":"6465.89517139"}
 mass save
-ours data saved
-melenchon data saved
-All Set Buffer tax_dogde to null
-hobby win open at 18819
-hobby win close
+evi data saved
+update btc 6465.89517139
+{"btcprice":"6465.89517139"}
+update btc 6465.89517139
+{"btcprice":"6465.89517139"}
 mass save
-ours data saved
-melenchon data saved
-All Set Buffer tax_dogde to null
-hobby win open at 16692
-hobby win close
+evi data saved
+update btc 6465.89517139
+{"btcprice":"6465.89517139"}
+update btc 6458.3061471
+{"btcprice":"6458.3061471"}
 mass save
-ours data saved
-melenchon data saved
-All Set Buffer tax_dogde to null
-hobby win open at 17521
-hobby win close
+evi data saved
+update btc 6458.3061471
+{"btcprice":"6458.3061471"}
+update btc 6454.1734894
+{"btcprice":"6454.1734894"}
 mass save
-ours data saved
-melenchon data saved
-All Set Buffer tax_dogde to null
-hobby win open at 11377
-hobby win close
+evi data saved
+update btc 6454.1734894
+{"btcprice":"6454.1734894"}
+update btc 6454.1734894
+{"btcprice":"6454.1734894"}
 mass save
-ours data saved
-melenchon data saved
-All Set Buffer tax_dogde to null
-hobby win open at 10075
-hobby win close
+evi data saved
+update btc 6458.22733276
+{"btcprice":"6458.22733276"}
+update btc 6458.22733276
+{"btcprice":"6458.22733276"}
 mass save
-ours data saved
-melenchon data saved
-All Set Buffer tax_dogde to null
-hobby win open at 17700
-hobby win close
-melenchon : {"command":"buy","value":"toys"}
-broadcast : melenchon acquired War Games for 10,000€
-melenchon : {"command":"buy","value":"magic"}
-broadcast : melenchon acquired Research & Development for 5,000,000€
-melenchon : {"command":"consume","value":1}
-All Set Buffer tax_dogde to null
-hobby win open at 19014
-melenchon : {"command":"getlob","value":1}
-melenchon uses a lobbyist !!
-broadcast : melenchon catches the Tax Dodge ! Income x 3
+evi data saved
+update btc 6459.35051988
+{"btcprice":"6459.35051988"}
+update btc 6459.35051988
+{"btcprice":"6459.35051988"}
 mass save
-ours data saved
-melenchon data saved
-hobby win close
-melenchon : {"command":"buy","value":"education"}
-broadcast : melenchon acquired International Education for 10,000€
-All Set Buffer tax_dogde to null
-hobby win open at 11439
-hobby win close
+evi data saved
+update btc 6459.35051988
+{"btcprice":"6459.35051988"}
+update btc 6459.23367502
+{"btcprice":"6459.23367502"}
 mass save
-ours data saved
-melenchon data saved
-melenchon : {"command":"buy","value":"cacao"}
-broadcast : melenchon acquired Cacao for 10,000€
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"lower","value":1}
-melenchon : {"command":"raise","value":1}
-melenchon : {"command":"raise","value":0.1}
-melenchon : {"command":"raise","value":0.1}
-melenchon : {"command":"raise","value":0.1}
-All Set Buffer tax_dogde to null
-hobby win open at 16577
-hobby win close
-melenchon : {"command":"buy","value":"smartphones"}
-broadcast : melenchon acquired Smartphones for 20,000€
+evi data saved
+update btc 6459.23367502
+{"btcprice":"6459.23367502"}
+update btc 6459.23367502
+{"btcprice":"6459.23367502"}
 mass save
-ours data saved
-melenchon data saved
-melenchon : {"command":"hire","value":1}
-melenchon : {"command":"lower","value":0.1}
-melenchon : {"command":"lower","value":0.1}
-melenchon : {"command":"hire","value":1}
-melenchon : {"command":"lower","value":0.1}
-melenchon : {"command":"lower","value":0.1}
-melenchon : {"command":"raise","value":0.1}
-All Set Buffer tax_dogde to null
-hobby win open at 14481
-melenchon : {"command":"getlob","value":1}
-melenchon uses a lobbyist !!
-broadcast : melenchon catches the Tax Dodge ! Income x 3
-hobby win close
+evi data saved
+update btc 6459.23367502
+{"btcprice":"6459.23367502"}
+update btc 6459.23367502
+{"btcprice":"6459.23367502"}
 mass save
-ours data saved
-melenchon data saved
-melenchon : {"command":"hire","value":1}
-melenchon : {"command":"lower","value":0.1}
-melenchon : {"command":"lower","value":0.1}
-melenchon : {"command":"hire","value":1}
-melenchon : {"command":"lower","value":0.1}
-melenchon : {"command":"lower","value":0.1}
-melenchon : {"command":"hire","value":1}
-melenchon : {"command":"lower","value":0.1}
-melenchon : {"command":"lower","value":0.1}
-All Set Buffer tax_dogde to null
-hobby win open at 10311
-melenchon : {"command":"getlob","value":1}
-melenchon uses a lobbyist !!
-broadcast : melenchon catches the Tax Dodge ! Income x 3
-melenchon : {"command":"hire","value":1}
+evi data saved
+update btc 6462.33318652
+{"btcprice":"6462.33318652"}
+update btc 6462.33318652
+{"btcprice":"6462.33318652"}
+mass save
+evi data saved
+update btc 6461.78257195
+{"btcprice":"6461.78257195"}
+update btc 6461.78257195
+{"btcprice":"6461.78257195"}
+mass save
+evi data saved
+update btc 6461.78257195
+{"btcprice":"6461.78257195"}
+mass save
+update btc 6463.88520969
+{"btcprice":"6463.88520969"}
+evi data saved
+update btc 6463.88520969
+{"btcprice":"6463.88520969"}
+mass save
+evi data saved
+update btc 6466.96460429
+{"btcprice":"6466.96460429"}
+update btc 6466.96460429
+{"btcprice":"6466.96460429"}
+mass save
+evi data saved
+update btc 6466.96460429
+{"btcprice":"6466.96460429"}
+update btc 6457.02494183
+{"btcprice":"6457.02494183"}
+mass save
+evi data saved
+update btc 6457.02494183
+{"btcprice":"6457.02494183"}
+update btc 6453.18832344
+{"btcprice":"6453.18832344"}
+mass save
+evi data saved
+update btc 6453.18832344
+{"btcprice":"6453.18832344"}
+update btc 6453.18832344
+{"btcprice":"6453.18832344"}
+mass save
+evi data saved
+update btc 6463.08654621
+{"btcprice":"6463.08654621"}
+update btc 6463.08654621
+{"btcprice":"6463.08654621"}
+mass save
+evi data saved
+update btc 6457.00021704
+{"btcprice":"6457.00021704"}
+update btc 6457.00021704
+{"btcprice":"6457.00021704"}
+mass save
+evi data saved
+update btc 6457.00021704
+{"btcprice":"6457.00021704"}
+---------------
+oim connected
+{"enter":"oim"}
+oim : {"command":"getlob","value":1}
+oim uses a lobbyist !!
+broadcast : oim catches the Tax Dodge ! Income x 3
+update btc 6464.02912982
+{"btcprice":"6464.02912982"}
+mass save
+evi data saved
+oim data saved
+update btc 6464.02912982
+{"btcprice":"6464.02912982"}
+update btc 6464.03110283
+{"btcprice":"6464.03110283"}
+mass save
+evi data saved
+oim data saved
+update btc 6464.03110283
+{"btcprice":"6464.03110283"}
+evi : {"command":"getlob","value":1}
+evi uses a lobbyist !!
+broadcast : evi catches the Tax Dodge ! Income x 3
+update btc 6464.03110283
+{"btcprice":"6464.03110283"}
+mass save
+evi data saved
+oim data saved
+update btc 6462.48483522
+{"btcprice":"6462.48483522"}
+update btc 6462.48483522
+{"btcprice":"6462.48483522"}
+mass save
+evi data saved
+oim data saved
+update btc 6464.35146028
+{"btcprice":"6464.35146028"}
+update btc 6464.35146028
+{"btcprice":"6464.35146028"}
+mass save
+evi data saved
+oim data saved
+update btc 6464.35146028
+{"btcprice":"6464.35146028"}
+update btc 6465.45753696
+{"btcprice":"6465.45753696"}
+mass save
+evi data saved
+oim data saved
+update btc 6465.45753696
+{"btcprice":"6465.45753696"}
+update btc 6464.72793929
+{"btcprice":"6464.72793929"}
+mass save
+evi data saved
+oim data saved
+update btc 6464.72793929
+{"btcprice":"6464.72793929"}
+update btc 6464.72793929
+{"btcprice":"6464.72793929"}
+mass save
+evi data saved
+oim data saved
+update btc 6466.63678949
+{"btcprice":"6466.63678949"}
+update btc 6466.63678949
+{"btcprice":"6466.63678949"}
+mass save
+evi data saved
+oim data saved
+update btc 6467.77736835
+{"btcprice":"6467.77736835"}
+update btc 6467.77736835
+{"btcprice":"6467.77736835"}
+mass save
+evi data saved
+oim data saved
+update btc 6467.77736835
+{"btcprice":"6467.77736835"}
+update btc 6464.80236206
+{"btcprice":"6464.80236206"}
+mass save
+evi data saved
+oim data saved
+update btc 6464.80236206
+{"btcprice":"6464.80236206"}

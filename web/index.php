@@ -1,9 +1,8 @@
 <?php
-$statut = 'Last update : V0.1 - BTC mining & global warming';
+$statut = 'Last update : V0.21 - BTC real market ! ';
 
 $v = time();
 $title = 'Necro-Economics<br/> Idler Pro';
-$unit = '€';
 $isdev = filter_input(INPUT_GET, "dev", FILTER_SANITIZE_NUMBER_INT);
 $message = filter_input(INPUT_GET, "message", FILTER_SANITIZE_STRING);
 $reconnect = filter_input(INPUT_GET, "reconnect", FILTER_SANITIZE_STRING);
@@ -21,17 +20,19 @@ if ($isdev) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
         <link rel="stylesheet" type="text/css" href="bootstrap/bootstrap.min.css">
-        <script src="bootstrap/bootstrap.min.js"></script>      
-       
+        <script src="bootstrap/bootstrap.min.js"></script> 
+    <!--    <script src="lib/popper.min.js"></script>
+        <script src="lib/tooltip.min.js"></script> -->
         <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
         <link rel="icon" type="image/png" href="favicon.png" />       
         <script src="js/client.js?v=<?= $v; ?>"></script>
         <link rel="stylesheet" type="text/css" href="css/style.css?v=<?= $v; ?>">
         <link rel="stylesheet" type="text/css" href="css/extra.css?v=<?= $v; ?>">
+        <link rel="stylesheet" type="text/css" href="lib/balloon.css">
 
  <!-- <script src="https://d3js.org/d3.v5.min.js"></script> -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
-
+        
 
         <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
     </head>
@@ -79,24 +80,34 @@ if ($isdev) {
                 <div id="company">
                     <h2>Company</h2>
                     <div id="money">
-                        <p>Money : <span class="red value stat" data-p="moneydisplay"></span> <?= $unit; ?></p>
-                        <p class="ajo">Overdraft charges : <span class="stat" data-p="ajo"></span> <?= $unit; ?></p>
+                        <p>Money : <span class="red value stat" data-p="moneydisplay"></span> €</p>
+                        <p class="ajo">Overdraft charges : <span class="stat" data-p="ajo"></span> €</p>
                         <p class="reputation hidden">Reputation : <span class="value stat" data-p="reputation"></span></p>
                     </div>
                     <div id="stats" class="strategic" data-strat="accountant">
                         <h2>Accountant Data</h2>
                         <p>Daily Sales : <span class="stat" data-p="dailysales"></span> <span class="prodnamedisplay stat" data-p="product"></span>(s)</p>
-                        <p>Daily Income : <span class="stat" data-p="dailybalance"></span> <?= $unit; ?></p>
-                        <p>Worker Avg. : <span class="stat" data-p="workeravg"></span> <?= $unit; ?></p>
+                        <p>Daily Income : <span class="stat" data-p="dailybalance"></span> €</p>
+                        <p>Worker Avg. : <span class="stat" data-p="workeravg"></span> €</p>
                          <div class="regchart">
                             <canvas id="cash" ></canvas>
                          </div>
                     </div>
+                    <div class="strategic" data-strat="greenwashing">
+                        <h2>Greenwashing</h2>
+                        <p>Children Care support : <span class="stat" data-s="ngo"></span>€ / day<br/>
+                        <button class="command" data-c="ngo" data-v="-10">-10</button>
+                        <button class="command" data-c="ngo" data-v="10">+10</button>
+                        <button class="command" data-c="ngo" data-v="-100">-100</button>
+                        <button class="command" data-c="ngo" data-v="100">+100</button>
+                        </p>
+                        
+                    </div>
                 </div>
 
                 <div id="play">
-                    <h2>Sales, year <span class="stat" data-p="annee"></span>, day <span class="stat" data-p="jrestant"></span></h2>
-                    <p>Unit Price : <span class="stat statprice" data-p="price">0</span> <?= $unit; ?><br/>
+                    <h2>Sales, year <span class="annee" ></span>, day <span class="jrestant"></span></h2>
+                    <p>Unit Price : <span class="stat statprice" data-p="price">0</span> €<br/>
                         <button class="command" data-c="lower" data-v="0.1">-0,1</button>
                         <button class="command" data-c="raise" data-v="0.1">+0,1</button>
                         <button class="command" data-c="lower" data-v="1">-1</button>
@@ -107,8 +118,9 @@ if ($isdev) {
                     <div class="marketing strategic" data-strat="marketing">
                         <p>Commercials : <span class="stat" data-p="commercials"></span> 
                             <button class="comlaunch security command hcommand" data-nostratsecurity="nmc" data-c="commercialbuy" data-v="1">Launch</button></p>
-                        <p> Next : <span class="stat" data-p="nmc"></span><?= $unit; ?></p>
+                        <p> Next : <span class="stat" data-p="nmc"></span>€</p>
                     </div>
+                    
                     
                 </div> 
 
@@ -126,8 +138,8 @@ if ($isdev) {
                             <button class="command hcommand" data-c="hire" data-v="1">Hire</button>
                             <button class="command hcommand" data-c="fire" data-v="1">Fire</button>
                         </p>
-                        <p>Actual  : <span class="worker_cost stat" data-p="actual_worker_cost"></span> <?= $unit; ?> / day<br/>
-                            Next  : <span class="worker_cost stat" data-p="next_worker_cost"></span> <?= $unit; ?> / day</p>
+                        <p>Actual  : <span class="worker_cost stat" data-p="actual_worker_cost"></span> € / day<br/>
+                            Next  : <span class="worker_cost stat" data-p="next_worker_cost"></span> € / day</p>
                     </div>
                     <div class="strategic" data-strat="children">
                         <p><span class="nb stat" data-p="children"></span> low-cost worker(s)
@@ -137,13 +149,15 @@ if ($isdev) {
                     </div>
                     <div class="strategic" data-strat="btc">
                         <h2>Bitcoin mining</h2>
-                        <p>BTC : <span class="stat" data-s="btcprod"></span></p>
+                        <p>BTC : <span class="stat btcprod" data-s="btcprod"></span></p>
                         <p>Farms : <span class="stat" data-s="farm"></span> 
                             <button class="command hcommand security" data-security="farm_next_cost" data-c="buildfarm" data-v="1">+1</button> 
                             <button class="command hcommand security" data-security="farm_next_cost100" data-c="buildfarm" data-v="100">+100</button> 
                         <br/>Cost : <span class="farm_next_cost stat" data-s="farm_next_cost"></span> €
                         <span class="hidden farm_next_cost stat" data-s="farm_next_cost100"></span>
                         </p>
+                        <p>Exchange : <span class="btcprice" data-balloon="coinmarketcap.com" data-balloon-pos="up"></span>€ 
+                            <button class="command htmlsecurity" data-security="btcprod" data-securityvalue="0" data-c="sellbtc" data-v="1">Sell</button></p>
                         <div class="warming">
                             <span class="stat" data-s="warm"></span>°C
                         </div>
@@ -177,11 +191,36 @@ if ($isdev) {
                 <div id="clientsbox">
                     <h2>Stock Market</h2>
                     <!--<p><button class="command" data-c="refresh" data-v="1" >Refresh</button></p> -->
-                    <div id="clients">                    
+           
+                    
+                    <table id="clients2" class="">
+                        
+                    </table>
+                    <div id="clientsmodele" class="hidden">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="name"><b></b></td>
+                                    <td class="money"></td>
+                                    <td class="score"></td>
+                                    <td class="product"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="lined">
+                                        <button class="command mp-spy" data-c="spy" data-v="" data-balloon="Gather data about this person. Beware of fake news ..." data-balloon-pos="up">spy (1&nbsp;000€)</button>
+                                        <button class="command mp-defame noself" data-c="defame" data-balloon="Your reputation against his/her reputation" data-balloon-pos="up" data-v="">defame (100&nbsp;000€)</button>
+                                        <button class="command mp-badbuzz noself" data-c="badbuzz" data-balloon="Lower his/her reputation" data-balloon-pos="up" data-v="">bad buzz (1.00M€)</button>
+                                        <button class="command mp-strike noself" data-c="strike" data-balloon="Their worker will stop working for some time" data-balloon-pos="up" data-v="">strike (10M€)</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
+                    
                     <div id="multivizu" class="">
                         <canvas id="multi" ></canvas>
                     </div>
+                    
                     
                 </div>
                
