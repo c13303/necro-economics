@@ -143,7 +143,8 @@ $(document).ready(function () {
         };
 
         ws.onmessage = function (event) {
-
+            
+            var norefresh = false;
 
             var d = JSON.parse(event.data);
             console.log(d);
@@ -156,10 +157,10 @@ $(document).ready(function () {
 
                 if (p.tick) {
                     var annee = Math.floor(p.tick / 365);
-                    var jrestant = p.tick - (annee * 365);
+                    p.jrestant = p.tick - (annee * 365);
 
                     $('.annee').html(annee);
-                    $('.jrestant').html(jrestant);
+                    $('.jrestant').html(p.jrestant);
                 }
                 p.dailybalance = fnum(p.daily.income - p.dailycost);
                 if (p.hw)
@@ -178,6 +179,7 @@ $(document).ready(function () {
 
             if (p.btcprice) {
                 $('.btcprice').html(Math.round(p.btcprice * 100) / 100);
+                norefresh = true;
             }
 
             if (p.endoftimes) {
@@ -310,8 +312,6 @@ $(document).ready(function () {
                 var clients = d.refresh;
                 var html = '<table>';
 
-
-
                 for (i = 0; i < clients.length; i++) {
                     var data = clients[i];
                     if (people.indexOf(data.name) < 0) {  /* new people */
@@ -343,25 +343,22 @@ $(document).ready(function () {
 
                     if (data.name !== user && actions) {
 
-
-
-
-                        if (p.money >= actions.spy.price) {
+                        if (p.strategies.spy && p.money >= actions.spy.price) {
                             html.find('.mp-spy').removeAttr('disabled');
                         } else {
                             html.find('.mp-spy').attr('disabled', 'disabled');
                         }
-                        if (p.money >= actions.defamation.price && !p.strategies.defamecooldown) {
+                        if (p.strategies.defamation && p.money >= actions.defamation.price && !p.strategies.defamecooldown) {
                             html.find('.mp-defame').removeAttr('disabled');
                         } else {
                             html.find('.mp-defame').attr('disabled', 'disabled');
                         }
-                        if (p.money >= actions.badbuzz.price && !p.strategies.badbuzzcooldown) {
+                        if (p.strategies.badbuzz && p.money >= actions.badbuzz.price && !p.strategies.badbuzzcooldown) {
                             html.find('.mp-badbuzz').removeAttr('disabled');
                         } else {
                             html.find('.mp-badbuzz').attr('disabled', 'disabled');
                         }
-                        if (p.money >= actions.strike.price && !p.strategies.strikecooldown) {
+                        if (p.strategies.strike && p.money >= actions.strike.price && !p.strategies.strikecooldown) {
                             html.find('.mp-strike').removeAttr('disabled');
                         } else {
                             html.find('.mp-strike').attr('disabled', 'disabled');
@@ -548,7 +545,7 @@ $(document).ready(function () {
 
 
 
-
+            if(!norefresh)
             numbers_refresh();
 
             /* update securities */

@@ -47,7 +47,7 @@ module.exports = {
             'minv': 200,
             required_strat: null,
             'desc': 'Open a contract with low-morale countries that allows you to get low-cost 6 years-old workers',
-            'buf' : '1€ workers, --reputation'
+            'buf' : 'you pay the migration fees, then they just cost 1€ per day, --reputation'
         });
               
               
@@ -60,7 +60,7 @@ module.exports = {
             price_entity: 'money',
             required_strat: 'marketing',
             'min': 'money',
-            'minv': 0,
+            'minv': 5000,
             'desc': 'Overtime is just an elementary thing when you work in a startup. Makes workers salaries a little bit cheaper',
             'buf' : 'cost -1€ per worker'
         });
@@ -94,7 +94,7 @@ module.exports = {
             title: 'Cocaïne Supply',
             price: 100000,
             price_entity: 'money',
-            required_strat: 'marketing',
+            required_strat: 'wc',
             'min': 'score',
             'minv': 10000,
             'desc': 'Makes workers more efficient',
@@ -250,7 +250,7 @@ module.exports = {
             price_entity: 'money',
             required_strat: 'marketing',
             'min': 'money',
-            'minv': 0,
+            'minv': 5000,
             'desc': 'Lobbying can help the world taking the right direction',
             'buf' : 'catch the lobbyist before other players : income x 3'
         });

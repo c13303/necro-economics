@@ -35,6 +35,10 @@ module.exports = {
     blackmagiccoef: 1.5,
     btcfarmprice: 100000000,
     btcfarmcoef: 1.2,
+    lc_worker_basis : 50,
+    lc_worker_coef : 1.1,
+    
+    
     fnum: function (x) {
         if (!x) {
             return 0;
@@ -79,7 +83,7 @@ module.exports = {
 
         /*marketing */
         if (ws.data.strategies.marketing > 1 && !ws.data.strategies.badbuzzvictim) {
-            percent = percent * ws.data.strategies.marketing;
+            percent = percent * (ws.data.strategies.marketing - 1);
         }
 
         /* reputation */
@@ -179,7 +183,7 @@ module.exports = {
         var reputation = 0;
         /* children */
         if (ws.data.strategies.children) {
-            reputation += -2 * ws.data.strategies.children * Math.pow(this.children_reput_coef, ws.data.strategies.children);
+            reputation += -1 * ws.data.strategies.children;
         }
         if (ws.data.strategies.army_p) {
             reputation -= ws.data.strategies.army_p * 10;
@@ -196,11 +200,14 @@ module.exports = {
         if (ws.data.strategies.badbuzzvictim) {
             reputation -= ws.data.strategies.badbuzzvictim;
         }
-        if (ws.data.strategies.ngo) {
+        if (ws.data.strategies.ngo && reputation < 0) {
             var moneybasis = Math.floor(ws.data.money / 1000000); //M
-            if (!moneybasis)
+            if (moneybasis<1)
                 moneybasis = 1;
             reputation += ws.data.strategies.ngo / moneybasis;
+            if(reputation > 0){
+                reputation = reputation * 0.005;
+            }
         }
         
         if(ws.data.strategies.defamecooldown){
@@ -239,16 +246,17 @@ module.exports = {
     getRandomInt: function (max) {
         return Math.floor(Math.random() * Math.floor(max));
     },
+    /* SALES / PRODUCTIONS / INCOME */
     getIncome: function (ws) {
 
         var sale = {};
-        sale.demand = this.getDemand(ws);     /* 10 */
+        sale.demand = this.getDemand(ws);    
 
-        var de = this.getRandomInt(2);
+       // var de = this.getRandomInt(2);
         var factor = 9;
 
-        sale.vendus = sale.demand / factor;
-
+        sale.vendus = sale.demand / ws.data.price;
+        
         if (ws.data.strategies.openspace) {
             sale.vendus += ws.data.workers / 2;
             if (ws.data.strategies.children)
@@ -304,6 +312,11 @@ module.exports = {
          Math.pow(this.btcfarmprice, this.btcfarmcoef));
          */
         return(Math.floor(this.btcfarmprice));
+    },
+    getNextLcWorkerCost : function(ws){
+        var cost =(ws.data.strategies.children * this.lc_worker_basis * this.lc_worker_coef);
+        return Math.floor(cost);
+        
     }
 
 

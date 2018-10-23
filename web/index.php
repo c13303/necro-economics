@@ -1,5 +1,5 @@
 <?php
-$statut = 'Last update : V0.21 - BTC real market ! ';
+$statut = 'Last update : V0.3 - BTC real market ! ';
 
 $v = time();
 $title = 'Necro-Economics<br/> Idler Pro';
@@ -100,6 +100,8 @@ if ($isdev) {
                         <button class="command" data-c="ngo" data-v="10">+10</button>
                         <button class="command" data-c="ngo" data-v="-100">-100</button>
                         <button class="command" data-c="ngo" data-v="100">+100</button>
+                        <button class="command" data-c="ngo" data-v="-1000">-1000</button>
+                        <button class="command" data-c="ngo" data-v="1000">+1000</button>
                         </p>
                         
                     </div>
@@ -142,9 +144,10 @@ if ($isdev) {
                             Next  : <span class="worker_cost stat" data-p="next_worker_cost"></span> € / day</p>
                     </div>
                     <div class="strategic" data-strat="children">
-                        <p><span class="nb stat" data-p="children"></span> low-cost worker(s)
-                            <button class="command hcommand" data-c="hirechildren" data-v="1">Hire</button>
-                            <button class="command hcommand" data-c="firechildren" data-v="1">Fire</button>
+                        <p><span class="nb stat" data-p="children" data-balloon="1€ per day" data-balloon-pos="up"></span> low-cost worker(s)
+                            <button class="command hcommand security" data-security="children_next_cost" data-c="hirechildren" data-v="1">Hire</button>
+                            <button class="command hcommand" data-c="firechildren" data-v="1">Fire</button><br/>
+                            Next migration fees <span class="stat" data-s="children_next_cost"></span> € 
                         </p>
                     </div>
                     <div class="strategic" data-strat="btc">
@@ -266,7 +269,7 @@ if ($isdev) {
                             <p><span class="field" data-f="money"></span> <span class="field" data-f="income"></span></p>
                             <p><span class="field" data-f="product"></span> <span class="field" data-f="price"></span></p>
                             <p><span class="field" data-f="unsold"></span> <span class="field" data-f="score"></span></p>
-
+                            <p><span class="field" data-f="killed"></span> <span class="field" data-f="magicpower"></span></p>
                             <p class="field" data-f="strats"></p>
                         </div>
                     </div>

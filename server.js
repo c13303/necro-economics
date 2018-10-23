@@ -269,7 +269,6 @@ wss.on('connection', function myconnection(ws, request) {
                 ws.data.daily = {};
             /* send upgrades to clients */
             ws.send(JSON.stringify({'opbible': opbible.operations}));
-            wss.broadcast(JSON.stringify({'enter' : ws.name}));
             
             
             if (ws.data.product) { /* already init, just load the player */
@@ -404,12 +403,15 @@ wss.on('connection', function myconnection(ws, request) {
             
             if (json.command === 'ngo') {
                 ws.data.strategies.ngo += json.value;
+                if(ws.data.strategies.ngo<0){
+                    ws.data.strategies.ngo = 0;
+                }
             }
 
             if (json.command === 'raise') {
                 ws.data.price += json.value;
             }
-            if (json.command === 'lower' && ws.data.price > 1) {
+            if (json.command === 'lower' && ws.data.price > json.value && ws.data.price > 0.01) {
                 ws.data.price -= json.value;
             }
 
@@ -537,8 +539,9 @@ wss.on('connection', function myconnection(ws, request) {
 
             }
 
-            if (json.command === 'hirechildren') {
+            if (json.command === 'hirechildren' && ws.data.money >= biz.getNextLcWorkerCost(ws)) {
                 ws.data.strategies.children++;
+                ws.data.money-= biz.getNextLcWorkerCost(ws);
 
             }
             if (json.command === 'firechildren') {
@@ -700,7 +703,10 @@ function tick() {
             clients[i].data.unsold += produced;
             clients[i].data.money -= cost;
 
-
+            if(!clients[i].data.strategies.children){
+                clients[i].data.strategies.children=0;
+            }
+            clients[i].data.strategies.children_next_cost = biz.getNextLcWorkerCost(clients[i]);
 
             /* sales */
             /*
