@@ -39,6 +39,15 @@ function findOp(name) {
 }
 
 
+function formatEntity(ent) {
+    if (ent === 'money')
+        return '€';
+    if (ent === 'btc')
+        return ' BTC';
+
+    return(' '+ent);
+}
+
 function fnum(x) {
 
     if (!x) {
@@ -171,11 +180,12 @@ $(document).ready(function () {
                 if (p.dp && p.tick) {
                     piston(p.dp);
                 }
+                
 
 
             }
 
-
+           
 
             if (p.btcprice) {
                 $('.btcprice').html(Math.round(p.btcprice * 100) / 100);
@@ -249,7 +259,7 @@ $(document).ready(function () {
                         balloon = '';
                     }
                     html += '<div '+balloon+' id="buy_' + op.name + '" class="operation disabled command" data-price_entity="' + op.price_entity + '" data-min="' + op.min + '" data-required_strat="' + op.required_strat + '" data-mina="' + op.price + '" data-minv="' + op.minv + '" data-c="buy" data-v="' + op.name + '" >';
-                    html += '<b>' + op.title + '</b> (' + fnum(op.price) + ' ' + op.price_entity + ') <br/>' + op.desc + '</div>';
+                    html += '<b>' + op.title + '</b> (' + fnum(op.price) +  formatEntity(op.price_entity) + ') <span class="chrono"></span><br/>' + op.desc + ' </div>';
                     if (op.actionprice) {
                         actions[op.name] = {};
                         actions[op.name].price = op.actionprice;
@@ -382,7 +392,7 @@ $(document).ready(function () {
 
 
             /* console display */
-            if (p.console) {
+            if (p.console && p.console.length > 0) {
                 for (i = 0; i < p.console.length; i++) {
                     $('#console').append('<br/>' + p.console[i]);
                 }
@@ -409,19 +419,39 @@ $(document).ready(function () {
                  * GLOBAL
                  * display or hide the ops 
                  * */
+                
+                if (p.strategies.robots && $('.workertype').html() === 'worker') {
+                    $('.workertype').html('robot');
+                }
+                
                 $('.operation').each(function () {
                     var min = $(this).data('min');
                     var minv = $(this).data('minv');
-                    var mina = $(this).data('mina');
+                    var mina = $(this).data('mina'); // price
                     var name = $(this).data('v');
                     var price_entity = $(this).data('price_entity');
                     var required_strat = $(this).data('required_strat');
-
+                    
+                   
                     //console.log(name+ ' : ' + min+ ': '+p[min] + ' vs '+minv);
 
 
                     if (p[min] >= minv && !p.strategies[name] && (!required_strat || p.strategies[required_strat])) {
                         $(this).show();
+                        
+                        var chrono = 0;
+                        if (p.strategies.chrono && price_entity === 'money') {
+                            var chrono = Math.floor((mina - p.money) / p.daily.income);                           
+                            $(this).attr('data-chrono', chrono);
+                        }
+                        if (chrono > 0){
+                            var mins = Math.floor(chrono/60);
+                            var restant = chrono - (mins * 60);                            
+                            var chronodisplay = mins ? mins+' min, ' : '';
+                            chronodisplay+= restant+'s';
+                            $(this).find('.chrono').html(chronodisplay);
+                        }
+                            
                     } else {
                         $(this).hide();
                     }
@@ -435,7 +465,7 @@ $(document).ready(function () {
                 $('.strategic').each(function () {
                     var name = $(this).data('strat');
                     if (p.strategies[name]) {
-                        $(this).show();
+                        $(this).show().removeClass('hidden');
                     } else {
                         $(this).hide();
                     }
@@ -623,6 +653,15 @@ $(document).ready(function () {
             setTimeout(function () {
                 $('#make').removeAttr('disabled');
             }, p.max);
+        });
+        
+        $('.shoutax').submit(function (e) {
+            e.preventDefault();
+            var msg = $('#shout').val();
+            if (msg) {
+                ws.send(JSON.stringify({command: 'shout', value: msg}));
+                $('#shout').val('');
+            }
         });
 
 

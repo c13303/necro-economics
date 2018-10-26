@@ -93,6 +93,9 @@ stdin.addListener("data", function (d) {
         wss.masssave();
     }
 
+    if (commande === 'lobby') {
+        hobby_clock = biz.hobby_freq-1;
+    }
 
 });
 
@@ -260,6 +263,8 @@ wss.on('connection', function myconnection(ws, request) {
                 ws.data.totalticks = 0;
             if (!ws.data.totalticks)
                 ws.data.killed = 0;
+            if(!ws.data.btc)
+                ws.data.btc = 0;
 
             if (!ws.data.strategies)
                 ws.data.strategies = {};
@@ -321,7 +326,8 @@ wss.on('connection', function myconnection(ws, request) {
                     'hw': ws.data.strategies.lobby ? hobby_window : null,
                     'killed': ws.data.killed,
                     'dp': biz.getDailyProduction(ws),
-                    'magicpower': ws.data.magicpower,
+                    'magicpower': ws.data.magicpower ? ws.data.magicpower : 0,
+                    'btc' : ws.data.btc ? ws.data.btc : 0,
                 }));
                 ws.data.console = [];
             }
@@ -392,6 +398,11 @@ wss.on('connection', function myconnection(ws, request) {
                     ws.send(JSON.stringify({'tooquick': 1}));
                 }
             }
+            
+            if(json.command === 'shout' && ws.data.strategies.shout){
+                var say = json.value.replace( /<.*?>/g, '' );
+                wss.consoleAll(ws.name+' : '+say);
+            }
 
 
             if (json.command === 'submitproduct') {
@@ -428,12 +439,11 @@ wss.on('connection', function myconnection(ws, request) {
 
             }
             
-            if (json.command === 'sellbtc' && ws.data.strategies.btcprod > 0) {
-                var amount = ws.data.strategies.btcprod * BTCprice;
-                wss.consoleAll(ws.name + ' sold ' + biz.fnum(ws.data.strategies.btcprod) + ' BTC for ' + biz.fnum(amount) + '€');
+            if (json.command === 'sellbtc' && ws.data.btc > 0) {
+                var amount = ws.data.btc * BTCprice;
+                wss.consoleAll(ws.name + ' sold ' + biz.fnum(ws.data.btc) + ' BTC for ' + biz.fnum(amount) + 'BTC');
                 ws.data.money += amount;
-                ws.data.strategies.btcprod = 0;
-
+                ws.data.btc = 0;
             }
             
 
@@ -457,32 +467,46 @@ wss.on('connection', function myconnection(ws, request) {
                 var target = getOneClient(json.value);
                 var op = opbible.findOp('defamation');
                 var cost = op.actionprice;
+
+
+
                 if (target && ws.data.money >= cost) {
                     ws.data.money -= cost;
-                    var reputDiff = biz.getReputation(ws) - biz.getReputation(target)
-                    
-                    var steal = target.data.money * (reputDiff / biz.defame_ratio);
-                    console.log("Defame Diff " + reputDiff+' equals steal : '+steal);
-                    
-                    
-                    if (steal > 0) {
-                        wss.consoleAll(ws.name + ' defames ' + target.name + '('+reputDiff+' rep. pts.) for ' + steal.toLocaleString() + '€');
-                        var notice = 'You have been defamed by ' + ws.name + '('+reputDiff+' rep. pts.) and lost ' + steal.toLocaleString() + '€';
-                        target.data.console.push(notice);
-                        target.send(JSON.stringify({'modal': notice}));
-                        ws.send(JSON.stringify({'modal': 'You defamed ' + target.name + ' ('+reputDiff+' rep. pts.) and won ' + steal.toLocaleString() + '€'}));
+
+                    if (target.data.strategies.lawyers && target.data.strategies.avocats > 0) {
+                        target.data.strategies.avocats--;
+                        ws.data.strategies.defamecooldown = biz.defamecooldown;
+                        ws.send(JSON.stringify({'modal': 'You tried to defame ' + target.name + ' but it had a good lawyer and youve been sued.'}));
+                        wss.consoleAll(ws.name + ' failed to defame ' + target.name + ' because it had a good lawyer ');
+                        target.send(JSON.stringify({'modal': ws.name + ' failed to defame you thanks to your lawyer. The lawyer is now retired.'}));
+                    } else {
+
+
+                        var reputDiff = biz.getReputation(ws) - biz.getReputation(target)
+
+                        var steal = target.data.money * (reputDiff / biz.defame_ratio);
+                        console.log("Defame Diff " + reputDiff + ' equals steal : ' + steal);
+
+
+                        if (steal > 0) {
+                            wss.consoleAll(ws.name + ' defames ' + target.name + '(' + reputDiff + ' rep. pts.) for ' + steal.toLocaleString() + '€');
+                            var notice = 'You have been defamed by ' + ws.name + '(' + reputDiff + ' rep. pts.) and lost ' + steal.toLocaleString() + '€';
+                            target.data.console.push(notice);
+                            target.send(JSON.stringify({'modal': notice}));
+                            ws.send(JSON.stringify({'modal': 'You defamed ' + target.name + ' (' + reputDiff + ' rep. pts.) and won ' + steal.toLocaleString() + '€'}));
+                        }
+                        if (steal < 0) {
+                            wss.consoleAll(ws.name + ' failed to defame ' + target.name + ' (' + reputDiff + ' rep. pts.) and must pay ' + steal.toLocaleString() + '€');
+                            ws.send(JSON.stringify({'modal': 'You failed to defame ' + target.name + ' (' + reputDiff + ' rep. pts.) and must pay ' + steal.toLocaleString() + '€'}));
+                        }
+                        if (steal === 0) {
+                            wss.consoleAll(ws.name + ' failed to defame ' + target.name + ' (' + reputDiff + ' rep. pts.) ');
+                            ws.send(JSON.stringify({'modal': 'You failed to defame ' + target.name + ' (' + reputDiff + ' rep. pts.) '}));
+                        }
+                        ws.data.money += steal;
+                        
+                        target.data.money -= steal;
                     }
-                    if (steal < 0) {
-                        wss.consoleAll(ws.name + ' failed to defame ' + target.name + ' ('+reputDiff+' rep. pts.) and must pay ' + steal.toLocaleString() + '€');
-                        ws.send(JSON.stringify({'modal': 'You failed to defame ' + target.name + ' ('+reputDiff+' rep. pts.) and must pay ' + steal.toLocaleString() + '€'}));
-                    }
-                    if (steal === 0) {
-                        wss.consoleAll(ws.name + ' failed to defame ' + target.name + ' ('+reputDiff+' rep. pts.) ');
-                        ws.send(JSON.stringify({'modal': 'You failed to defame ' + target.name + ' ('+reputDiff+' rep. pts.) '}));
-                    }
-                    ws.data.money += steal;
-                    ws.data.strategies.defamecooldown = biz.defamecooldown;
-                    target.data.money -= steal;
 
                 } else
                     console.log('defame target not found');
@@ -575,6 +599,14 @@ wss.on('connection', function myconnection(ws, request) {
                 ws.data.strategies.tax_dogde = 2;
 
             }
+            
+            
+            if(json.command==="avocatbuy" && ws.data.money >= biz.getAvocatNextCost(ws)){
+                
+                ws.data.money-=biz.getAvocatNextCost(ws);
+                ws.data.strategies.avocats++;
+                wss.consoleAll(ws.name + ' took a lawyer');
+            }
 
 
             /* buy INIT operation */
@@ -585,7 +617,7 @@ wss.on('connection', function myconnection(ws, request) {
                     ws.data[op.price_entity] -= cost;
                     ws.data.strategies[op.name] = 1;
                     /*ws.data.console.push(op.title + ' acquired : ' + cost + '€');*/
-                    wss.consoleAll(ws.name + ' acquired ' + op.title + ' for ' + cost.toLocaleString() + '€');
+                    wss.consoleAll(ws.name + ' acquired ' + op.title + ' for ' + cost.toLocaleString() + ' ' + biz.formatEntity(op.price_entity));
                 }
 
             }
@@ -634,9 +666,8 @@ var btctick = 0;
 var btctickmax = 60;
 
 
-function btc_callback(){
-    console.log('update btc ' + BTCprice);
-    wss.broadcast(JSON.stringify({'btcprice':BTCprice}));
+function btc_callback(){    
+    wss.broadcast(JSON.stringify({'btcprice':BTCprice}));    
 }
 
 function tick() {
@@ -764,8 +795,8 @@ function tick() {
             /* btc */
             if(clients[i].data.strategies.btc){
                 if(!clients[i].data.strategies.farm) clients[i].data.strategies.farm = 0;
-                var prod = biz.getBtcProd(clients[i]);
-                clients[i].data.strategies.btcprod += prod.prod;
+                var prod = biz.getBtcProd(clients[i]);               
+                clients[i].data.btc += prod.prod;
                 clients[i].data.strategies.warm = prod.warm;
                 clients[i].data.strategies.farm_next_cost = biz.getBtcFarmNextCost(clients[i]);
                 clients[i].data.strategies.farm_next_cost100 = biz.getBtcFarmNextCost(clients[i]) * 100;
@@ -775,6 +806,13 @@ function tick() {
             if(clients[i].data.strategies.greenwashing){
                 if(!clients[i].data.strategies.ngo) clients[i].data.strategies.ngo = 0;
                
+            }
+            
+            /* greenwashing */
+            if(clients[i].data.strategies.lawyers){
+                if(!clients[i].data.strategies.avocats) clients[i].data.strategies.avocats = 0; 
+                
+                clients[i].data.strategies.avocat_next_cost = biz.getAvocatNextCost(clients[i]);
             }
             
             

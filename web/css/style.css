@@ -205,3 +205,9 @@ body {
     body #piston .inner {
       background-color: black;
       width: 20px; }
+  body .rowshout {
+    position: relative;
+    height: 50px;
+    overflow: hidden; }
+    body .rowshout .shout {
+      float: right; }

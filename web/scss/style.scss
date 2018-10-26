@@ -298,4 +298,11 @@ body{
         }
         
     }
+    .rowshout{
+        position:relative;
+            height: 50px;
+    overflow: hidden;
+        .shout{ float:right;}
+    }
+    
 }

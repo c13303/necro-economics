@@ -35,37 +35,52 @@ module.exports = {
             'minv': 100,
             required_strat: null,
             'desc': 'A fat guy with a suit and a phone that will convince people to buy your product.',
-            'buf' : '++public demand'
+            'buf': '++public demand'
         });
 
         ops.push({
             name: 'children',
             title: 'Low Cost Workers',
-            price: 500,
+            price: 1000,
             price_entity: 'money',
             'min': 'money',
             'minv': 200,
             required_strat: null,
             'desc': 'Open a contract with low-morale countries that allows you to get low-cost 6 years-old workers',
-            'buf' : 'you pay the migration fees, then they just cost 1€ per day, --reputation'
+            'buf': 'you pay the migration fees, then they just cost 1€ per day, --reputation'
         });
-              
-              
-              
-
+        
+          ops.push({
+            name: 'bio',
+            title: 'Bio Label',
+            price: 5000,
+            price_entity: 'money',
+            required_strat: 'children',
+            'min': 'money',
+            'minv': 200,
+            'desc': 'Create a nice attractive packaging that will raise your reputation',
+            'buf': 'reputation++; public demand++'
+        });
+        
+             
+        
+        
+        
+        
+        
         ops.push({
             name: 'startup',
             title: 'Startup Human Resources',
-            price: 30000,
+            price: 25000,
             price_entity: 'money',
-            required_strat: 'marketing',
+            required_strat: 'bio',
             'min': 'money',
-            'minv': 5000,
-            'desc': 'Overtime is just an elementary thing when you work in a startup. Makes workers salaries a little bit cheaper',
-            'buf' : 'cost -1€ per worker'
+            'minv': 0,
+            'desc': 'Overtime is just an elementary thing when you work in a startup.',
+            'buf': 'worker cost--; production++;'
         });
 
-         ops.push({
+        ops.push({
             name: 'wc',
             title: 'More Toilets',
             price: 50000,
@@ -74,201 +89,410 @@ module.exports = {
             'min': 'money',
             'minv': 0,
             'desc': 'More toilets means more shit done. Doubles the workers production',
-            'buf' : 'regular workers production x 2'
+            'buf': 'regular workers production x 2'
         });
         
+        /* CTA */
         ops.push({
-            name: 'remotework',
-            title: 'Remote Work',
+            name: 'lobby',
+            title: 'Lobbying',
             price: 50000,
             price_entity: 'money',
             required_strat: 'startup',
             'min': 'money',
             'minv': 0,
-            'desc': 'Send computers to your foreign young workers. Doubles the low-cost workers production',
-            'buf' : 'low-cost workers production x 2'
+            'desc': 'Lobbying can help the world taking the right direction',
+            'buf': 'catch the lobbyist before other players : income x 3'
         });
+
+
+        ops.push({
+            name: 'remotework',
+            title: 'Remote Work',
+            price: 100000,
+            price_entity: 'money',
+            required_strat: 'wc',
+            'min': 'money',
+            'minv': 0,
+            'desc': 'Send computers to your foreign young workers. Doubles the low-cost workers production',
+            'buf': 'low-cost workers production x 2'
+        });
+        
+        
+        
+        
+        ops.push({
+            name: 'freeclips',
+            title: 'Humble Blundle',
+            price: 10000,
+            price_entity: 'unsold',
+            required_strat: 'wc',
+            'min': 'money',
+            'minv': 0,
+            'desc': 'Give away free production and make people crave for some more',
+            'buf': 'public demand * 2'
+        });
+        
+        
+        
         
         ops.push({
             name: 'crack',
             title: 'Cocaïne Supply',
-            price: 100000,
+            price: 250000,
             price_entity: 'money',
-            required_strat: 'wc',
+            required_strat: 'remotework',
             'min': 'score',
-            'minv': 10000,
+            'minv': 0,
             'desc': 'Makes workers more efficient',
-            'buf' : 'regular workers production x 2'
+            'buf': 'regular workers production x 2'
         });
+        
+        
+        
+        
         ops.push({
             name: 'suicidenets',
             title: 'Anti-Suicide Nets',
-            price: 400000,
+            price: 500000,
             price_entity: 'money',
             required_strat: 'crack',
             'min': 'money',
-            'minv': 100000,
+            'minv': 0,
             'desc': 'Helps to stay happy at work, while salaries are lowered',
-            'buf' : 'workers cost / 2'
+            'buf': 'workers cost / 2'
         });
         
-        
+
+
+
         /* MARKETING */
-        
+
         ops.push({
             name: 'bigdata',
             title: 'Big Data',
-            price: 400000,
+            price: 500000,
             price_entity: 'money',
-            required_strat: 'marketing',
+            required_strat: 'remotework',
             'min': 'score',
-            'minv': 100000,
+            'minv': 0,
             'desc': 'Private data on your employees can help them to accept lower salaries. Divides the marketing cost',
-            'buf' : 'marketing next cost / 2'
+            'buf': 'marketing next cost / 2'
         });
 
+
+        /* MARKETING */
+
+        ops.push({
+            name: 'penguins',
+            title: 'Save the penguins',
+            price: 25000,
+            price_entity: 'unsold',
+            required_strat: 'bigdata',
+            'min': 'score',
+            'minv': 0,
+            'desc': 'Drop your products on Antarctica to save the penguins, so the world will know how good you are',
+            'buf': 'pubic demand * 2'
+        });
 
         /* REPUTATION */
 
-          ops.push({
-            name: 'bio',
-            title: 'Bio Label',
-            price: 5000,
-            price_entity: 'money',
-            required_strat: 'marketing',
-            'min': 'money',
-            'minv': 1000,
-            'desc': 'Create a nice attractive packaging that will raise your reputation',
-            'buf' : 'reputation++'
-        });
+      
 
         ops.push({
             name: 'spaceweedtv',
             title: 'Space Weed TV Reality',
-            price: 50000,
+            price: 1000000,
             price_entity: 'money',
-            required_strat: 'children',
+            required_strat: 'bigdata',
             'min': 'money',
-            'minv': 10000,
+            'minv': 0,
             'desc': 'Send a nice car floating into space, with rastas smoking weed inside. Increase reputation.',
-            'buf' : 'reputation++'
+            'buf': 'reputation++'
         });
-        
-        
+
+
         ops.push({
             name: 'greenwashing',
             title: 'Greenwashing',
-            price: 75000,
+            price: 1000000,
             price_entity: 'money',
-            required_strat: 'children',
+            required_strat: 'bigdata',
             'min': 'money',
-            'minv': 30000,
+            'minv': 0,
             'desc': 'Wash your reputation by giving money to children care associations.',
             'buf': 'reputation++'
         });
-        
-        
-        
-        
-        
-       /* 200K */
-       
-       ops.push({
+
+
+
+
+
+        /* 200K */
+
+        ops.push({
             name: 'openspace',
             title: 'Open Space Village 2.0',
-            price: 500000,
+            price: 5000000,
             price_entity: 'money',
-            required_strat: 'marketing',
+            required_strat: 'greenwashing',
             'min': 'money',
-            'minv': 100000,
+            'minv': 0,
             'desc': 'Now your workers will live in the company, and they will buy and consume your own products',
-            'buf' : 'sales++'
+            'buf': 'sales++'
         });
+
+
+
        
-       
-       
-       /* 500 K*/
         ops.push({
             name: 'government',
             title: 'Government ',
-            price: 1000000,
+            price: 10000000,
             price_entity: 'money',
-            required_strat: 'spaceweedtv',
+            required_strat: 'openspace',
             'min': 'money',
-            'minv': 500000,
-            'desc': 'Get a better reputation while working at the Government',
-            'buf' : 'reputation++',
+            'minv': 0,
+            'desc': 'Why not doing the laws by yourself ?',
+            'buf': 'reputation++',
         });
-        
-        /*1M*/
-         ops.push({
-            name: 'unitedcolors',
+
+      
+        ops.push({
+            name: 'liberty',
             title: 'United Colors of Liberty',
             price: 10000000,
             price_entity: 'money',
-            required_strat: 'children',
+            required_strat: 'government',
             'min': 'money',
-            'minv': 2000000,
-            'desc': 'A heart-breaking commercial campaign that helps people to enjoy children inclusion in the real world',
-            'buf' : 'reputation++'
-        });
-
-        /*2M*/
-        ops.push({
-            name: 'torture',
-            title: 'Pyramidical Torture Management',
-            price: 2000000,
-            price_entity: 'money',
-            required_strat: 'suicidenets',
-            'min': 'money',
-            'minv': 1000000,
-            'desc': 'Everyone can enjoy power abuse on someone else. Doubles the production of your full workforce !',
-            'buf' : 'production++',
+            'minv': 0,
+            'desc': 'A heart-breaking commercial campaign that convince the world that childrens are the future of workforce',
+            'buf': 'low-cost workers prod++'
         });
         
-         /*5M*/
         ops.push({
+            name: 'easyjet',
+            title: 'Easy Jet Set',
+            price: 10000000,
+            price_entity: 'money',
+            required_strat: 'government',
+            'min': 'money',
+            'minv': 0,
+            'desc': 'With nice contracts with airplane companies, you can reduce fees attached to Low-Cost Workers',
+            'buf': 'low-cost workers hire price--'
+        });
+        
+        
+
+        
+        
+        
+        ops.push({
+            name: 'heroin',
+            title: 'Heroin',
+            price: 10000000,
+            price_entity: 'money',
+            required_strat: 'easyjet',
+            'min': 'money',
+            'minv': 0,
+            'desc': 'Thanks to the planes, you can import cheap medecine from Afghanistan that can help your marketing service to stay relax despite humiliation',
+            'buf': 'next commercial cost --'
+        });
+        
+         ops.push({
             name: 'btc',
             title: 'Bitcoin mining',
-            price: 5000000,
+            price: 10000000,
             price_entity: 'money',
-            required_strat: 'army',
+            required_strat: 'liberty',
             'min': 'money',
-            'minv': 2000000,
+            'minv': 0,
             'desc': 'Get virtually rich and truly warm the planet',
-            'buf' : 'BTC++, warmth++'
+            'buf': 'BTC++, warmth++'
         });
-
-
-
-
-        /* CTA */
+        
+        
         ops.push({
-            name: 'lobby',
-            title: 'Lobbying',
-            price: 10000,
+            name: 'brains',
+            title: 'Automated Brains',
+            price: 20000000,
             price_entity: 'money',
-            required_strat: 'marketing',
+            required_strat: 'heroin',
             'min': 'money',
-            'minv': 5000,
-            'desc': 'Lobbying can help the world taking the right direction',
-            'buf' : 'catch the lobbyist before other players : income x 3'
+            'minv': 0,
+            'desc': 'Authentic workers assistants designed by Jeff Bezos, makes them work 10x faster !!',
+            'buf': 'regular workers production++',
         });
 
 
-        /* war operations */
+        ops.push({
+            name: 'subliminal',
+            title: 'Subliminal Advertising',
+            price: 20000000,
+            price_entity: 'money',
+            required_strat: 'brains',
+            'min': 'money',
+            'minv': 0,
+            'desc': 'Technology that controls consumer will. Marketing is therefore much more efficient !',
+            'buf': 'sales ++',
+        });
+        
+        
+
+        ops.push({
+            name: 'torture',
+            title: 'Pyramide Torture Management',
+            price: 25000000,
+            price_entity: 'money',
+            required_strat: 'liberty',
+            'min': 'money',
+            'minv': 0,
+            'desc': 'Power is such a motivator. This revolutionnary method makes everyone the boss of someone else. Makes the full workforce (regular and low-cost) much, much, much more agressive.',
+            'buf': 'production++',
+        });
+
+        
+       
+
+        ops.push({
+            name: 'corruption',
+            title: 'Corruption',
+            price: 50000000,
+            price_entity: 'money',
+            required_strat: 'btc',
+            'min': 'money',
+            'minv': 0,
+            'desc': 'Well, this is not really corruption, you know.',
+            'buf': 'lobbyism power++'
+        });
+       
+
+        ops.push({
+            name: 'robots',
+            title: 'Robots',
+            price: 250000000,
+            price_entity: 'money',
+            required_strat: 'darkweb',
+            'min': 'money',
+            'minv': 0,
+            'desc': 'Humans are becoming useless... Achieve to robotize your workers. They will cost more expensive, but will be so much more productive !',
+            'buf': 'workers cost++, production++'
+        });
+        
+
+
+
+        ops.push({
+            name: 'darkweb',
+            title: 'Dark Web Designer Drugs',
+            price: 1000,
+            price_entity: 'btc',
+            required_strat: 'btc',
+            'min': 'money',
+            'minv': 0,
+            'desc': 'The dark web is always the best when its about designer drugs. These uncharted (therefore legal) molecules can make your products powerfully addictive. ',
+            'buf': 'public demand++'
+        });
+       
+       
+       ops.push({
+            name: 'bicycle',
+            title: 'Bicycle Generators',
+            price: 50000000,
+            price_entity: 'money',
+            required_strat: 'darkweb',
+            'min': 'money',
+            'minv': 0,
+            'desc': 'People are starting to think about global warming. Offer them some ecological bicycle generators that secretly mine bitcoins for you. ',
+            'buf': 'btc++'
+        });
+       
+        
+        
+        
+       
+
+
+
+
+
+        /* KILLS operations */
 
         ops.push({
             name: 'army',
             title: 'Deal with the Army',
-            price: 4000000,
+            price: 100000000,
             price_entity: 'money',
-            required_strat: 'marketing',
+            required_strat: 'government',
             'min': 'money',
-            'minv': 500000,
+            'minv': 0,
             'desc': 'Make a deal the army and reach new territories.',
-            'buf' : 'kills++'
-        });        
+            'buf': 'kills++'
+        });
+        
+        
+         ops.push({
+            name: 'toys',
+            title: 'War Games',
+            price: 250000000,
+            price_entity: 'money',
+            required_strat: 'army',
+            'min': 'killed',
+            'minv': 0,
+            'desc': 'Drones remotely controlled by professionnal gamers. Add 10 kills per day per worker.',
+            'buf': 'kills++ per worker'
+        });
+
+        
+        
+        ops.push({
+            name: 'weapons',
+            title: 'AK47 Mark XI',
+            price: 500000000,
+            price_entity: 'money',
+            required_strat: 'toys',
+            'min': 'killed',
+            'minv': 0,
+            'desc': 'This is a simple revision of the classical AK47, but with real videogames skins paint on it. So cool ! Will improve army operations efficiency',
+            'buf': 'kills++ per military op.',
+        });
+        
+        
+        
+        ops.push({
+            name: 'meat',
+            title: 'Soylent Green',
+            price: 1000000000,
+            price_entity: 'money',
+            required_strat: 'army',
+            'min': 'killed',
+            'minv': 0,
+            'desc': 'Extract nutrients from war victims. Improves productivity.',
+            'buf': 'production++ per kill'
+        });
+
+        
+         ops.push({
+            name: 'autocorpse',
+            title: 'Corporate Rituals',
+            price: 5000000000,
+            price_entity: 'money',
+            required_strat: 'magic',
+            'min': 'magicpower',
+            'minv': 2,
+            'desc': 'Rituals are now replacing after hours drinks. Healthier.',
+            'buf': 'Autoconsume corpses into black energy'
+        });
+
+        
+        
+        
+        
+        
+        
+        /* KILLED BASE BUY */
+        
+        
 
         ops.push({
             name: 'cacao',
@@ -279,96 +503,64 @@ module.exports = {
             'min': 'killed',
             'minv': 0,
             'desc': 'Put some cacao in your products. So Delicious !!',
-            'buf' : 'public demand +100%'
+            'buf': 'public demand +100%'
         });
-        
+
         ops.push({
             name: 'education',
             title: 'International Education',
-            price: 10000,
+            price: 1000000,
             price_entity: 'killed',
-            required_strat: 'army',
+            required_strat: 'cacao',
             'min': 'killed',
             'minv': 0,
             'desc': 'Children are citizen of the world, and are therefore soldiers. Low-cost workers will generate kills.',
-            'buf' : 'kills++ per low cost workers'
+            'buf': 'kills++ per low cost workers'
         });
-        
+
         ops.push({
             name: 'smartphones',
             title: 'Smartphones',
-            price: 20000,
+            price: 50000000,
             price_entity: 'killed',
-            required_strat: 'army',
+            required_strat: 'education',
             'min': 'killed',
             'minv': 0,
             'desc': 'People are addicted to smartphones. They need cobalt. They are ready to accept intensified military operations for it.',
-            'buf' : 'kills++ per military op.'
+            'buf': 'kills++ per military op.'
         });
-        
-         ops.push({
+
+        ops.push({
             name: 'justice',
             title: 'Online Justice',
-            price: 30000,
+            price: 100000000,
             price_entity: 'killed',
-            required_strat: 'army',
+            required_strat: 'smartphones',
             'min': 'killed',
             'minv': 0,
             'desc': 'International justice is now based on online polls. Converts a part of public demand into kills. ',
-            'buf' : 'kills++ per public demand'
+            'buf': 'kills++ per public demand'
         });
-        
-        
+
+
         ops.push({
             name: 'migration',
             title: 'Migration Waves',
             price: 500000,
             price_entity: 'killed',
-            required_strat: 'torture',
+            required_strat: 'justice',
             'min': 'killed',
             'minv': 1000,
             'desc': 'Migrants are motivated people. Divide by 2 the workers salaries. ',
-            'buf' : 'worker cost--'
+            'buf': 'worker cost--'
         });
-        
-        
-        ops.push({
-            name: 'toys',
-            title: 'War Games',
-            price: 10000,
-            price_entity: 'money',
-            required_strat: 'army',
-            'min': 'killed',
-            'minv': 100,
-            'desc': 'Drones remotely controlled by professionnal gamers. Add 10 kills per day per worker.',
-            'buf' : 'kills++ per worker'
-        });
-        
+
+
         
 
-        ops.push({
-            name: 'weapons',
-            title: 'AK47 Mark XI',
-            price: 1000000000,
-            price_entity: 'money',
-            required_strat: 'army',
-            'min': 'killed',
-            'minv': 100,
-            'desc': 'This is a simple revision of the classical AK47, but with real videogames skins paint on it. So cool ! Will improve army operations efficiency',
-            'buf' : 'kills++ per military op.',
-        });
+
+
         
-        ops.push({
-            name: 'meat',
-            title: 'Soylent Green',
-            price: 2000000000,
-            price_entity: 'money',
-            required_strat: 'army',
-            'min': 'killed',
-            'minv': 1000,
-            'desc': 'Extract nutrients from war victims. Improves productivity.',
-            'buf' : 'production++ per kill'
-        });
 
 
 
@@ -380,17 +572,17 @@ module.exports = {
         ops.push({
             name: 'magic',
             title: 'Research & Development',
-            price: 5000000,
+            price: 2000000000,
             price_entity: 'money',
-            required_strat: 'army',
+            required_strat: 'smartphones',
             'min': 'money',
-            'minv': 1000000,
+            'minv': 0,
             'desc': 'Invest into the cutting-edge mystical technologie',
-            'buf' : 'opens the black energy cult'
+            'buf': 'opens the black energy cult'
         });
 
 
-         ops.push({
+        ops.push({
             name: 'hole',
             title: 'Black Hole Plan',
             price: 10000,
@@ -399,28 +591,18 @@ module.exports = {
             'min': 'magicpower',
             'minv': 1,
             'desc': 'Sell souls to Satan for the ultimate cash reward',
-            'buf' : 'win the freaking game'
+            'buf': 'win the freaking game'
         });
-        
-        ops.push({
-            name: 'autocorpse',
-            title: 'Corporate Rituals',
-            price: 10000000,
-            price_entity: 'magicpower',
-            required_strat: 'magic',
-            'min': 'magicpower',
-            'minv': 2,
-            'desc' : 'Rituals are now replacing after hours drinks. Healthier.',
-            'buf': 'Autoconsume corpses into black energy'
-        });
-        
-        
+
        
+
+
 
 
         /* multiplayer */
 
         ops.push({
+            cat : 'mp',
             name: 'spy',
             title: 'Industrial Spying',
             price: 10000,
@@ -429,11 +611,12 @@ module.exports = {
             'min': 'money',
             'minv': 5000,
             'desc': 'Hire a mole to watch into another company',
-            'buf' : 'See all data from another player',
+            'buf': 'See all data from another player',
             'actionprice': 1000
         });
 
         ops.push({
+            cat : 'mp',
             name: 'defamation',
             title: 'Defamation',
             price: 20000,
@@ -442,11 +625,12 @@ module.exports = {
             'min': 'money',
             'minv': 10000,
             'desc': 'Rob massive amounts of money from another player while sending him a lawyer that will defame him publicly ! Be aware of your own reputation and fake news about your opponent...',
-            'buf' : 'When a defame event is triggered, the player with the biggest reputation will get the cash from the other',
+            'buf': 'When a defame event is triggered, the player with the biggest reputation will get the cash from the other',
             'actionprice': 100000
         });
 
         ops.push({
+            cat : 'mp',
             name: 'badbuzz',
             title: 'Bad Buzz',
             price: 1000000,
@@ -455,11 +639,12 @@ module.exports = {
             'min': 'money',
             'minv': 50000,
             'desc': 'Hire a community manager to make fun of opponents commercial campaigns',
-            'buf' : 'temporary reputation-- for the opponent',
+            'buf': 'temporary reputation-- for the opponent',
             'actionprice': 1000000
         });
 
         ops.push({
+            cat : 'mp',
             name: 'strike',
             title: 'Worker\'s union',
             price: 500000,
@@ -471,13 +656,57 @@ module.exports = {
             'actionprice': 10000000,
             'duration': 30,
             'cooldown': 360,
-            'buf' : 'opponents production will temporary go to zero'
+            'buf': 'opponents production will temporary go to zero'
+        });
+
+
+        ops.push({
+            cat : 'mp',
+            name: 'lawyers',
+            title: 'Lawyers',
+            price: 30000,
+            price_entity: 'money',
+            required_strat: 'defamation',
+            'min': 'money',
+            'minv': 0,
+            'desc': 'Justice is a subjective thing, and a lawyer will protect you from a wrong use of information by one other jealous company ',
+            'actionprice': 10,
+            'duration': 30,
+            'cooldown': 360,
+            'buf': 'A lawyer blocks one defamation attempt from an ennemy (and is consumed by it)'
         });
 
 
 
 
 
+
+        /* free rewards */
+            ops.push({
+           
+            name: 'chrono',
+            title: 'Micro-Trading Computers',
+            price: 1000000,
+            price_entity: 'money',
+            required_strat: '',
+            'min': 'score',
+            'minv': 1000000,
+            'desc': 'This an accountant tool that gives you an average time before you can reach an objective ',
+            'buf': 'Display time before being able to buy an operation'
+        });
+        
+        ops.push({
+           
+            name: 'shout',
+            title: 'TV Channel',
+            price: 5000000,
+            price_entity: 'money',
+            required_strat: '',
+            'min': 'score',
+            'minv': 3000000,
+            'desc': 'You created 3M products, you deserves your own media channel !',
+            'buf': 'You can shout messages in the console for all players'
+        });
 
 
 

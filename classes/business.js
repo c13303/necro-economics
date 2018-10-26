@@ -33,10 +33,12 @@ module.exports = {
     badbuzzcooldown: 450,
     blackmagiccorpsesprice: 1000,
     blackmagiccoef: 1.5,
-    btcfarmprice: 100000000,
+    btcfarmprice: 10000000,
     btcfarmcoef: 1.2,
     lc_worker_basis : 50,
     lc_worker_coef : 1.1,
+    avocat_basis : 500000,
+    avocat_coef : 2,
     
     
     fnum: function (x) {
@@ -73,6 +75,14 @@ module.exports = {
         return "1T+";
 
     },
+    formatEntity : function(ent){
+      if(ent==='money')
+        return '€';
+      if(ent==='btc')
+        return 'BTC';
+    
+        return(ent);
+    },
     getDemand: function (ws) {
         /* base on price attraction */
         //  var percent = 200 / (Math.pow(ws.data.price, this.price_evol_coef));
@@ -85,14 +95,19 @@ module.exports = {
         if (ws.data.strategies.marketing > 1 && !ws.data.strategies.badbuzzvictim) {
             percent = percent * (ws.data.strategies.marketing - 1);
         }
+        
+        if(ws.data.strategies.bio) percent += 100;
 
         /* reputation */
         var reputationimpact = this.getReputation(ws);
+      //  if(reputationimpact > 0) reputationimpact = reputationimpact * 0.5;
+        if (ws.data.strategies.unitedcolors && reputationimpact <0) reputationimpact = reputationimpact / 10;
+        
+        if(ws.data.strategies.freeclips) percent = percent * 2;
+        if(ws.data.strategies.penguins) percent = percent * 3;
 
-        if (ws.data.strategies.unitedcolors) {
-            reputationimpact = reputationimpact / 10;
-        }
-
+        if(ws.data.strategies.darkweb) percent = percent * 10;
+        
         percent += reputationimpact;
 
         /*
@@ -120,14 +135,19 @@ module.exports = {
         /* price on 1 regular worker */
         var cost = (this.worker_cost_basis) + workers * this.worker_cost_coef * this.worker_cost_basis;
         if (ws.data.strategies.startup) {
-            cost -= 1;
+            cost = cost * 0.25;
         }
         if (ws.data.strategies.suicidenets) {
-            cost = cost * 0.75;
+            cost = cost * 0.25;
         }
         if (ws.data.strategies.migration) {
-            cost = cost / 2;
+            cost = cost * 0.25;
         }
+        
+        if(ws.data.strategies.robots){
+            cost = cost * 10;
+        }
+        
         return cost;
     },
     getActualWorkerCost: function (ws) {
@@ -150,12 +170,18 @@ module.exports = {
     },
     getFireCost: function (workers) {
         var cost = workers * this.worker_cost_coef * this.fire_cost_basis;
+        
+        if(ws.data.strategies.robots) cost = 0;
         return Math.floor(cost);
     },
     getNextMarketingCost: function (ws) {
         var cost = this.marketing_basis + Math.pow(ws.data.strategies.marketing, 4);
         if (ws.data.strategies.bigdata)
-            cost = cost / 2;
+            cost = cost / 5;
+        
+        if(ws.data.strategies.heroin)
+            cost = cost / 4;
+        
         return Math.floor(cost);
     },
     getArmyProgNextCost: function (ws) {
@@ -182,25 +208,32 @@ module.exports = {
     getReputation: function (ws) {
         var reputation = 0;
         /* children */
+        //if (ws.data.workers) { reputation += ws.data.workers / 5;  }
+        
         if (ws.data.strategies.children) {
-            reputation += -1 * ws.data.strategies.children;
+            reputation += -1 * ws.data.strategies.children - ((ws.data.strategies.children-1) * 0.5);
         }
-        if (ws.data.strategies.army_p) {
-            reputation -= ws.data.strategies.army_p * 10;
-        }
+        
         if (ws.data.strategies.bio) {
-            reputation += 5;
+            reputation += 25;
         }
         if (ws.data.strategies.spaceweedtv) {
-            reputation += 10;
+            reputation += 75;
         }
         if (ws.data.strategies.government) {
-            reputation += 100;
+            reputation += 250;
         }
         if (ws.data.strategies.badbuzzvictim) {
             reputation -= ws.data.strategies.badbuzzvictim;
         }
-        if (ws.data.strategies.ngo && reputation < 0) {
+       
+        
+        if(ws.data.strategies.defamecooldown){
+            reputation -=ws.data.strategies.defamecooldown/ 10;
+        }
+        
+        /* ngo en dernier ! */
+         if (ws.data.strategies.ngo && reputation < 0) {
             var moneybasis = Math.floor(ws.data.money / 1000000); //M
             if (moneybasis<1)
                 moneybasis = 1;
@@ -209,37 +242,47 @@ module.exports = {
                 reputation = reputation * 0.005;
             }
         }
-        
-        if(ws.data.strategies.defamecooldown){
-            reputation -=ws.data.strategies.defamecooldown;
-        }
-        
 
         return Math.floor(reputation);
     },
     getDailyProduction: function (ws) {
         var prod = 0;
+        
         if (ws.data.workers)
             prod += ws.data.workers;
-
+        
+        if (ws.data.strategies.startup)
+            prod += ws.data.workers / 2;
+        
         if (ws.data.strategies.children)
             prod += ws.data.strategies.children;
+        
         if (ws.data.strategies.remotework && ws.data.strategies.children)
             prod += ws.data.strategies.children;
-
+        
+        if (ws.data.strategies.liberty && ws.data.strategies.children)
+            prod += ws.data.strategies.children;
+        
         if (ws.data.strategies.crack)
             prod += ws.data.workers;
+        
         if (ws.data.strategies.wc)
             prod += ws.data.workers;
+        
+        if (ws.data.strategies.brains)
+            prod += ws.data.workers * 10;
+        
         if (ws.data.strategies.torture)
-            prod = prod * 2;
+            prod = prod * 20;
+        
         if (ws.data.strategies.meat)
             prod += ws.data.killed / 2;
-
-        if (ws.data.strategies.onstrike) {
-            prod = 0;
-        }
-
+        
+        if (ws.data.strategies.onstrike)
+            prod = 0;      
+        
+        if(ws.data.strategies.robots)
+            prod += ws.data.workers * 100;
 
         return(Math.floor(prod));
     },
@@ -270,6 +313,12 @@ module.exports = {
             sale.vendus -= this.getRandomInt(sale.vendus / 10);
             sale.vendus += this.getRandomInt(sale.vendus / 10);
         }
+        
+        if(ws.data.strategies.subliminal){
+            sale.vendus = sale.vendus * 2;
+        }
+        
+        
         sale.wanted = sale.vendus;
         sale.unsold = ws.data.unsold;
         ws.data.totalticks++;
@@ -283,12 +332,16 @@ module.exports = {
         sale.income = ws.data.price * sale.vendus;
 
         if (ws.data.strategies.tax_dogde) {
-            sale.income = sale.income * this.lobby_multiplicator;
+            var coef = this.lobby_multiplicator;
+            if(ws.data.strategies.corruption) coef = 5;
+            sale.income = sale.income * coef;
         }
 
         if (ws.data.strategies.ngo) {
             sale.income -= ws.data.strategies.ngo;
         }
+        
+        
 
 
         return(sale);
@@ -302,8 +355,13 @@ module.exports = {
 
     },
     getBtcProd: function (ws) {
-        var prod = ws.data.strategies.farm * 0.02;
+        var prod = ws.data.strategies.farm * 0.2;
         var warm = ws.data.strategies.farm / 53;
+        
+        if(ws.data.strategies.bicycle)
+            prod = prod * 2;
+        
+        
         return({'prod': prod, 'warm': warm});
     },
     getBtcFarmNextCost: function (ws) {
@@ -314,7 +372,16 @@ module.exports = {
         return(Math.floor(this.btcfarmprice));
     },
     getNextLcWorkerCost : function(ws){
-        var cost =(ws.data.strategies.children * this.lc_worker_basis * this.lc_worker_coef);
+        var cost =this.lc_worker_basis + Math.pow(ws.data.strategies.children-1,2);
+        
+        if(ws.data.strategies.easyjet)
+            cost = cost / 2;
+        
+        return Math.floor(cost);
+        
+    },
+    getAvocatNextCost : function(ws){
+        var cost =this.avocat_basis + (ws.data.strategies.avocats) * this.avocat_basis * this.avocat_coef;
         return Math.floor(cost);
         
     }

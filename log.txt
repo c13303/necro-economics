@@ -1,54 +1,129 @@
 Lancement serveur port 8080------------------------------------------------------
-update btc 6480.05766733
-{"btcprice":"6480.05766733"}
+{"btcprice":"6480.58225197"}
+---------------
+gilbert connected
 ---------------
 evi connected
----------------
-gilbert connected
----------------
-becky2 connected
----------------
-selbst connected
-gilbert : {"command":"ngo","value":-1000}
-gilbert : {"command":"ngo","value":-1000}
-gilbert : {"command":"ngo","value":-1000}
+gilbert : {"command":"spy","value":"evi"}
+broadcast : gilbert watches evi
+gilbert : {"command":"buy","value":"weapons"}
+broadcast : gilbert acquired AK47 Mark XI for 500,000,000 €
+gilbert : {"command":"buy","value":"education"}
+broadcast : gilbert acquired International Education for 1,000,000 killed
+{"btcprice":"6480.58225197"}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"badbuzz","value":"evi"}
+broadcast : gilbert creates a bad buzz on evi
+gilbert : {"command":"spy","value":"evi"}
+broadcast : gilbert watches evi
+gilbert : {"command":"defame","value":"evi"}
+broadcast : gilbert failed to defame evi because he had a good lawyer 
+gilbert : {"command":"getlob","value":1}
+gilbert uses a lobbyist !!
+broadcast : gilbert catches the Tax Dodge ! Income x 3
+mass save
+gilbert data saved
+evi data saved
+{"btcprice":"6476.66604356"}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"buildfarm","value":1}
+gilbert : {"command":"commercialbuy","value":1}
+gilbert : {"command":"commercialbuy","value":1}
+gilbert : {"command":"commercialbuy","value":1}
+gilbert : {"command":"commercialbuy","value":1}
+gilbert : {"command":"commercialbuy","value":1}
+gilbert : {"command":"commercialbuy","value":1}
+gilbert : {"command":"commercialbuy","value":1}
+gilbert : {"command":"hire","value":1}
+gilbert : {"command":"hire","value":1}
+gilbert : {"command":"hire","value":1}
+gilbert : {"command":"hire","value":1}
+gilbert : {"command":"hire","value":1}
+gilbert : {"command":"hire","value":1}
+gilbert : {"command":"hire","value":1}
+gilbert : {"command":"hire","value":1}
+gilbert : {"command":"hire","value":1}
+gilbert : {"command":"hire","value":1}
+gilbert : {"command":"hire","value":1}
+gilbert : {"command":"sellbtc","value":1}
+broadcast : gilbert sold 10,082 BTC for 65MBTC
+gilbert : {"command":"hire","value":1}
+gilbert : {"command":"hire","value":1}
+gilbert : {"command":"hire","value":1}
+gilbert : {"command":"hire","value":1}
+gilbert : {"command":"hire","value":1}
+gilbert : {"command":"hire","value":1}
+gilbert : {"command":"hire","value":1}
+gilbert : {"command":"hire","value":1}
+gilbert : {"command":"hire","value":1}
+gilbert : {"command":"hire","value":1}
+gilbert : {"command":"hire","value":1}
+gilbert : {"command":"hire","value":1}
+gilbert : {"command":"hire","value":1}
+gilbert : {"command":"hire","value":1}
+gilbert : {"command":"hire","value":1}
+{"btcprice":"6476.66604356"}
+mass save
+gilbert data saved
+evi data saved
+{"btcprice":"6469.85363045"}
 gilbert data saved
 gilbert disconnected
 {"gone":"gilbert"}
 ---------------
 gilbert connected
-gilbert : {"command":"ngo","value":100}
-update btc 6473.7223513
-{"btcprice":"6473.7223513"}
-gilbert : {"command":"ngo","value":-100}
-gilbert : {"command":"ngo","value":100}
-gilbert : {"command":"ngo","value":-10}
-gilbert : {"command":"ngo","value":-10}
-gilbert : {"command":"ngo","value":-10}
-gilbert : {"command":"ngo","value":-10}
-gilbert : {"command":"ngo","value":-10}
-gilbert : {"command":"ngo","value":-10}
-gilbert : {"command":"ngo","value":-10}
-gilbert : {"command":"ngo","value":10}
-gilbert : {"command":"ngo","value":10}
-gilbert : {"command":"commercialbuy","value":1}
-gilbert : {"command":"commercialbuy","value":1}
+gilbert data saved
+gilbert disconnected
+{"gone":"gilbert"}
+---------------
+gilbert connected
+gilbert data saved
+gilbert disconnected
+{"gone":"gilbert"}
+---------------
+gilbert connected
+{"btcprice":"6469.85363045"}
+gilbert data saved
+gilbert disconnected
+{"gone":"gilbert"}
+---------------
+gilbert connected
+gilbert data saved
+gilbert disconnected
+{"gone":"gilbert"}
+---------------
+gilbert connected
 mass save
 evi data saved
-becky2 data saved
-selbst data saved
 gilbert data saved
-update btc 6473.7223513
-{"btcprice":"6473.7223513"}
+{"btcprice":"6469.85363045"}
 gilbert data saved
 gilbert disconnected
 {"gone":"gilbert"}
 ---------------
 gilbert connected
-gilbert : {"command":"raise","value":1}
-gilbert : {"command":"raise","value":1}
-gilbert : {"command":"lower","value":1}
-update btc 6480.11314949
-{"btcprice":"6480.11314949"}
-gilbert : {"command":"lower","value":1}
-gilbert : {"command":"lower","value":1}

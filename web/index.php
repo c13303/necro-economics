@@ -1,5 +1,5 @@
 <?php
-$statut = 'Last update : V0.3 - BTC real market ! ';
+$statut = 'Last update : V0.4 - Full operations progress rework + lawyers  ';
 
 $v = time();
 $title = 'Necro-Economics<br/> Idler Pro';
@@ -32,7 +32,7 @@ if ($isdev) {
 
  <!-- <script src="https://d3js.org/d3.v5.min.js"></script> -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
-        
+
 
         <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
     </head>
@@ -44,6 +44,16 @@ if ($isdev) {
             <div id="console">Wow, such amazing capitalist multiplayer game<br/>
                 <span class="lastupdate"><?= $statut; ?></span>
                 <?= $message ? "<span class='infoupdate'>$message</span>" : ''; ?>
+               
+            </div>
+             
+        </div>
+        <div  class="strategic hidden row rowshout" data-strat="shout">
+            <div class="shout">
+                <form class="shoutax">
+                    <input type="text" id="shout" /> 
+                    <button type="submit" class="shout">broadcast</button>
+                    </form>
             </div>
         </div>
         <div id="hobby_window" class="hidden">
@@ -89,23 +99,31 @@ if ($isdev) {
                         <p>Daily Sales : <span class="stat" data-p="dailysales"></span> <span class="prodnamedisplay stat" data-p="product"></span>(s)</p>
                         <p>Daily Income : <span class="stat" data-p="dailybalance"></span> €</p>
                         <p>Worker Avg. : <span class="stat" data-p="workeravg"></span> €</p>
-                         <div class="regchart">
+                        <div class="regchart">
                             <canvas id="cash" ></canvas>
-                         </div>
+                        </div>
                     </div>
                     <div class="strategic" data-strat="greenwashing">
                         <h2>Greenwashing</h2>
                         <p>Children Care support : <span class="stat" data-s="ngo"></span>€ / day<br/>
-                        <button class="command" data-c="ngo" data-v="-10">-10</button>
-                        <button class="command" data-c="ngo" data-v="10">+10</button>
-                        <button class="command" data-c="ngo" data-v="-100">-100</button>
-                        <button class="command" data-c="ngo" data-v="100">+100</button>
-                        <button class="command" data-c="ngo" data-v="-1000">-1000</button>
-                        <button class="command" data-c="ngo" data-v="1000">+1000</button>
-                        </p>
-                        
+                            <button class="command" data-c="ngo" data-v="-10">-10</button>
+                            <button class="command" data-c="ngo" data-v="10">+10</button>
+                            <button class="command" data-c="ngo" data-v="-100">-100</button>
+                            <button class="command" data-c="ngo" data-v="100">+100</button>
+                            <button class="command" data-c="ngo" data-v="-1000">-1000</button>
+                            <button class="command" data-c="ngo" data-v="1000">+1000</button>
+                        </p>                        
                     </div>
+                    <div class="strategic" data-strat="lawyers">
+                        <h2>Lawyers</h2>
+                        <p>Laywers : <span class="stat" data-s="avocats"></span>
+                            <button class="comlaunch security command hcommand" data-security="avocat_next_cost" data-c="avocatbuy" data-v="1">Hire</button> Cost : <span class="stat avoca_cost" data-s="avocat_next_cost"></span>€</p>
+                         
+                        </p>
+                    </div>
+
                 </div>
+
 
                 <div id="play">
                     <h2>Sales, year <span class="annee" ></span>, day <span class="jrestant"></span></h2>
@@ -122,8 +140,8 @@ if ($isdev) {
                             <button class="comlaunch security command hcommand" data-nostratsecurity="nmc" data-c="commercialbuy" data-v="1">Launch</button></p>
                         <p> Next : <span class="stat" data-p="nmc"></span>€</p>
                     </div>
-                    
-                    
+
+
                 </div> 
 
                 <div id="factory">
@@ -136,7 +154,7 @@ if ($isdev) {
                     </p>
                     <button id="make" >Make a <span class="stat" data-p="product"></span></button>
                     <div id="workers" class="strategic" data-strat="workers">
-                        <p><span class="nb stat" data-p="workers"></span> worker(s)
+                        <p><span class="nb stat" data-p="workers"></span> <span class="workertype">worker</span>(s)
                             <button class="command hcommand" data-c="hire" data-v="1">Hire</button>
                             <button class="command hcommand" data-c="fire" data-v="1">Fire</button>
                         </p>
@@ -152,12 +170,12 @@ if ($isdev) {
                     </div>
                     <div class="strategic" data-strat="btc">
                         <h2>Bitcoin mining</h2>
-                        <p>BTC : <span class="stat btcprod" data-s="btcprod"></span></p>
+                        <p>BTC : <span class="stat btcprod" data-p="btc"></span></p>
                         <p>Farms : <span class="stat" data-s="farm"></span> 
                             <button class="command hcommand security" data-security="farm_next_cost" data-c="buildfarm" data-v="1">+1</button> 
                             <button class="command hcommand security" data-security="farm_next_cost100" data-c="buildfarm" data-v="100">+100</button> 
-                        <br/>Cost : <span class="farm_next_cost stat" data-s="farm_next_cost"></span> €
-                        <span class="hidden farm_next_cost stat" data-s="farm_next_cost100"></span>
+                            <br/>Cost : <span class="farm_next_cost stat" data-s="farm_next_cost"></span> €
+                            <span class="hidden farm_next_cost stat" data-s="farm_next_cost100"></span>
                         </p>
                         <p>Exchange : <span class="btcprice" data-balloon="coinmarketcap.com" data-balloon-pos="up"></span>€ 
                             <button class="command htmlsecurity" data-security="btcprod" data-securityvalue="0" data-c="sellbtc" data-v="1">Sell</button></p>
@@ -165,7 +183,7 @@ if ($isdev) {
                             <span class="stat" data-s="warm"></span>°C
                         </div>
                     </div>
-                    
+
                 </div>
                 <div id="international" class="strategic" data-strat="army">
                     <h2>International Operations</h2>
@@ -184,6 +202,7 @@ if ($isdev) {
 
 
             </div>
+          
             <div class="row">
                 <div id="tools" class="">
                     <h2>Strategic Operations</h2>
@@ -194,10 +213,10 @@ if ($isdev) {
                 <div id="clientsbox">
                     <h2>Stock Market</h2>
                     <!--<p><button class="command" data-c="refresh" data-v="1" >Refresh</button></p> -->
-           
-                    
+
+
                     <table id="clients2" class="">
-                        
+
                     </table>
                     <div id="clientsmodele" class="hidden">
                         <table>
@@ -219,23 +238,23 @@ if ($isdev) {
                             </tbody>
                         </table>
                     </div>
-                    
+
                     <div id="multivizu" class="">
                         <canvas id="multi" ></canvas>
                     </div>
-                    
-                    
+
+
                 </div>
-               
+
             </div>
             <div class="row" >
-                 
+
             </div>
-            
-            
-            
-            
-            
+
+
+
+
+
             <div id="account">
                 <button class="command" data-c="reset" data-v="1">Reset account</button>
             </div>
@@ -249,8 +268,8 @@ if ($isdev) {
                 What : <input type="text" id="hack" value="money" /> Value : <input type="text" id="hackvalue" value="100000000" />
                 <button id="hacksubmit" >hack</button>    
             </div> <?php
-    } else
-        $port = 8080;
+        } else
+            $port = 8080;
         ?>
         <input type="hidden" id="porc" value="<?= $port; ?>" />
         <input type="hidden" id="isdev" value="<?= $isdev; ?>" />
