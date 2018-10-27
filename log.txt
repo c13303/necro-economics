@@ -1,129 +1,175 @@
 Lancement serveur port 8080------------------------------------------------------
-{"btcprice":"6480.58225197"}
----------------
-gilbert connected
+{"btcprice":"6485.65850885"}
 ---------------
 evi connected
-gilbert : {"command":"spy","value":"evi"}
-broadcast : gilbert watches evi
-gilbert : {"command":"buy","value":"weapons"}
-broadcast : gilbert acquired AK47 Mark XI for 500,000,000 €
-gilbert : {"command":"buy","value":"education"}
-broadcast : gilbert acquired International Education for 1,000,000 killed
-{"btcprice":"6480.58225197"}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"badbuzz","value":"evi"}
-broadcast : gilbert creates a bad buzz on evi
-gilbert : {"command":"spy","value":"evi"}
-broadcast : gilbert watches evi
-gilbert : {"command":"defame","value":"evi"}
-broadcast : gilbert failed to defame evi because he had a good lawyer 
-gilbert : {"command":"getlob","value":1}
-gilbert uses a lobbyist !!
-broadcast : gilbert catches the Tax Dodge ! Income x 3
-mass save
-gilbert data saved
-evi data saved
-{"btcprice":"6476.66604356"}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"buildfarm","value":1}
-gilbert : {"command":"commercialbuy","value":1}
-gilbert : {"command":"commercialbuy","value":1}
-gilbert : {"command":"commercialbuy","value":1}
-gilbert : {"command":"commercialbuy","value":1}
-gilbert : {"command":"commercialbuy","value":1}
-gilbert : {"command":"commercialbuy","value":1}
-gilbert : {"command":"commercialbuy","value":1}
-gilbert : {"command":"hire","value":1}
-gilbert : {"command":"hire","value":1}
-gilbert : {"command":"hire","value":1}
-gilbert : {"command":"hire","value":1}
-gilbert : {"command":"hire","value":1}
-gilbert : {"command":"hire","value":1}
-gilbert : {"command":"hire","value":1}
-gilbert : {"command":"hire","value":1}
-gilbert : {"command":"hire","value":1}
-gilbert : {"command":"hire","value":1}
-gilbert : {"command":"hire","value":1}
-gilbert : {"command":"sellbtc","value":1}
-broadcast : gilbert sold 10,082 BTC for 65MBTC
-gilbert : {"command":"hire","value":1}
-gilbert : {"command":"hire","value":1}
-gilbert : {"command":"hire","value":1}
-gilbert : {"command":"hire","value":1}
-gilbert : {"command":"hire","value":1}
-gilbert : {"command":"hire","value":1}
-gilbert : {"command":"hire","value":1}
-gilbert : {"command":"hire","value":1}
-gilbert : {"command":"hire","value":1}
-gilbert : {"command":"hire","value":1}
-gilbert : {"command":"hire","value":1}
-gilbert : {"command":"hire","value":1}
-gilbert : {"command":"hire","value":1}
-gilbert : {"command":"hire","value":1}
-gilbert : {"command":"hire","value":1}
-{"btcprice":"6476.66604356"}
-mass save
-gilbert data saved
-evi data saved
-{"btcprice":"6469.85363045"}
-gilbert data saved
-gilbert disconnected
-{"gone":"gilbert"}
 ---------------
-gilbert connected
-gilbert data saved
-gilbert disconnected
-{"gone":"gilbert"}
+pute connected
+{"btcprice":"6485.65850885"}
+pute : {"command":"reset","value":1}
+pute data saved
+pute data saved
+pute disconnected
+{"gone":"pute"}
 ---------------
-gilbert connected
-gilbert data saved
-gilbert disconnected
-{"gone":"gilbert"}
+bolossien connected
+bolossien : {"command":"reset","value":1}
+bolossien data saved
+bolossien data saved
+bolossien disconnected
+{"gone":"bolossien"}
 ---------------
-gilbert connected
-{"btcprice":"6469.85363045"}
-gilbert data saved
-gilbert disconnected
-{"gone":"gilbert"}
----------------
-gilbert connected
-gilbert data saved
-gilbert disconnected
-{"gone":"gilbert"}
----------------
-gilbert connected
+pute connected
+pute : {"command":"submitproduct","value":"steak"}
+pute : {"command":"make","value":1}
+pute : {"command":"make","value":1}
+pute : {"command":"make","value":1}
+pute : {"command":"make","value":1}
+pute : {"command":"make","value":1}
+pute : {"command":"make","value":1}
+pute : {"command":"buy","value":"workers"}
+broadcast : pute acquired Workers for 20 €
+pute : {"command":"hire","value":1}
+pute : {"command":"raise","value":1}
+pute : {"command":"raise","value":1}
+pute : {"command":"raise","value":1}
+pute : {"command":"hire","value":1}
 mass save
 evi data saved
-gilbert data saved
-{"btcprice":"6469.85363045"}
-gilbert data saved
-gilbert disconnected
-{"gone":"gilbert"}
----------------
-gilbert connected
+pute data saved
+{"btcprice":"6485.65850885"}
+evi : {"command":"getlob","value":1}
+evi uses a lobbyist !!
+broadcast : evi catches the Tax Dodge ! Income x 3
+{"btcprice":"6491.97012337"}
+pute : {"command":"buy","value":"marketing"}
+broadcast : pute acquired Marketing Departement for 1,000 €
+mass save
+evi data saved
+pute data saved
+{"btcprice":"6491.97012337"}
+pute : {"command":"commercialbuy","value":1}
+pute : {"command":"raise","value":1}
+{"btcprice":"6490.70293386"}
+pute : {"command":"lower","value":1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"commercialbuy","value":1}
+pute : {"command":"hire","value":1}
+mass save
+evi data saved
+pute data saved
+{"btcprice":"6490.70293386"}
+pute : {"command":"buy","value":"accountant"}
+broadcast : pute acquired Accountant for 400 €
+pute : {"command":"raise","value":0.1}
+{"btcprice":"6490.70293386"}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"hire","value":1}
+pute : {"command":"lower","value":0.1}
+pute : {"command":"commercialbuy","value":1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"commercialbuy","value":1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+mass save
+evi data saved
+pute data saved
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+{"btcprice":"6483.61003814"}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"lower","value":0.1}
+pute : {"command":"lower","value":0.1}
+{"btcprice":"6483.61003814"}
+illegal name
+illegal name
+mass save
+evi data saved
+pute data saved
+{"btcprice":"6483.82008859"}
+{"btcprice":"6483.82008859"}
+mass save
+evi data saved
+pute data saved
+{"btcprice":"6483.82008859"}
+{"btcprice":"6479.18018666"}
+mass save
+evi data saved
+pute data saved
+pute : {"command":"buy","value":"children"}
+broadcast : pute acquired Low Cost Workers for 2,000 €
+pute : {"command":"hirechildren","value":1}
+pute : {"command":"hirechildren","value":1}
+pute : {"command":"hirechildren","value":1}
+pute : {"command":"commercialbuy","value":1}
+pute : {"command":"commercialbuy","value":1}
+pute : {"command":"lower","value":1}
+pute : {"command":"lower","value":1}
+pute : {"command":"lower","value":1}
+{"btcprice":"6479.18018666"}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+evi : {"command":"getlob","value":1}
+evi uses a lobbyist !!
+broadcast : evi catches the Tax Dodge ! Income x 3
+{"btcprice":"6477.31678154"}
+pute : {"command":"commercialbuy","value":1}
+pute : {"command":"hirechildren","value":1}
+pute : {"command":"hirechildren","value":1}
+mass save
+evi data saved
+pute data saved
+{"btcprice":"6477.31678154"}
+evi : {"command":"getlob","value":1}
+evi uses a lobbyist !!
+broadcast : evi catches the Tax Dodge ! Income x 3
+pute : {"command":"raise","value":0.1}
+pute : {"command":"raise","value":0.1}
+pute : {"command":"lower","value":0.1}
+pute : {"command":"buy","value":"bio"}
+broadcast : pute acquired Bio Label for 10,000 €
+{"btcprice":"6477.31678154"}

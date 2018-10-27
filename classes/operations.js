@@ -4,12 +4,12 @@ module.exports = {
     operations: [],
     initOp: function () {
         var ops = [];
-
+        var global_price_tuning = 2;
         /* productivity */
         ops.push({
             name: 'workers',
             title: 'Workers',
-            price: 10,
+            price: global_price_tuning * 10,
             price_entity: 'money',
             'min': 'money',
             'minv': 1, // apparition
@@ -19,7 +19,7 @@ module.exports = {
         ops.push({
             name: 'accountant',
             title: 'Accountant',
-            price: 200,
+            price: global_price_tuning * 200,
             price_entity: 'money',
             'min': 'money',
             'minv': 0, // apparition
@@ -29,11 +29,11 @@ module.exports = {
         ops.push({
             name: 'marketing',
             title: 'Marketing Departement',
-            price: 500,
+            price: global_price_tuning * 500,
             price_entity: 'money',
             'min': 'money',
-            'minv': 100,
-            required_strat: null,
+            'minv': 0,
+            required_strat: 'workers',
             'desc': 'A fat guy with a suit and a phone that will convince people to buy your product.',
             'buf': '++public demand'
         });
@@ -41,7 +41,7 @@ module.exports = {
         ops.push({
             name: 'children',
             title: 'Low Cost Workers',
-            price: 1000,
+            price: global_price_tuning * 1000,
             price_entity: 'money',
             'min': 'money',
             'minv': 200,
@@ -53,7 +53,7 @@ module.exports = {
           ops.push({
             name: 'bio',
             title: 'Bio Label',
-            price: 5000,
+            price: global_price_tuning * 5000,
             price_entity: 'money',
             required_strat: 'children',
             'min': 'money',
@@ -71,7 +71,7 @@ module.exports = {
         ops.push({
             name: 'startup',
             title: 'Startup Human Resources',
-            price: 25000,
+            price: global_price_tuning * 25000,
             price_entity: 'money',
             required_strat: 'bio',
             'min': 'money',
@@ -83,7 +83,7 @@ module.exports = {
         ops.push({
             name: 'wc',
             title: 'More Toilets',
-            price: 50000,
+            price: global_price_tuning * 50000,
             price_entity: 'money',
             required_strat: 'startup',
             'min': 'money',
@@ -96,7 +96,7 @@ module.exports = {
         ops.push({
             name: 'lobby',
             title: 'Lobbying',
-            price: 50000,
+            price: global_price_tuning * 50000,
             price_entity: 'money',
             required_strat: 'startup',
             'min': 'money',
@@ -109,7 +109,7 @@ module.exports = {
         ops.push({
             name: 'remotework',
             title: 'Remote Work',
-            price: 100000,
+            price: global_price_tuning * 100000,
             price_entity: 'money',
             required_strat: 'wc',
             'min': 'money',
@@ -124,7 +124,7 @@ module.exports = {
         ops.push({
             name: 'freeclips',
             title: 'Humble Blundle',
-            price: 10000,
+            price: global_price_tuning * 10000,
             price_entity: 'unsold',
             required_strat: 'wc',
             'min': 'money',
@@ -139,7 +139,7 @@ module.exports = {
         ops.push({
             name: 'crack',
             title: 'Cocaïne Supply',
-            price: 250000,
+            price: global_price_tuning * 250000,
             price_entity: 'money',
             required_strat: 'remotework',
             'min': 'score',
@@ -154,7 +154,7 @@ module.exports = {
         ops.push({
             name: 'suicidenets',
             title: 'Anti-Suicide Nets',
-            price: 500000,
+            price: global_price_tuning * 500000,
             price_entity: 'money',
             required_strat: 'crack',
             'min': 'money',
@@ -171,7 +171,7 @@ module.exports = {
         ops.push({
             name: 'bigdata',
             title: 'Big Data',
-            price: 500000,
+            price: global_price_tuning * 500000,
             price_entity: 'money',
             required_strat: 'remotework',
             'min': 'score',
@@ -186,7 +186,7 @@ module.exports = {
         ops.push({
             name: 'penguins',
             title: 'Save the penguins',
-            price: 25000,
+            price: global_price_tuning * 25000,
             price_entity: 'unsold',
             required_strat: 'bigdata',
             'min': 'score',
@@ -202,7 +202,7 @@ module.exports = {
         ops.push({
             name: 'spaceweedtv',
             title: 'Space Weed TV Reality',
-            price: 1000000,
+            price: global_price_tuning * 1000000,
             price_entity: 'money',
             required_strat: 'bigdata',
             'min': 'money',
@@ -215,7 +215,7 @@ module.exports = {
         ops.push({
             name: 'greenwashing',
             title: 'Greenwashing',
-            price: 1000000,
+            price: global_price_tuning * 1000000,
             price_entity: 'money',
             required_strat: 'bigdata',
             'min': 'money',
@@ -233,7 +233,7 @@ module.exports = {
         ops.push({
             name: 'openspace',
             title: 'Open Space Village 2.0',
-            price: 5000000,
+            price: global_price_tuning * 5000000,
             price_entity: 'money',
             required_strat: 'greenwashing',
             'min': 'money',
@@ -248,7 +248,7 @@ module.exports = {
         ops.push({
             name: 'government',
             title: 'Government ',
-            price: 10000000,
+            price: global_price_tuning * 10000000,
             price_entity: 'money',
             required_strat: 'openspace',
             'min': 'money',
@@ -261,7 +261,7 @@ module.exports = {
         ops.push({
             name: 'liberty',
             title: 'United Colors of Liberty',
-            price: 10000000,
+            price: global_price_tuning * 10000000,
             price_entity: 'money',
             required_strat: 'government',
             'min': 'money',
@@ -273,7 +273,7 @@ module.exports = {
         ops.push({
             name: 'easyjet',
             title: 'Easy Jet Set',
-            price: 10000000,
+            price: global_price_tuning * 10000000,
             price_entity: 'money',
             required_strat: 'government',
             'min': 'money',
@@ -290,7 +290,7 @@ module.exports = {
         ops.push({
             name: 'heroin',
             title: 'Heroin',
-            price: 10000000,
+            price: global_price_tuning * 10000000,
             price_entity: 'money',
             required_strat: 'easyjet',
             'min': 'money',
@@ -302,7 +302,7 @@ module.exports = {
          ops.push({
             name: 'btc',
             title: 'Bitcoin mining',
-            price: 10000000,
+            price: global_price_tuning * 10000000,
             price_entity: 'money',
             required_strat: 'liberty',
             'min': 'money',
@@ -315,7 +315,7 @@ module.exports = {
         ops.push({
             name: 'brains',
             title: 'Automated Brains',
-            price: 20000000,
+            price: global_price_tuning * 20000000,
             price_entity: 'money',
             required_strat: 'heroin',
             'min': 'money',
@@ -328,7 +328,7 @@ module.exports = {
         ops.push({
             name: 'subliminal',
             title: 'Subliminal Advertising',
-            price: 20000000,
+            price: global_price_tuning * 20000000,
             price_entity: 'money',
             required_strat: 'brains',
             'min': 'money',
@@ -342,7 +342,7 @@ module.exports = {
         ops.push({
             name: 'torture',
             title: 'Pyramide Torture Management',
-            price: 25000000,
+            price: global_price_tuning * 25000000,
             price_entity: 'money',
             required_strat: 'liberty',
             'min': 'money',
@@ -357,7 +357,7 @@ module.exports = {
         ops.push({
             name: 'corruption',
             title: 'Corruption',
-            price: 50000000,
+            price: global_price_tuning * 50000000,
             price_entity: 'money',
             required_strat: 'btc',
             'min': 'money',
@@ -370,7 +370,7 @@ module.exports = {
         ops.push({
             name: 'robots',
             title: 'Robots',
-            price: 250000000,
+            price: global_price_tuning * 250000000,
             price_entity: 'money',
             required_strat: 'darkweb',
             'min': 'money',
@@ -385,7 +385,7 @@ module.exports = {
         ops.push({
             name: 'darkweb',
             title: 'Dark Web Designer Drugs',
-            price: 1000,
+            price: global_price_tuning * 1000,
             price_entity: 'btc',
             required_strat: 'btc',
             'min': 'money',
@@ -398,7 +398,7 @@ module.exports = {
        ops.push({
             name: 'bicycle',
             title: 'Bicycle Generators',
-            price: 50000000,
+            price: global_price_tuning * 50000000,
             price_entity: 'money',
             required_strat: 'darkweb',
             'min': 'money',
@@ -421,7 +421,7 @@ module.exports = {
         ops.push({
             name: 'army',
             title: 'Deal with the Army',
-            price: 100000000,
+            price: global_price_tuning * 100000000,
             price_entity: 'money',
             required_strat: 'government',
             'min': 'money',
@@ -434,7 +434,7 @@ module.exports = {
          ops.push({
             name: 'toys',
             title: 'War Games',
-            price: 250000000,
+            price: global_price_tuning * 250000000,
             price_entity: 'money',
             required_strat: 'army',
             'min': 'killed',
@@ -448,7 +448,7 @@ module.exports = {
         ops.push({
             name: 'weapons',
             title: 'AK47 Mark XI',
-            price: 500000000,
+            price: global_price_tuning * 500000000,
             price_entity: 'money',
             required_strat: 'toys',
             'min': 'killed',
@@ -458,11 +458,24 @@ module.exports = {
         });
         
         
+        ops.push({
+            name: 'malware',
+            title: 'Malware Intelligence',
+            price: global_price_tuning * 50000,
+            price_entity: 'btc',
+            required_strat: 'robots',
+            'min': 'killed',
+            'minv': 0,
+            'desc': 'Use every user experience of the internet to improve your robots intelligence and productivity',
+            'buf': 'production++ per robot'
+        });
+
+        
         
         ops.push({
             name: 'meat',
             title: 'Soylent Green',
-            price: 1000000000,
+            price: global_price_tuning * 1000000000,
             price_entity: 'money',
             required_strat: 'army',
             'min': 'killed',
@@ -470,12 +483,41 @@ module.exports = {
             'desc': 'Extract nutrients from war victims. Improves productivity.',
             'buf': 'production++ per kill'
         });
+        
+       
+        ops.push({
+            name: 'supremacy',
+            title: 'Supremacy',
+            price: global_price_tuning * 2000000000,
+            price_entity: 'money',
+            required_strat: 'meat',
+            'min': 'money',
+            'minv': 0,
+            'desc': 'Take control of the planet resources. Your product is becoming vital for survival.',
+            'buf': 'public demand ++'
+        });
+
+        
+        ops.push({
+            name: 'planet',
+            title: 'Orbital Delivery',
+            price: global_price_tuning * 4000000000,
+            price_entity: 'unsold',
+            required_strat: 'btc',
+            'min': 'money',
+            'minv': 0,
+            'desc': 'Constantly drop your products on all the planet surface',
+            'buf': 'every 100B unsold makes warm++'
+        });
+        
+        
+        
 
         
          ops.push({
             name: 'autocorpse',
             title: 'Corporate Rituals',
-            price: 5000000000,
+            price: global_price_tuning * 5000000000,
             price_entity: 'money',
             required_strat: 'magic',
             'min': 'magicpower',
@@ -497,7 +539,7 @@ module.exports = {
         ops.push({
             name: 'cacao',
             title: 'Cacao',
-            price: 10000,
+            price: global_price_tuning * 10000,
             price_entity: 'killed',
             required_strat: 'army',
             'min': 'killed',
@@ -509,7 +551,7 @@ module.exports = {
         ops.push({
             name: 'education',
             title: 'International Education',
-            price: 1000000,
+            price: global_price_tuning * 1000000,
             price_entity: 'killed',
             required_strat: 'cacao',
             'min': 'killed',
@@ -521,7 +563,7 @@ module.exports = {
         ops.push({
             name: 'smartphones',
             title: 'Smartphones',
-            price: 50000000,
+            price: global_price_tuning * 50000000,
             price_entity: 'killed',
             required_strat: 'education',
             'min': 'killed',
@@ -533,26 +575,13 @@ module.exports = {
         ops.push({
             name: 'justice',
             title: 'Online Justice',
-            price: 100000000,
+            price: global_price_tuning * 50000000,
             price_entity: 'killed',
             required_strat: 'smartphones',
             'min': 'killed',
             'minv': 0,
             'desc': 'International justice is now based on online polls. Converts a part of public demand into kills. ',
             'buf': 'kills++ per public demand'
-        });
-
-
-        ops.push({
-            name: 'migration',
-            title: 'Migration Waves',
-            price: 500000,
-            price_entity: 'killed',
-            required_strat: 'justice',
-            'min': 'killed',
-            'minv': 1000,
-            'desc': 'Migrants are motivated people. Divide by 2 the workers salaries. ',
-            'buf': 'worker cost--'
         });
 
 
@@ -572,25 +601,38 @@ module.exports = {
         ops.push({
             name: 'magic',
             title: 'Research & Development',
-            price: 2000000000,
+            price: global_price_tuning * 2000000000,
             price_entity: 'money',
-            required_strat: 'smartphones',
+            required_strat: 'cacao',
             'min': 'money',
             'minv': 0,
             'desc': 'Invest into the cutting-edge mystical technologie',
             'buf': 'opens the black energy cult'
         });
+        
+        ops.push({
+            name: 'holocaust',
+            title: 'Holocaust',
+            price: global_price_tuning * 10,
+            price_entity: 'magicpower',
+            required_strat: 'magic',
+            'min': 'magicpower',
+            'minv': 10,
+            'desc': 'Let some ridiculous ideology madness drive a one-shot death mega production production',
+            'buf': '1B killed'
+        });
+        
 
 
         ops.push({
             name: 'hole',
             title: 'Black Hole Plan',
-            price: 10000,
+            price: global_price_tuning * 360,
             price_entity: 'magicpower',
             required_strat: 'magic',
             'min': 'magicpower',
             'minv': 1,
-            'desc': 'Sell souls to Satan for the ultimate cash reward',
+            'desc': 'Sell souls to Satan for the Ultimate Cash Reward',
             'buf': 'win the freaking game'
         });
 
@@ -605,7 +647,7 @@ module.exports = {
             cat : 'mp',
             name: 'spy',
             title: 'Industrial Spying',
-            price: 10000,
+            price: global_price_tuning * 10000,
             price_entity: 'money',
             required_strat: 'marketing',
             'min': 'money',
@@ -619,7 +661,7 @@ module.exports = {
             cat : 'mp',
             name: 'defamation',
             title: 'Defamation',
-            price: 20000,
+            price: global_price_tuning * 20000,
             price_entity: 'money',
             required_strat: 'marketing',
             'min': 'money',
@@ -633,7 +675,7 @@ module.exports = {
             cat : 'mp',
             name: 'badbuzz',
             title: 'Bad Buzz',
-            price: 1000000,
+            price: global_price_tuning * 1000000,
             price_entity: 'money',
             required_strat: 'children',
             'min': 'money',
@@ -647,7 +689,7 @@ module.exports = {
             cat : 'mp',
             name: 'strike',
             title: 'Worker\'s union',
-            price: 500000,
+            price: global_price_tuning * 500000,
             price_entity: 'money',
             required_strat: 'defamation',
             'min': 'money',
@@ -664,7 +706,7 @@ module.exports = {
             cat : 'mp',
             name: 'lawyers',
             title: 'Lawyers',
-            price: 30000,
+            price: global_price_tuning * 30000,
             price_entity: 'money',
             required_strat: 'defamation',
             'min': 'money',
@@ -686,11 +728,11 @@ module.exports = {
            
             name: 'chrono',
             title: 'Micro-Trading Computers',
-            price: 1000000,
+            price: global_price_tuning * 10000,
             price_entity: 'money',
             required_strat: '',
             'min': 'score',
-            'minv': 1000000,
+            'minv': 20000,
             'desc': 'This an accountant tool that gives you an average time before you can reach an objective ',
             'buf': 'Display time before being able to buy an operation'
         });
@@ -699,7 +741,7 @@ module.exports = {
            
             name: 'shout',
             title: 'TV Channel',
-            price: 5000000,
+            price: global_price_tuning * 5000000,
             price_entity: 'money',
             required_strat: '',
             'min': 'score',

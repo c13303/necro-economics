@@ -109,16 +109,23 @@ $(document).ready(function () {
         connect();
     });
 
+    $('.stat').each(function () {
+        $(this).attr('data-ballon-pos','right');
+    });
 
 
     function numbers_refresh() {
         $('.stat').each(function () {
             var stat = $(this).data('p');
             var strat = $(this).data('s');
-            if (stat)
+            if (stat){
                 $(this).html(fnum(p[stat]));
-            if (strat && p.strategies)
+                $(this).attr('data-balloon', p[stat]);
+            }
+            if (strat && p.strategies){
                 $(this).html(fnum(p.strategies[strat]));
+                $(this).attr('data-balloon', p.strategies[strat]);
+            }
         });
 
 
@@ -195,10 +202,10 @@ $(document).ready(function () {
             if (p.endoftimes) {
                 $('#game').hide();
                 $('#satan').removeClass("hidden");
-                $('#satan').html(p.endoftimes.txt);
-                $('#satan').append("<br/>SCORE : " + fnum(p.data.score));
-                $('#satan').append("<br/>MONEY : " + p.data.money.toLocaleString() + '€');
-                $('#satan').append('<br/><br/><button class="command" data-c="reset" data-v="1">Reset account</button>');
+                $('#satan .inner').html(p.endoftimes.txt);
+                $('#satan .inner').append("<br/>SCORE : " + p.data.score.toLocaleString());
+                $('#satan .inner').append("<br/>MONEY : " + p.data.money.toLocaleString() + '€');
+                $('#satan .inner').append('<br/><br/>');
 
             }
 
@@ -490,8 +497,10 @@ $(document).ready(function () {
                 if (p.strategies.children) {
                     p.children = p.strategies.children;
                 }
-
-
+                if(p.strategies.autocorpse && $('#autoconsume').is(':checked') && p.tick){
+                    $('.consume').trigger('click');
+                    
+                }
 
 
                 if (p.strategies.marketing)
@@ -823,41 +832,14 @@ $(document).ready(function () {
         }
 
         function piston(nb = 1) {
-            nb = 1;
-
-            var piston = 0;
-            var goal = 100 / nb;
-            var duration = 1;
-
-            coup2piston(nb, goal, piston, duration);
-
+            
+            
+            $('#piston .inner').css('height','100px');
+            setTimeout(function(){
+                $('#piston .inner').css('height','0px');
+            },500);
         }
-        var pistonTimer;
-        function coup2piston(nb, goal, piston, duration) {
-            clearTimeout(pistonTimer);
-            var size = 100;
-            if (nb > 10) {
-                $('#piston .inner').css('height', size + 'px');
-                return(null);
-            }
-
-
-            var pistonsize = piston * size / goal;
-            $('#piston .inner').css('height', pistonsize + 'px');
-            if (isNaN(piston))
-                return false;
-            if (piston >= goal) {
-                piston = 0;
-                nb--;
-                if (nb === 0)
-                    return false;
-            }
-            var dt = duration / goal;
-            piston++;
-            pistonTimer = setTimeout(function () {
-                coup2piston(nb, goal, piston, duration);
-            }, dt);
-        }
+        
 
 
         /*

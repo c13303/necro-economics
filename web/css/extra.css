@@ -11,3 +11,8 @@ and open the template in the editor.
 button{
     min-width:40px;
 }
+
+#piston .inner{
+     -webkit-transition: height 0.5s; /* Safari */
+    transition: height 0.5s;
+}

@@ -1,5 +1,5 @@
 <?php
-$statut = 'Last update : V0.4 - Full operations progress rework + lawyers  ';
+$statut = 'Last update : V0.9 - Endgame balanced  ';
 
 $v = time();
 $title = 'Necro-Economics<br/> Idler Pro';
@@ -82,7 +82,10 @@ if ($isdev) {
             </div>
         </div>
         <div id="satan" class="hidden">
-
+            <div class="inner">
+                
+            </div>
+            <a href="/?disablereconnect=1"><button>Quit</button></a> <button class="command" data-c="reset" data-v="1">Reset account</button>
         </div>
         <div id="game">
 
@@ -190,12 +193,19 @@ if ($isdev) {
                     <p>Army Partnership Programs : <span class="stat" data-s="army_p"></span><br/>
                         Next Cost : <span class="stat" data-s="army_p_nc"></span> € 
                         <button class="command security" data-security="army_p_nc" data-c="armyprog" data-v="1">Launch</button></p>               
-                    <p>Killed : <span class="stat" data-p="killed"></span></p>
+                    <p>Killed : <span class="stat" data-p="killed"></span> (<span class="stat" data-s="dailykilled"></span>/day)</p>
+                    <div class="strategic" data-strat="meat">
+                        <span data-balloon="Convert kills into production" data-balloon-pos="up">Soylent Green program activated</span>
+
+                    </div>
                     <div class="strategic" data-strat="magic">
                         <h2>R&D</h2>
                         <p>Black Energy : <span class="stat" data-p="magicpower"></span></p>
                         <button class="command consume security" data-security-entity="killed" data-security="magicnextcost" data-c="consume" data-v="1">Consume</button>
                         <p>Cost : <span class="stat" data-s="magicnextcost"></span> corpses</p>
+                        <div class="strategic" data-strat="autocorpse">
+                            <input type="checkbox" id="autoconsume" value="1" /> auto-consume corpses
+                        </div>
                     </div>
 
                 </div>
