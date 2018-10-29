@@ -4,7 +4,7 @@ module.exports = {
     operations: [],
     initOp: function () {
         var ops = [];
-        var global_price_tuning = 2;
+        var global_price_tuning = 1.5;
         /* productivity */
         ops.push({
             name: 'workers',

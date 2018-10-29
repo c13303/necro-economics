@@ -52,7 +52,7 @@ var connection = mysql.createConnection({
 });
 connection.connect();
 
-
+var sha256 = require('js-sha256');
 
 
 /* command line args */
@@ -129,8 +129,23 @@ var WebSocketServer = require('ws').Server, wss = new WebSocketServer(
                 const ip = info.req.connection.remoteAddress;
                 urlinfo = urlinfo.replace('/', '');
                 urlinfo = urlinfo.split('-');
-                var name = urlinfo[1].toLowerCase().replace(/\W/g, '');
-                var token = urlinfo[0].replace(/\W/g, '');
+                
+                var regex = /^([a-zA-Z0-9_-]+)$/;
+                
+                var name = urlinfo[1].toLowerCase();
+                var token = urlinfo[0];
+                
+                if(!regex.test(name)){
+                    callback(false);
+                }
+                
+                 if(!regex.test(token)){
+                    callback(false);
+                }
+                
+                if(!name || !token){
+                    callback(false);
+                }
 
                 if (urlinfo[1].toLowerCase() !== name || urlinfo[0] !== token) {
                     console.log('illegal name');
@@ -143,6 +158,9 @@ var WebSocketServer = require('ws').Server, wss = new WebSocketServer(
                         callback(false);
                     }
                 }
+                
+                var token = sha256(token);
+                
                 connection.query('SELECT id,name,password FROM players WHERE name=?', [name], function (err, rows, fields) {
                     if (rows[0] && rows[0].id) {
                         if (rows[0].password === token) {
@@ -283,7 +301,7 @@ wss.on('connection', function myconnection(ws, request) {
                     'user': ws.name,
                     'btcprice': BTCprice
                 }));
-                ws.refresh();
+                ws.refresh(false);
             } else {
                 /* initialisation */
                 var max = biz.getSpeed(ws);

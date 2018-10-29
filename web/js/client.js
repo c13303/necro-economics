@@ -120,26 +120,33 @@ $(document).ready(function () {
             var strat = $(this).data('s');
             if (stat){
                 $(this).html(fnum(p[stat]));
+                $(this).attr("data-value",p[stat]);
                 $(this).attr('data-balloon', p[stat]);
             }
             if (strat && p.strategies){
                 $(this).html(fnum(p.strategies[strat]));
+                $(this).attr("data-value",p.strategies[strat]);
                 $(this).attr('data-balloon', p.strategies[strat]);
             }
         });
-
-
-
     }
-
-
-
+    
 
     // WS //
     function connect() {
         clearTimeout(autoreco);
         token = $('#password').val();
         user = $('#username').val();
+        
+
+        var regex = /^([a-zA-Z0-9_-]+)$/;
+        if (!regex.test(user) || !regex.test(token)) {
+            alert('Please use only alphanumeric characters and underscores for user and pass');
+            return false;
+        }
+
+        
+        
         var port = $('#porc').val();
 
         Cookies.set('user', user);

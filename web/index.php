@@ -1,5 +1,5 @@
 <?php
-$statut = 'Last update : V0.9 - Endgame balanced  ';
+$statut = 'BETA ! Last update : V0.91 - Fixed username regex ';
 
 $v = time();
 $title = 'Necro-Economics<br/> Idler Pro';
