@@ -16,7 +16,7 @@ var token = '';
 var actions = {};
 var opbible = {};
 var people = [];
-
+var dev = null;
 
 
 
@@ -101,6 +101,7 @@ $(document).ready(function () {
 
     console.log('poutrelle');
     var isdev = "dev=" + $('#isdev').val() + "&";
+   
     // UI //
 
 
@@ -121,12 +122,12 @@ $(document).ready(function () {
             if (stat){
                 $(this).html(fnum(p[stat]));
                 $(this).attr("data-value",p[stat]);
-                $(this).attr('data-balloon', p[stat]);
+                //$(this).attr('data-balloon', p[stat]);
             }
             if (strat && p.strategies){
                 $(this).html(fnum(p.strategies[strat]));
                 $(this).attr("data-value",p.strategies[strat]);
-                $(this).attr('data-balloon', p.strategies[strat]);
+                //$(this).attr('data-balloon', p.strategies[strat]);
             }
         });
     }
@@ -168,9 +169,9 @@ $(document).ready(function () {
         ws.onmessage = function (event) {
             
             var norefresh = false;
-
+            var dev = $('#isdev').val() ? true : false;
             var d = JSON.parse(event.data);
-            console.log(d);
+            if(dev)console.log(d);
             p = d; /* looool*/
 
             /* format some values for display */
@@ -682,7 +683,8 @@ $(document).ready(function () {
 
 
         $(document).on('click', '.command', function () {
-            console.log('command' + $(this).data('c'));
+            if(dev) console.log('command' + $(this).data('c'));
+            
             if (!$(this).hasClass('disabled')) {
                 var c = $(this).data('c');
                 var v = $(this).data('v');
@@ -827,6 +829,11 @@ $(document).ready(function () {
                     }],
                 labels: []
             },
+            options : {
+                legend: {
+                    display: false,
+                }
+            }
         };
         multiChart = new Chart(ctxmulti, config);
 

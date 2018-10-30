@@ -129,21 +129,21 @@ var WebSocketServer = require('ws').Server, wss = new WebSocketServer(
                 const ip = info.req.connection.remoteAddress;
                 urlinfo = urlinfo.replace('/', '');
                 urlinfo = urlinfo.split('-');
-                
+
                 var regex = /^([a-zA-Z0-9_-]+)$/;
-                
+
                 var name = urlinfo[1].toLowerCase();
                 var token = urlinfo[0];
-                
-                if(!regex.test(name)){
+
+                if (!regex.test(name)) {
                     callback(false);
                 }
-                
-                 if(!regex.test(token)){
+
+                if (!regex.test(token)) {
                     callback(false);
                 }
-                
-                if(!name || !token){
+
+                if (!name || !token) {
                     callback(false);
                 }
 
@@ -158,9 +158,9 @@ var WebSocketServer = require('ws').Server, wss = new WebSocketServer(
                         callback(false);
                     }
                 }
-                
+
                 var token = sha256(token);
-                
+
                 connection.query('SELECT id,name,password FROM players WHERE name=?', [name], function (err, rows, fields) {
                     if (rows[0] && rows[0].id) {
                         if (rows[0].password === token) {
@@ -195,10 +195,14 @@ var WebSocketServer = require('ws').Server, wss = new WebSocketServer(
 );
 
 wss.broadcast = function broadcast(msg) {
-    console.log(msg);
-    wss.clients.forEach(function each(client) {
-        client.send(msg);
-    });
+    try {
+        console.log(msg);
+        wss.clients.forEach(function each(client) {
+            client.send(msg);
+        });
+    } catch (e) {
+        console.log(e);
+    }
 };
 
 wss.setAllStrategyBuffer = function setAllStrategyBuffer(what, value = null) {
@@ -377,9 +381,13 @@ wss.on('connection', function myconnection(ws, request) {
     };
 
     ws.reset = function () {
-        ws.data = data_example;
-        ws.save();
-        ws.send(JSON.stringify({'reset': 1}));
+        try {
+            ws.data = data_example;
+            ws.save();
+            ws.send(JSON.stringify({'reset': 1}));
+        } catch (e) {
+
+        }
     };
 
     ws.banqueroute = function () {
@@ -598,7 +606,6 @@ wss.on('connection', function myconnection(ws, request) {
             }
             if (json.command === 'firechildren') {
                 ws.data.strategies.children--;
-
             }
 
 
@@ -625,7 +632,6 @@ wss.on('connection', function myconnection(ws, request) {
                 wss.consoleAll(ws.name + ' catches the Tax Dodge ! Income x ' + biz.getTaxCoef(ws));
                 ws.data.money -= hobby_price;
                 ws.data.strategies.tax_dogde = 2;
-
             }
 
 
@@ -680,8 +686,11 @@ wss.on('connection', function myconnection(ws, request) {
 
 
     ws.on('close', function (message) {
-        var data = JSON.stringify(ws.data);
-        ws.save(ws.disconnect);
+        try {
+            var data = JSON.stringify(ws.data);
+            ws.save(ws.disconnect);
+        } catch (e) {
+        }
 
     });
 });
@@ -721,6 +730,20 @@ function tick() {
     } else {
         btctick++;
     }
+
+    hobby_clock++;
+    /* hobbying */
+
+    if (hobby_clock === biz.hobby_freq) {
+        wss.setAllStrategyBuffer('tax_dogde', null);
+        hobby_price = biz.getRandomInt(10000) + biz.hobbybribemin;
+        hobby_window = {'hw': true, 'price': hobby_price};
+    }
+    if (hobby_clock >= (biz.hobby_freq + biz.hobby_window)) {
+        hobby_window = false;
+        hobby_clock = 0;
+    }
+
 
     /* PLAYER TICK */
 
@@ -794,17 +817,7 @@ function tick() {
             }
 
 
-            /* hobbying */
-            hobby_clock++;
-            if (hobby_clock === biz.hobby_freq) {
-                wss.setAllStrategyBuffer('tax_dogde', null);
-                hobby_price = biz.getRandomInt(10000) + biz.hobbybribemin;
-                hobby_window = {'hw': true, 'price': hobby_price};
-            }
-            if (hobby_clock >= (biz.hobby_freq + biz.hobby_window)) {
-                hobby_window = false;
-                hobby_clock = 0;
-            }
+
 
             /* cooldowns */
             if (clients[i].data.strategies.defamecooldown > 0) {

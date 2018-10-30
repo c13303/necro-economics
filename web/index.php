@@ -1,5 +1,5 @@
 <?php
-$statut = 'BETA ! Last update : V0.91 - Fixed username regex ';
+$statut = 'BETA ! Last update : V0.91 - Fixed username regex, fixed taxe dodge ';
 
 $v = time();
 $title = 'Necro-Economics<br/> Idler Pro';
@@ -43,10 +43,8 @@ if ($isdev) {
             <div class="title"><h1><?= $title; ?></h1></div>
             <div id="console">Wow, such amazing capitalist multiplayer game<br/>
                 <span class="lastupdate"><?= $statut; ?></span>
-                <?= $message ? "<span class='infoupdate'>$message</span>" : ''; ?>
-               
-            </div>
-             
+                <?= $message ? "<span class='infoupdate'>$message</span>" : ''; ?>               
+            </div>             
         </div>
         <div  class="strategic hidden row rowshout" data-strat="shout">
             <div class="shout">
