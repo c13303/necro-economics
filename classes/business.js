@@ -392,6 +392,10 @@ module.exports = {
         var cost =this.avocat_basis + (ws.data.strategies.avocats) * this.avocat_basis * this.avocat_coef;
         return Math.floor(cost);
         
+    },
+    getLobbyCoolDown : function(ws){
+        var cool = 1800;
+        return(cool);
     }
 
 

@@ -1,5 +1,5 @@
 <?php
-$statut = 'BETA ! Last update : V0.91 - Fixed username regex, fixed taxe dodge ';
+$statut = 'BETA ! Last update : V0.91 - tax dodge cooldown implemented ';
 
 $v = time();
 $title = 'Necro-Economics<br/> Idler Pro';

@@ -97,8 +97,9 @@ var p = {
 p.max = 1000;
 
 
-$(document).ready(function () {
 
+$(document).ready(function () {
+    dev = $('#isdev').val() ? true : false;
     console.log('poutrelle');
     var isdev = "dev=" + $('#isdev').val() + "&";
    
@@ -169,7 +170,7 @@ $(document).ready(function () {
         ws.onmessage = function (event) {
             
             var norefresh = false;
-            var dev = $('#isdev').val() ? true : false;
+           
             var d = JSON.parse(event.data);
             if(dev)console.log(d);
             p = d; /* looool*/
@@ -637,10 +638,10 @@ $(document).ready(function () {
 
         function ping() {
             setTimeout(function () {
+               
                 if (ws.readyState === ws.CLOSED) {
                     window.location.replace("/?" + isdev + "reconnect=1&message=Serveur has updated ! Please Relog !");
                 } else {
-
                     ping();
                 }
             }, 1000);
