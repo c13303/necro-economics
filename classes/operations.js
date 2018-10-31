@@ -506,7 +506,7 @@ module.exports = {
             required_strat: 'btc',
             'min': 'money',
             'minv': 0,
-            'desc': 'Constantly drop your products on all the planet surface',
+            'desc': 'Massively drop your products on all the planet surface',
             'buf': 'every 100B unsold makes warm++'
         });
         

@@ -17,7 +17,7 @@ var actions = {};
 var opbible = {};
 var people = [];
 var dev = null;
-
+var last_data = null;
 
 
 var vizu_activated = false;
@@ -172,7 +172,10 @@ $(document).ready(function () {
             var norefresh = false;
            
             var d = JSON.parse(event.data);
-            if(dev)console.log(d);
+            //if(dev)console.log(d);
+            
+             last_data = d;
+            
             p = d; /* looool*/
 
             /* format some values for display */
@@ -330,10 +333,17 @@ $(document).ready(function () {
             }
 
             if (d.gone) {
+                console.log(d.gone + ' leaves the game');
                 $('.player-' + d.gone).remove();
+                for (i = 0; i < people.length; i++) {
+                    if(people[i]===d.gone){
+                        people.splice(i,1);
+                    }
+                }
             }
 
             if (d.refresh) {
+               
                 /* refresh competitors */
                 var clients = d.refresh;
                 var html = '<table>';
@@ -359,8 +369,6 @@ $(document).ready(function () {
                         html.find('.name').html('<b class="playaname">' + data.name + '<b>');
 
                         $('#clients2').append(html.html());
-
-
                     }
                     var html = $('.player-' + data.name);
                     html.find('.money').html(fnum(data.money) + '€');
@@ -390,7 +398,13 @@ $(document).ready(function () {
                             html.find('.mp-strike').attr('disabled', 'disabled');
                         }
                     }
-
+                    if (data.name === user && actions) {
+                        if (p.strategies.spy && p.money >= actions.spy.price) {
+                            html.find('.mp-spy').removeAttr('disabled');
+                        } else {
+                            html.find('.mp-spy').attr('disabled', 'disabled');
+                        }
+                    }
 
 
 
@@ -594,7 +608,7 @@ $(document).ready(function () {
 
 
             if(!norefresh)
-            numbers_refresh();
+                numbers_refresh();
 
             /* update securities */
             if (p.strategies) {
@@ -874,6 +888,15 @@ $(document).ready(function () {
          comChart = new Chart(ctxradar,config);
          }*/
     }
+    
+    
+    /* UI SHIT */
+    $('.mp-coms').hide();
+    $(document).on('click','.mp-coms-player',function(){
+        
+        console.log('open');
+        $(this).find('.mp-coms').toggle();
+    });
 
 
 

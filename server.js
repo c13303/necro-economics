@@ -14,7 +14,7 @@ var BTCprice = 0;
 var mysql = require('mysql');
 var biz = require('./classes/business.js');
 var port = 8080;
-var clients = [];
+
 
 var save_freq = 120;
 var save_clock = 0;
@@ -54,7 +54,8 @@ connection.connect();
 
 var sha256 = require('js-sha256');
 var Filter = require('bad-words');
-var myFilter = new Filter({ placeHolder: 'x'});
+var myFilter = new Filter({placeHolder: 'x'});
+var fs = require('fs');
 
 
 /* command line args */
@@ -62,7 +63,7 @@ function flush() {
     var empty = JSON.stringify(data_example);
     var flushsessionquery = "UPDATE players SET data = ? ";
     connection.query(flushsessionquery, [empty], function (err, rows, fields) {
-        console.log('sessions FLUSHED!');
+        report('sessions FLUSHED!');
     });
 }
 
@@ -76,27 +77,60 @@ process.argv.forEach(function (val, index, array) {
     }
 });
 
-
+function quit() {
+    process.exit();
+}
 
 
 var stdin = process.openStdin();
 
 stdin.addListener("data", function (d) {
     var commande = d.toString().trim();
-    console.log("you entered: [" +
+    var com = commande.split("-");
+    var commande = com[0];
+    var arg = com[1];
+
+    console.log("command received: [" +
             commande + "]");
+    if (arg) {
+        console.log("arg : [" + arg + ']');
+    }
+
     if (commande === 'flush') {
         flush();
     }
     if (commande === 'clients') {
-        console.log(clients.length);
+        wss.clients.forEach(function each(client) {
+            if (client.data)
+                console.log(client.data.name + ":"+ client.data.init);
+            else {
+                console.log('unknown client!');
+            }
+        });
     }
+    
+    if (commande === 'data' && arg) {
+        wss.clients.forEach(function each(client) {
+            if (client.data && client.data.name === arg)
+                console.log(client.data);
+        });
+    }
+    
+    
     if (commande === 'save') {
         wss.masssave();
+    }
+    
+    if (commande === 'broadcast' && arg) {
+        wss.consoleAll(arg);
     }
 
     if (commande === 'lobby') {
         hobby_clock = biz.hobby_freq - 1;
+    }
+
+    if (commande === 'quit') {
+        wss.masssave(quit);
     }
 
 });
@@ -104,7 +138,7 @@ stdin.addListener("data", function (d) {
 
 
 
-console.log('Lancement serveur port ' + port + '------------------------------------------------------');
+report('Lancement serveur port ' + port + '------------------------------------------------------');
 
 
 
@@ -112,18 +146,40 @@ console.log('Lancement serveur port ' + port + '--------------------------------
 
 
 
-
+function report(e) {
+    var currentdate = new Date();
+    var day = currentdate.getDate() + "-"
+            + (currentdate.getMonth() + 1) + "-"
+            + currentdate.getFullYear();
+    var datetime = currentdate.getDate() + "/"
+            + (currentdate.getMonth() + 1) + "/"
+            + currentdate.getFullYear() + " @ "
+            + currentdate.getHours() + ":"
+            + currentdate.getMinutes() + ":"
+            + currentdate.getSeconds();
+    var note = datetime + ' : ' + e;
+    try {
+        var version = port === 8080 ? 'prod' : 'dev';
+        fs.appendFile("/home/charles/idler_pro/logs/log_" + version + "_" + day + ".log", note + "\n", function (err) {
+            if (err) {
+                console.log(err);
+            }
+            console.log(note);
+        });
+    } catch (er) {
+        console.log(er);
+    }
+}
 
 function erreur(ws, what)
 {
     try {
-        console.log('ERREUR : '+ws.name +':' + what);
-       ws.close();
-        ws.disconnect();      
-       console.log('clientlist');
-        console.log(clients);
+        report('ERREUR : ' + ws.name + ':' + what);
+        ws.close();
+        ws.disconnect();
+
     } catch (e) {
-        console.log(e);
+        report(e);
     }
 
 }
@@ -146,8 +202,8 @@ try {
 
                     var name = urlinfo[1].toLowerCase();
                     var token = urlinfo[0];
-                    
-                    if(name !== myFilter.clean(name)){
+
+                    if (name !== myFilter.clean(name)) {
                         callback(false);
                     }
 
@@ -164,16 +220,16 @@ try {
                     }
 
                     if (urlinfo[1].toLowerCase() !== name || urlinfo[0] !== token) {
-                        console.log('illegal name');
+                        report('illegal name');
                         callback(false);
                     }
 
 
-                    for (i = 0; i < clients.length; i++) {
-                        if (clients[i].name === name) {
+                    wss.clients.forEach(function each(client) {
+                        if (client.name === name) {
                             callback(false);
                         }
-                    }
+                    });
 
                     var token = sha256(token);
 
@@ -183,15 +239,14 @@ try {
                                 userRequestMap.set(info.req, rows[0]);
                                 callback(true);
                             } else {
-                                console.log(name + ' rejected');
+                                report(name + ' rejected');
                                 callback(false);
                             }
                         } else {
-                            console.log('-newplayer-');
                             var data = JSON.stringify(data_example);
                             connection.query('INSERT INTO players(name,password,data) VALUES (?,?,?)', [name, token, data], function (err) {
                                 if (err)
-                                    console.log(err);
+                                    report(err);
                                 else {
                                     var uzar = {
                                         'name': name,
@@ -210,40 +265,49 @@ try {
             }
     );
 } catch (e) {
-    console.log(e);
+    report(e);
 }
 
 wss.broadcast = function broadcast(msg) {
     try {
-        console.log(msg);
         wss.clients.forEach(function each(client) {
             client.send(msg);
         });
     } catch (e) {
-        console.log(e);
+        report(e);
     }
 };
 
 wss.setAllStrategyBuffer = function setAllStrategyBuffer(what, value = null) {
-    wss.clients.forEach(function each(client) {
-        client.data.strategies[what] = value;
-    });
+    try {
+        wss.clients.forEach(function each(client) {
+            client.data.strategies[what] = value;
+        });
+    } catch (e) {
+        report(e);
+}
 };
 
 wss.consoleAll = function consoleAll(msg) {
-    console.log('broadcast : ' + msg);
-    wss.clients.forEach(function each(client) {
-        client.data.console.push(msg);
-    });
+    // report('broadcast : ' + msg);
+    try {
+        wss.clients.forEach(function each(client) {
+            client.data.console.push(msg);
+        });
+    } catch (e) {
+        report(e);
+    }
 };
 
-function getOneClient(name) {
-    for (i = 0; i < clients.length; i++) {
-        var client = clients[i];
-        if (client.name === name) {
+function getOneClient(name) {  
+    var clientFound = null;
+    wss.clients.forEach(function each(client) {
+        if (client.name.toString() === name.toString()) {           
+            clientFound = client;
             return client;
         }
-    }
+    }); 
+    return clientFound;
 }
 
 
@@ -254,41 +318,46 @@ wss.massrefresh = function broadcast(msg) {
     });
 };
 
-wss.masssave = function masssave() {
+wss.masssave = function masssave(callback = null) {
+    var itemsProcessed = 0;
     wss.clients.forEach(function each(client) {
+        itemsProcessed++;
         client.save();
+        if (itemsProcessed === wss.clients.size && callback) {
+            setTimeout(callback, 100);
+        }
     });
 };
 
 function info_clients() {
     var infos = [];
-    for (i = 0; i < clients.length; i++) {
-        if (clients[i].data.init) {
+    wss.clients.forEach(function each(client) {
+        if (client.data.init) {
             infos.push({
-                'name': clients[i].name,
-                'product': clients[i].data.product,
-                'score': clients[i].data.score,
-                'money': clients[i].data.money
+                'name': client.name,
+                'product': client.data.product,
+                'score': client.data.score,
+                'money': client.data.money
             });
         }
-    }
+    });
     return(infos);
 }
 
 
 wss.on('connection', function myconnection(ws, request) {
     /* recognize authentified player */
-    console.log('---------------');
+
     var userinfo = userRequestMap.get(request);
     var name = userinfo.name.replace(/\W/g, '');
     var token = userinfo.password.replace(/\W/g, '');
 
 
     var id = userinfo.id;
-    console.log(name + ' connected');
+    report(name + ' connected');
     connection.query('SELECT id,name,data FROM players WHERE name=? AND password=?', [name, token], function (err, rows, fields) {
         if (err)
-            console.log(err);
+            report(err);
         try {
             var data = JSON.parse(rows[0].data);
             ws.data = data;
@@ -298,7 +367,6 @@ wss.on('connection', function myconnection(ws, request) {
             ws.data.console = [];
             ws.data.time = Date.now();
             ws.data.tooquick = 0;
-            clients.push(ws);
             /*updateshit */
             if (!ws.data.totalticks)
                 ws.data.totalticks = 0;
@@ -331,7 +399,7 @@ wss.on('connection', function myconnection(ws, request) {
                 ws.send(JSON.stringify({'chooseproduct': 1, 'updatescore': ws.data.score, 'updatemax': max}));
             }
         } catch (e) {
-            console.log(e);
+            report(e);
         }
 
     });
@@ -375,34 +443,29 @@ wss.on('connection', function myconnection(ws, request) {
             }
 
         } catch (e) {
-            console.log(e);
+            ws.close();
+            report('ghost client removed ' + ws.name);
+            //report(e);
     }
     };
 
     ws.save = function save(callback) {
-        try{
-        connection.query('UPDATE players SET data=? WHERE name= ?', [JSON.stringify(ws.data), ws.name], function (err, rows, fields) {
-            if (err)
-                console.log(err);
-            console.log(ws.name + ' data saved');
-            if (callback) {
-                callback();
-            }
+        try {
+            connection.query('UPDATE players SET data=? WHERE name= ?', [JSON.stringify(ws.data), ws.name], function (err, rows, fields) {
+                if (err)
+                    report(err);
+                if (callback) {
+                    callback();
+                }
 
-        });
-    }catch(e){
-        console.log(e);
-    }
+            });
+        } catch (e) {
+            report(e);
+        }
 
     };
 
-    ws.disconnect = function () {
-        console.log(ws.name + ' disconnected');
-        var index = clients.indexOf(ws);
-        clients.splice(index, 1);
-        
-        wss.broadcast(JSON.stringify({'gone': ws.name}));
-    };
+
 
     ws.reset = function () {
         try {
@@ -410,15 +473,17 @@ wss.on('connection', function myconnection(ws, request) {
             ws.save();
             ws.send(JSON.stringify({'reset': 1}));
         } catch (e) {
-
+            report(e);
         }
     };
 
     ws.banqueroute = function () {
-        ws.send(JSON.stringify({'banqueroute': 1}));
-        wss.consoleAll(ws.name + ' banqueroute !!!! ');
-        ws.reset();
-        ws.disconnect();
+        /*
+         ws.send(JSON.stringify({'banqueroute': 1}));
+         wss.consoleAll(ws.name + ' banqueroute !!!! ');
+         ws.reset();
+         ws.disconnect();
+         */
     };
 
     /*read messages from the client */
@@ -427,8 +492,8 @@ wss.on('connection', function myconnection(ws, request) {
         {
             var now = Date.now();
             var last = ws.data.time;
-            console.log(ws.name + ' : ' + message);
-            
+            // report(ws.name + ' : ' + message);
+
             var json = JSON.parse(message);
             if (json.command === 'reset') {
                 ws.reset();
@@ -438,7 +503,7 @@ wss.on('connection', function myconnection(ws, request) {
             }
 
             if (json.command === 'make') {
-                
+
                 var max = biz.getSpeed(ws);
                 if (now - last > max) {
                     ws.data.score++;
@@ -446,7 +511,7 @@ wss.on('connection', function myconnection(ws, request) {
                     ws.data.time = now;
 
                 } else {
-                    console.log(ws.name + ' is tooquick' + now + ' ' + last + ' ' + max);
+                    //report(ws.name + ' is tooquick' + now + ' ' + last + ' ' + max);
                     ws.data.tooquick++;
                     ws.send(JSON.stringify({'tooquick': 1}));
                 }
@@ -505,15 +570,17 @@ wss.on('connection', function myconnection(ws, request) {
                 var spydata = getOneClient(json.value);
                 var op = opbible.findOp('spy');
                 var cost = op.actionprice;
-
-                if (spydata && ws.data.money > cost) {
-                    ws.data.money -= cost;
-                    spydata.data.reputation = biz.getReputation(spydata);
-                    ws.send(JSON.stringify({'spydata': spydata.data, 'tick': tic}));
-                    wss.consoleAll(ws.name + ' watches ' + spydata.name);
-                } else
-                    console.log('spy target not found');
-
+                if (ws.data.money > cost) {
+                    if (spydata) {
+                        ws.data.money -= cost;
+                        spydata.data.reputation = biz.getReputation(spydata);
+                        ws.send(JSON.stringify({'spydata': spydata.data, 'tick': tic}));
+                        wss.consoleAll(ws.name + ' watches ' + spydata.name);
+                    } else {
+                        report('spy target not found');
+                        console.log(spydata);
+                    }
+                }
             }
 
             if (json.command === 'defame' && !ws.data.strategies.defamecooldown && ws.data.strategies.defamation) {
@@ -538,8 +605,6 @@ wss.on('connection', function myconnection(ws, request) {
                         var reputDiff = biz.getReputation(ws) - biz.getReputation(target);
 
                         var steal = target.data.money * (reputDiff / biz.defame_ratio);
-                        console.log("Defame Diff " + reputDiff + ' equals steal : ' + steal);
-
 
                         if (steal > 0) {
                             wss.consoleAll(ws.name + ' defames ' + target.name + '(' + reputDiff + ' rep. pts.) for ' + steal.toLocaleString() + '€');
@@ -571,7 +636,7 @@ wss.on('connection', function myconnection(ws, request) {
                     }
 
                 } else
-                    console.log('defame target not found');
+                    report('defame target not found');
 
             }
 
@@ -590,8 +655,8 @@ wss.on('connection', function myconnection(ws, request) {
                     var notice = 'You successfully created a bad buzz around ' + target.name;
                     ws.send(JSON.stringify({'modal': notice}));
                 } else {
-                    console.log('refused bad buzz ' + ws.data.money + ' on ' + target);
-                    console.log(op);
+                    report('refused bad buzz ' + ws.data.money + ' on ' + target);
+                    report(op);
                 }
             }
 
@@ -647,14 +712,14 @@ wss.on('connection', function myconnection(ws, request) {
 
 
             if (json.command === 'hack' && port === 8081) {
-                console.log('HACK ' + json.what + ' : ' + json.value);
+                report('HACK ' + json.what + ' : ' + json.value);
                 ws.data[json.what] = json.value;
 
             }
 
             if (json.command === 'getlob' && hobby_window && ws.data.strategies.lobby && !ws.data.strategies.lobbycooldown) {
                 hobby_window = false;
-                console.log(ws.name + ' uses a lobbyist !!');
+
                 wss.consoleAll(ws.name + ' catches the Tax Dodge ! Income x ' + biz.getTaxCoef(ws));
                 ws.data.money -= hobby_price;
                 ws.data.strategies.tax_dogde = 2;
@@ -699,8 +764,8 @@ wss.on('connection', function myconnection(ws, request) {
 
         } catch (e)
         {
-            console.log('invalid json : ');
-            console.log(e);
+            report('invalid json : ');
+            report(e);
 
         }
     });
@@ -712,10 +777,15 @@ wss.on('connection', function myconnection(ws, request) {
 
 
     ws.on('close', function (message) {
+        report(ws.name + ' is closing');
         try {
-            var data = JSON.stringify(ws.data);
-            ws.save(ws.disconnect);
+            wss.broadcast(JSON.stringify({'gone': ws.name}));
+            ws.save(null);
+            wss.clients.delete(ws);
+           
+
         } catch (e) {
+            report(e);
         }
 
     });
@@ -739,15 +809,19 @@ function tick() {
 
     /* BTC TICK */
     if (btctick === 0) {
-        if (realBTC) {
-            coinmarketcap.get("bitcoin", coin => {
-                //    console.log(coin.price_usd); // Prints the price in USD of BTC at the moment.
-                BTCprice = coin.price_usd;
+        try {
+            if (realBTC) {
+                coinmarketcap.get("bitcoin", coin => {
+                    //    report(coin.price_usd); // Prints the price in USD of BTC at the moment.
+                    BTCprice = coin.price_usd;
+                    btc_callback();
+                });
+            } else {
+                BTCprice = 500 + biz.getRandomInt(15000);
                 btc_callback();
-            });
-        } else {
-            BTCprice = 500 + biz.getRandomInt(15000);
-            btc_callback();
+            }
+        } catch (e) {
+            report(e);
         }
 
     }
@@ -773,55 +847,58 @@ function tick() {
 
     /* PLAYER TICK */
 
-    for (i = 0; i < clients.length; i++) {
+    wss.clients.forEach(function each(client) {
         /* cb de vendus */
-
-        if (clients[i].data.init && clients[i].data.end) {
-            console.log('ending ' + clients[i].name);
-            var end = {};
-
-            end.txt = "Magic power has been given to the hole. You consumed everything on earth for cash.<br/>";
-
-            try {
-                clients[i].send(JSON.stringify({'endoftimes': end, "data": clients[i].data}));
-            } catch (e) {
-                console.log(e);
-            }
-        }
         try {
-            if (clients[i].data.init && !clients[i].data.end) {
+            if (client.data && client.data.init && client.data.end) {
+                if(!client.data.endr){
+                    client.data.endr = 1;
+                   report('ending ' + client.name); 
+                }
                 
-             
-                if (clients[i].readyState === clients[i].CLOSING) {
-                    console.log('closed client detected '+clients[i].name);
-                    erreur(clients[i],' closing');
+                var end = {};
+                end.txt = "Magic power has been given to the hole. You consumed everything on earth for cash.<br/>\n\
+(Rebirth NG++++ in developpement)";
+
+                try {
+                    client.send(JSON.stringify({'endoftimes': end, "data": client.data}));
+                } catch (e) {
+                    report(e);
+                }
+            }
+
+            if (client.data && client.data.init && !client.data.end) {
+
+                if (client.readyState === client.CLOSING) {
+                    report('closed client detected ' + client.name);
+                    erreur(client, ' closing');
                     return(null);
                 }
-               
-                
-                if (isNaN(clients[i].data.score)) {
-                    console.log('ERRRREUUUR SCORE ');
-                    clients[i].data.score = 0;
+
+
+                if (isNaN(client.data.score)) {
+                    report('ERRRREUUUR SCORE ');
+                    client.data.score = 0;
                 }
 
                 /*workers*/
 
-                var produced = biz.getDailyProduction(clients[i]);
-                var cost = biz.getActualWorkerCost(clients[i]);
+                var produced = biz.getDailyProduction(client);
+                var cost = biz.getActualWorkerCost(client);
 
                 if (isNaN(produced)) {
-                    console.log('ERRRREUUUR PRODUCTION');
-                    console.log(produced);
+                    report('ERRRREUUUR PRODUCTION');
+                    report(produced);
                 }
 
-                clients[i].data.score += produced;
-                clients[i].data.unsold += produced;
-                clients[i].data.money -= cost;
+                client.data.score += produced;
+                client.data.unsold += produced;
+                client.data.money -= cost;
 
-                if (!clients[i].data.strategies.children) {
-                    clients[i].data.strategies.children = 0;
+                if (!client.data.strategies.children) {
+                    client.data.strategies.children = 0;
                 }
-                clients[i].data.strategies.children_next_cost = biz.getNextLcWorkerCost(clients[i]);
+                client.data.strategies.children_next_cost = biz.getNextLcWorkerCost(client);
 
                 /* sales */
                 /*
@@ -833,144 +910,144 @@ function tick() {
                  * 
                  * 
                  */
-                var sale = biz.getIncome(clients[i]);
-                clients[i].data.unsold = sale.unsold;
-                clients[i].data.money += sale.income;
-                clients[i].data.daily = {'income': sale.income, 'sales': sale.vendus};
+                var sale = biz.getIncome(client);
+                client.data.unsold = sale.unsold;
+                client.data.money += sale.income;
+                client.data.daily = {'income': sale.income, 'sales': sale.vendus};
 
                 /* agios */
-                clients[i].data.tools.ajo = 0;
-                if (clients[i].data.money < 0) {
-                    var ajo = Math.ceil(clients[i].data.money * biz.ajo * -1);
-                    clients[i].data.money -= ajo;
-                    clients[i].data.tools.ajo = ajo;
+                client.data.tools.ajo = 0;
+                if (client.data.money < 0) {
+                    var ajo = Math.ceil(client.data.money * biz.ajo * -1);
+                    client.data.money -= ajo;
+                    client.data.tools.ajo = ajo;
                 }
-                if (clients[i].data.money < biz.banqueroute) {
-                    clients[i].banqueroute();
+                if (client.data.money < biz.banqueroute) {
+                    client.banqueroute();
                 }
 
 
 
 
                 /* cooldowns */
-                if (clients[i].data.strategies.defamecooldown > 0) {
-                    clients[i].data.strategies.defamecooldown--;
+                if (client.data.strategies.defamecooldown > 0) {
+                    client.data.strategies.defamecooldown--;
                 }
-                
-                if(!clients[i].data.strategies.lobbycooldown) clients[i].data.strategies.lobbycooldown = 0;
-                if(clients[i].data.strategies.lobbycooldown > 0){
-                    clients[i].data.strategies.lobbycooldown--;
+
+                if (!client.data.strategies.lobbycooldown)
+                    client.data.strategies.lobbycooldown = 0;
+                if (client.data.strategies.lobbycooldown > 0) {
+                    client.data.strategies.lobbycooldown--;
                 }
 
                 /* black magic */
-                if (clients[i].data.strategies.magic) {
-                    if (!clients[i].data.magicpower)
-                        clients[i].data.magicpower = 0;
+                if (client.data.strategies.magic) {
+                    if (!client.data.magicpower)
+                        client.data.magicpower = 0;
 
-                    clients[i].data.strategies.magicnextcost = biz.getBlackMagicNextCost(clients[i]);
+                    client.data.strategies.magicnextcost = biz.getBlackMagicNextCost(client);
 
                 }
 
                 /* btc */
-                if (clients[i].data.strategies.btc) {
-                    if (!clients[i].data.strategies.farm)
-                        clients[i].data.strategies.farm = 0;
-                    var prod = biz.getBtcProd(clients[i]);
-                    clients[i].data.btc += prod.prod;
-                    clients[i].data.strategies.warm = prod.warm;
-                    clients[i].data.strategies.farm_next_cost = biz.getBtcFarmNextCost(clients[i]);
-                    clients[i].data.strategies.farm_next_cost100 = biz.getBtcFarmNextCost(clients[i]) * 100;
+                if (client.data.strategies.btc) {
+                    if (!client.data.strategies.farm)
+                        client.data.strategies.farm = 0;
+                    var prod = biz.getBtcProd(client);
+                    client.data.btc += prod.prod;
+                    client.data.strategies.warm = prod.warm;
+                    client.data.strategies.farm_next_cost = biz.getBtcFarmNextCost(client);
+                    client.data.strategies.farm_next_cost100 = biz.getBtcFarmNextCost(client) * 100;
                 }
 
                 /* greenwashing */
-                if (clients[i].data.strategies.greenwashing) {
-                    if (!clients[i].data.strategies.ngo)
-                        clients[i].data.strategies.ngo = 0;
+                if (client.data.strategies.greenwashing) {
+                    if (!client.data.strategies.ngo)
+                        client.data.strategies.ngo = 0;
 
                 }
 
                 /* greenwashing */
-                if (clients[i].data.strategies.lawyers) {
-                    if (!clients[i].data.strategies.avocats)
-                        clients[i].data.strategies.avocats = 0;
+                if (client.data.strategies.lawyers) {
+                    if (!client.data.strategies.avocats)
+                        client.data.strategies.avocats = 0;
 
-                    clients[i].data.strategies.avocat_next_cost = biz.getAvocatNextCost(clients[i]);
+                    client.data.strategies.avocat_next_cost = biz.getAvocatNextCost(client);
                 }
 
 
 
                 /* army */
-                if (clients[i].data.strategies.army) {
-                    if (!clients[i].data.killed) {
-                        clients[i].data.killed = 0;
+                if (client.data.strategies.army) {
+                    if (!client.data.killed) {
+                        client.data.killed = 0;
                     }
-                    if (!clients[i].data.strategies.army_p) {
-                        clients[i].data.strategies.army_p = 0;
+                    if (!client.data.strategies.army_p) {
+                        client.data.strategies.army_p = 0;
                     }
-                    if (!clients[i].data.strategies.dailykilled)
-                        clients[i].data.strategies.dailykilled = 0;
-                    clients[i].data.strategies.army_p_nc = biz.getArmyProgNextCost(clients[i]);
-                    clients[i].data.strategies.dailykilled = biz.getKilled(clients[i]);
-                    clients[i].data.killed += biz.getKilled(clients[i]);
+                    if (!client.data.strategies.dailykilled)
+                        client.data.strategies.dailykilled = 0;
+                    client.data.strategies.army_p_nc = biz.getArmyProgNextCost(client);
+                    client.data.strategies.dailykilled = biz.getKilled(client);
+                    client.data.killed += biz.getKilled(client);
 
                 }
 
                 /* bad buzz */
-                if (clients[i].data.strategies.badbuzzcooldown && clients[i].data.strategies.badbuzzcooldown > 0) {
-                    clients[i].data.strategies.badbuzzcooldown--;
+                if (client.data.strategies.badbuzzcooldown && client.data.strategies.badbuzzcooldown > 0) {
+                    client.data.strategies.badbuzzcooldown--;
                 }
-                if (clients[i].data.strategies.badbuzzvictim && clients[i].data.strategies.badbuzzvictim > 0) {
-                    clients[i].data.strategies.badbuzzvictim--;
+                if (client.data.strategies.badbuzzvictim && client.data.strategies.badbuzzvictim > 0) {
+                    client.data.strategies.badbuzzvictim--;
                 }
 
 
                 /*strike */
-                if (clients[i].data.strategies.strikecooldown && clients[i].data.strategies.strikecooldown > 0) {
-                    clients[i].data.strategies.strikecooldown--;
+                if (client.data.strategies.strikecooldown && client.data.strategies.strikecooldown > 0) {
+                    client.data.strategies.strikecooldown--;
                 }
-                if (clients[i].data.strategies.onstrike && clients[i].data.strategies.onstrike > 0) {
-                    clients[i].data.strategies.onstrike--;
+                if (client.data.strategies.onstrike && client.data.strategies.onstrike > 0) {
+                    client.data.strategies.onstrike--;
                 }
                 /* death */
 
-                if (clients[i].data.strategies.holocaust && !clients[i].data.strategies.holocaustdone) {
-                    clients[i].data.strategies.holocaustdone = true;
-                    clients[i].data.killed += 20000000000;
+                if (client.data.strategies.holocaust && !client.data.strategies.holocaustdone) {
+                    client.data.strategies.holocaustdone = true;
+                    client.data.killed += 20000000000;
                 }
 
 
                 /* end */
 
-                if (clients[i].data.strategies.hole) {
-                    clients[i].data.end = true;
-                    clients[i].save();
+                if (client.data.strategies.hole) {
+                    client.data.end = true;
+                    client.save();
                 }
-                
-                
 
 
-            } else {
-               
+
+
             }
         } catch (e) {
-            
+            report(e);
         }
 
 
 
 
+    });
+    if (!wss.clients.size) {
+        report('nobodyshere ?');
     }
     wss.massrefresh();
     save_clock++;
     if (save_clock === save_freq) {
-        console.log('mass save');
         wss.masssave();
         save_clock = 0;
     }
 
     var mytick = setTimeout(function () {
         tick();
-
     }, biz.tickrate);
 }
 tick();

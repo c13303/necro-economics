@@ -1,7 +1,7 @@
 <?php
-$statut = 'BETA ! Last update : V0.92 - disabled bankruptcy before rework';
+$statut = 'BETA ! Last update : V0.91 - tax dodge cooldown implemented ';
 
-
+$v = time();
 $title = 'Necro-Economics<br/> Idler Pro';
 $isdev = filter_input(INPUT_GET, "dev", FILTER_SANITIZE_NUMBER_INT);
 $message = filter_input(INPUT_GET, "message", FILTER_SANITIZE_STRING);
@@ -51,7 +51,7 @@ if ($isdev) {
                 <form class="shoutax">
                     <input type="text" id="shout" /> 
                     <button type="submit" class="shout">broadcast</button>
-                </form>
+                    </form>
             </div>
         </div>
         <div id="hobby_window" class="hidden">
@@ -81,7 +81,7 @@ if ($isdev) {
         </div>
         <div id="satan" class="hidden">
             <div class="inner">
-
+                
             </div>
             <a href="/?disablereconnect=1"><button>Quit</button></a> <button class="command" data-c="reset" data-v="1">Reset account</button>
         </div>
@@ -119,7 +119,7 @@ if ($isdev) {
                         <h2>Lawyers</h2>
                         <p>Laywers : <span class="stat" data-s="avocats"></span>
                             <button class="comlaunch security command hcommand" data-security="avocat_next_cost" data-c="avocatbuy" data-v="1">Hire</button> Cost : <span class="stat avoca_cost" data-s="avocat_next_cost"></span>€</p>
-
+                         
                         </p>
                     </div>
 
@@ -210,7 +210,7 @@ if ($isdev) {
 
 
             </div>
-
+          
             <div class="row">
                 <div id="tools" class="">
                     <h2>Strategic Operations</h2>
@@ -227,8 +227,8 @@ if ($isdev) {
 
                     </table>
                     <div id="clientsmodele" class="hidden">
-                        <table >
-                            <tbody class="mp-coms-player">
+                        <table>
+                            <tbody>
                                 <tr>
                                     <td class="name"><b></b></td>
                                     <td class="money"></td>
@@ -236,11 +236,11 @@ if ($isdev) {
                                     <td class="product"></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="4" class="lined mp-coms">
-                                        <button class="command mp-spy" data-c="spy" data-v="" data-balloon="Gather data about this person. Beware of fake news ..." data-balloon-pos="down">spy (1&nbsp;000€)</button>
-                                        <button class="command mp-defame noself" data-c="defame" data-balloon="Your reputation against his/her reputation" data-balloon-pos="down" data-v="">defame (100&nbsp;000€)</button>
-                                        <button class="command mp-badbuzz noself" data-c="badbuzz" data-balloon="Lower his/her reputation" data-balloon-pos="down" data-v="">bad buzz (1.00M€)</button>
-                                        <button class="command mp-strike noself" data-c="strike" data-balloon="Their worker will stop working for some time" data-balloon-pos="down" data-v="">strike (10M€)</button>
+                                    <td colspan="4" class="lined">
+                                        <button class="command mp-spy" data-c="spy" data-v="" data-balloon="Gather data about this person. Beware of fake news ..." data-balloon-pos="up">spy (1&nbsp;000€)</button>
+                                        <button class="command mp-defame noself" data-c="defame" data-balloon="Your reputation against his/her reputation" data-balloon-pos="up" data-v="">defame (100&nbsp;000€)</button>
+                                        <button class="command mp-badbuzz noself" data-c="badbuzz" data-balloon="Lower his/her reputation" data-balloon-pos="up" data-v="">bad buzz (1.00M€)</button>
+                                        <button class="command mp-strike noself" data-c="strike" data-balloon="Their worker will stop working for some time" data-balloon-pos="up" data-v="">strike (10M€)</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -325,12 +325,6 @@ if ($isdev) {
         <?php endif; ?>
         <div class="footer" style="float: right;">
             <a href="https://twitter.com/ChineGames" target="_blank">2018 Charline Chie</a>
-        </div>
-        <!-- deco -->
-        <div class="deco">
-            <div class="corners">
-                <div class="corner1"></div>  <div class="corner2"></div>  <div class="corner3"></div>  <div class="corner4"></div>
-            </div>
         </div>
     </body>
 </html>

@@ -25,6 +25,8 @@ body{
     font-family: 'Quicksand', sans-serif;
     position:relative;
     background-image:url(../img/tile.png);
+
+    
     h2{
         margin-top:0;
     }
@@ -213,19 +215,27 @@ body{
         }
 
         #clientsbox{
+            .mp-coms-player{
+                &:hover{
+                    background:#CCC;
+                }
+                cursor:pointer;
+                pointer-events: auto;
+            }
+            
             table,tr{
                 width: 100%;
 
                 td{
                     width:25%;      
                     &.lined{
-                        border-bottom: 1Px solid #CCC;
+                      //  border-bottom: 1Px solid #CCC;
                     }
                 }
             }
             @media (min-width:$bp){
                 max-width:none;
-
+                
                 width:60%;
             }
         }
@@ -303,6 +313,44 @@ body{
             height: 50px;
     overflow: hidden;
         .shout{ float:right;}
+    }
+    
+    
+    
+    .deco{
+        
+        .corners{
+            pointer-events: none;
+             position:fixed;
+             width:100%;
+             height:100%;
+             
+             z-index:10;
+            >div{
+                position:fixed;
+                width:16px;
+                height:16px;
+            }
+            .corner1{
+                top:0;
+                left:0;
+                background-image:url(../img/corner1.png);                
+            }
+            .corner2{
+                top:0;
+                right:0;
+                background-image:url(../img/corner2.png);   
+            }
+            .corner3{
+                bottom:0;
+                left:0;
+                background-image:url(../img/corner3.png);   
+            }
+            .corner4{
+                bottom:0;right:0;
+                background-image:url(../img/corner4.png);   
+            }
+        }
     }
     
 }
