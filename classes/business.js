@@ -26,7 +26,7 @@ module.exports = {
     spycost: 1000,
     defamecost: 100000,
     defame_ratio: 100,
-    defamecooldown: 900,
+    defamecooldown: 10 * 60,
     armyprogbasis: 1000000,
     armyprog_coef: 1.2,
     badbuzzduration: 30,

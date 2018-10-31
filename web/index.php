@@ -1,5 +1,5 @@
 <?php
-$statut = 'BETA ! Last update : V0.92 - disabled bankruptcy before rework';
+$statut = 'BETA ! Last update : V0.93 - small defamation tuning';
 
 
 $title = 'Necro-Economics<br/> Idler Pro';

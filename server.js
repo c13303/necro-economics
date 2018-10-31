@@ -22,6 +22,10 @@ var hobby_clock = 0;
 var hobby_window = false;
 var hobby_price = 0;
 
+var rand_news = [];
+rand_news.push('Selling bottled air is definitely a legitimate business. It will be the next bottled water.');
+
+
 var data_example = {
     name: '',
     score: 0,
@@ -122,7 +126,7 @@ stdin.addListener("data", function (d) {
     }
     
     if (commande === 'broadcast' && arg) {
-        wss.consoleAll(arg);
+        wss.consoleAll('<b>'+arg+'</b>');
     }
 
     if (commande === 'lobby') {
@@ -519,7 +523,7 @@ wss.on('connection', function myconnection(ws, request) {
 
             if (json.command === 'shout' && ws.data.strategies.shout) {
                 var say = json.value.replace(/<.*?>/g, '');
-                wss.consoleAll(ws.name + ' : ' + say);
+                wss.consoleAll(ws.name + ' : <b>' + say +'</b>');
             }
 
 
@@ -566,7 +570,7 @@ wss.on('connection', function myconnection(ws, request) {
 
 
 
-            if (json.command === 'spy') {
+            if (json.command === 'spy' && json.value) {
                 var spydata = getOneClient(json.value);
                 var op = opbible.findOp('spy');
                 var cost = op.actionprice;
@@ -577,8 +581,8 @@ wss.on('connection', function myconnection(ws, request) {
                         ws.send(JSON.stringify({'spydata': spydata.data, 'tick': tic}));
                         wss.consoleAll(ws.name + ' watches ' + spydata.name);
                     } else {
-                        report('spy target not found');
-                        console.log(spydata);
+                        report(ws.name + ' : spy target not found '+json.value);
+                       
                     }
                 }
             }
@@ -590,21 +594,31 @@ wss.on('connection', function myconnection(ws, request) {
 
 
 
-                if (target && ws.data.money >= cost) {
+                if (target && ws.data.money >= cost && !ws.data.strategies.defamecooldown) {
                     ws.data.money -= cost;
-
+                    ws.data.strategies.defamecooldown = biz.defamecooldown;
+                    
                     if (target.data.strategies.lawyers && target.data.strategies.avocats > 0) {
-                        target.data.strategies.avocats--;
-                        ws.data.strategies.defamecooldown = biz.defamecooldown;
+                        target.data.strategies.avocats--;                      
+                        
                         ws.send(JSON.stringify({'modal': 'You tried to defame ' + target.name + ' but it had a good lawyer and youve been sued.'}));
                         wss.consoleAll(ws.name + ' failed to defame ' + target.name + ' because it had a good lawyer ');
                         target.send(JSON.stringify({'modal': ws.name + ' failed to defame you thanks to your lawyer. The lawyer is now retired.'}));
                     } else {
-
+                        
 
                         var reputDiff = biz.getReputation(ws) - biz.getReputation(target);
-
-                        var steal = target.data.money * (reputDiff / biz.defame_ratio);
+                        
+                        var ratio = (reputDiff / biz.defame_ratio);
+                        if(ratio > 0.9) {
+                            ratio = 0.9;
+                        }
+                        var steal = target.data.money * ratio;
+                        
+                        
+                        report('defame report : steal : '
+                                + biz.fnum(steal) +' from '+ws.name+' (rep'+biz.getReputation(ws)+') to '
+                                +target.name+' (rep'+biz.getReputation(target)+') ('+ biz.fnum(target.data.money)+'€) [ratio ->'+ratio+'%]');
 
                         if (steal > 0) {
                             wss.consoleAll(ws.name + ' defames ' + target.name + '(' + reputDiff + ' rep. pts.) for ' + steal.toLocaleString() + '€');
@@ -630,7 +644,6 @@ wss.on('connection', function myconnection(ws, request) {
                             wss.consoleAll(ws.name + ' failed to defame ' + target.name + ' (' + reputDiff + ' rep. pts.) ');
                             ws.send(JSON.stringify({'modal': 'You failed to defame ' + target.name + ' (' + reputDiff + ' rep. pts.) '}));
                         }
-
 
 
                     }
