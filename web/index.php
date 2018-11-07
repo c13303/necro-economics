@@ -1,7 +1,7 @@
 <?php
-$statut = 'BETA ! Last update : V0.93 - small defamation tuning';
+$statut = 'BETA ! Last update : V0.99 - End Game & New Game ++';
 
-
+$v = time();
 $title = 'Necro-Economics<br/> Idler Pro';
 $isdev = filter_input(INPUT_GET, "dev", FILTER_SANITIZE_NUMBER_INT);
 $message = filter_input(INPUT_GET, "message", FILTER_SANITIZE_STRING);
@@ -12,6 +12,8 @@ if ($isdev) {
     $title .= " Dev";
     $v = time();
 }
+
+
 ?><!DOCTYPE html>
 <html>
     <head>
@@ -46,13 +48,18 @@ if ($isdev) {
                 <?= $message ? "<span class='infoupdate'>$message</span>" : ''; ?>               
             </div>             
         </div>
-        <div  class="strategic hidden row rowshout" data-strat="shout">
+        <div class="row">
+            <div class="strategic hidden" data-strat="army">
+                <p>Humans left  : <span class="stat" data-p="humans_left"></span></p>
+            </div>
+        <div  class="strategic hidden  rowshout" data-strat="shout">
             <div class="shout">
                 <form class="shoutax">
                     <input type="text" id="shout" /> 
                     <button type="submit" class="shout">broadcast</button>
                 </form>
             </div>
+        </div>
         </div>
         <div id="hobby_window" class="hidden">
             <div class="hobbyist" >
@@ -74,7 +81,7 @@ if ($isdev) {
             <div id="productname">
                 <form id="pname">
                     <p>What is the name of your product brand?</p>
-                    <input type="text" id="prod" placeholder="" value="steak" />
+                    <input type="text" id="prod" placeholder="" value="steak"  maxlength="15" />
                     <input type="submit" id="submitpname" value="submit" />
                 </form>
             </div>
@@ -106,13 +113,9 @@ if ($isdev) {
                     </div>
                     <div class="strategic" data-strat="greenwashing">
                         <h2>Greenwashing</h2>
-                        <p>Children Care support : <span class="stat" data-s="ngo"></span>€ / day<br/>
-                            <button class="command" data-c="ngo" data-v="-10">-10</button>
-                            <button class="command" data-c="ngo" data-v="10">+10</button>
-                            <button class="command" data-c="ngo" data-v="-100">-100</button>
-                            <button class="command" data-c="ngo" data-v="100">+100</button>
-                            <button class="command" data-c="ngo" data-v="-1000">-1000</button>
-                            <button class="command" data-c="ngo" data-v="1000">+1000</button>
+                        <p>Children Care support : <span class="stat" data-s="ngo"></span>% / day<br/>
+                           
+                            <input type="range" id="ngo" value="0" min="0" max="100" />
                         </p>                        
                     </div>
                     <div class="strategic" data-strat="lawyers">
@@ -140,6 +143,12 @@ if ($isdev) {
                         <p>Commercials : <span class="stat" data-p="commercials"></span> 
                             <button class="comlaunch security command hcommand" data-nostratsecurity="nmc" data-c="commercialbuy" data-v="1">Launch</button></p>
                         <p> Next : <span class="stat" data-p="nmc"></span>€</p>
+                    </div>
+                    <div class="strategic" data-strat="recycle">
+                        <h2>Purgatory</h2>                        
+                        <p>Planets destroyed : <span class="strat" data-s="worlds"></span></p>
+                        
+                        <p><button class="rebirthvalid" type="submit" data-c="rebirth" data-v="1">Recycle this planet</button></p>
                     </div>
 
 
@@ -297,6 +306,7 @@ if ($isdev) {
                             <p><span class="field" data-f="product"></span> <span class="field" data-f="price"></span></p>
                             <p><span class="field" data-f="unsold"></span> <span class="field" data-f="score"></span></p>
                             <p><span class="field" data-f="killed"></span> <span class="field" data-f="magicpower"></span></p>
+                            <p><span class="field" data-f="humans_left"></span></p>
                             <p class="field" data-f="strats"></p>
                         </div>
                     </div>
@@ -332,5 +342,6 @@ if ($isdev) {
                 <div class="corner1"></div>  <div class="corner2"></div>  <div class="corner3"></div>  <div class="corner4"></div>
             </div>
         </div>
+        
     </body>
 </html>

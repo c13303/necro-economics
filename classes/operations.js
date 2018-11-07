@@ -619,11 +619,11 @@ module.exports = {
             'min': 'magicpower',
             'minv': 10,
             'desc': 'Let some ridiculous ideology madness drive a one-shot death mega production production',
-            'buf': '1B killed'
+            'buf': '3M killed'
         });
         
 
-
+/*
         ops.push({
             name: 'hole',
             title: 'Black Hole Plan',
@@ -635,8 +635,19 @@ module.exports = {
             'desc': 'Sell souls to Satan for the Ultimate Cash Reward',
             'buf': 'win the freaking game'
         });
-
+*/
        
+       ops.push({
+            name: 'recycle',
+            title: 'Black Hole Plan',
+            price: global_price_tuning * 360,
+            price_entity: 'magicpower',
+            required_strat: 'magic',
+            'min': 'magicpower',
+            'minv': 1,
+            'desc': 'Consume this world to Satan into a giant star of [product]',
+            'buf': 'pick a new permanent bonus and reboot your carreer'
+        });
 
 
 

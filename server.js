@@ -22,8 +22,30 @@ var hobby_clock = 0;
 var hobby_window = false;
 var hobby_price = 0;
 
-var rand_news = [];
-rand_news.push('Selling bottled air is definitely a legitimate business. It will be the next bottled water.');
+
+var rand_news = {};
+rand_news.tick = 0;
+rand_news.triggerTick = 1800;
+rand_news.stock = [];
+rand_news.stock.push('Selling bottled air is definitely a legitimate business. It will be the next bottled water.');
+
+
+rand_news.check = function () {
+    try {
+        if (this.tick >= this.triggerTick) {
+            var n = biz.getRandomInt(this.stock.length);          
+            var daNew = this.stock[n];            
+            if(daNew)
+            wss.consoleAll('<b class="news">'+daNew+'</b>');
+            this.tick = 0;
+        } else {
+            this.tick++;
+        }
+    } catch (e) {
+        report(e);
+    }
+
+};
 
 
 var data_example = {
@@ -37,6 +59,7 @@ var data_example = {
     price: 5,
     totalticks: 0,
     killed: 0,
+    humans_left: biz.maxHumans,
     daily: {},
     strategies: {},
     tools: {},
@@ -179,8 +202,7 @@ function erreur(ws, what)
 {
     try {
         report('ERREUR : ' + ws.name + ':' + what);
-        ws.close();
-        ws.disconnect();
+        ws.close();    
 
     } catch (e) {
         report(e);
@@ -336,12 +358,13 @@ wss.masssave = function masssave(callback = null) {
 function info_clients() {
     var infos = [];
     wss.clients.forEach(function each(client) {
-        if (client.data.init) {
+        if (client.data.init && !client.data.end) {
             infos.push({
                 'name': client.name,
                 'product': client.data.product,
                 'score': client.data.score,
-                'money': client.data.money
+                'money': client.data.money,
+                'worlds' : (client.data.strategies && client.data.strategies.worlds) ? client.data.strategies.worlds : 0,
             });
         }
     });
@@ -442,6 +465,7 @@ wss.on('connection', function myconnection(ws, request) {
                     'magicpower': ws.data.magicpower ? ws.data.magicpower : 0,
                     'btc': ws.data.btc ? ws.data.btc : 0,
                     'ct': ws.data.strategies.autocorpse ? 1 : 0,
+                    'humans_left' : biz.humans_on_earth
                 }));
                 ws.data.console = [];
             }
@@ -482,12 +506,12 @@ wss.on('connection', function myconnection(ws, request) {
     };
 
     ws.banqueroute = function () {
-        /*
+       
          ws.send(JSON.stringify({'banqueroute': 1}));
          wss.consoleAll(ws.name + ' banqueroute !!!! ');
          ws.reset();
-         ws.disconnect();
-         */
+         ws.close();
+         
     };
 
     /*read messages from the client */
@@ -535,9 +559,12 @@ wss.on('connection', function myconnection(ws, request) {
             }
 
             if (json.command === 'ngo') {
-                ws.data.strategies.ngo += json.value;
+                ws.data.strategies.ngo = json.value;
                 if (ws.data.strategies.ngo < 0) {
                     ws.data.strategies.ngo = 0;
+                }
+                if (ws.data.strategies.ngo > 100) {
+                     ws.data.strategies.ngo = 100;
                 }
             }
 
@@ -563,7 +590,7 @@ wss.on('connection', function myconnection(ws, request) {
 
             if (json.command === 'sellbtc' && ws.data.btc > 0) {
                 var amount = ws.data.btc * BTCprice;
-                wss.consoleAll(ws.name + ' sold ' + biz.fnum(ws.data.btc) + ' BTC for ' + biz.fnum(amount) + 'BTC');
+                wss.consoleAll(ws.name + ' sold ' + biz.fnum(ws.data.btc) + ' BTC for ' + biz.fnum(amount) + '€');
                 ws.data.money += amount;
                 ws.data.btc = 0;
             }
@@ -726,7 +753,7 @@ wss.on('connection', function myconnection(ws, request) {
 
             if (json.command === 'hack' && port === 8081) {
                 report('HACK ' + json.what + ' : ' + json.value);
-                ws.data[json.what] = json.value;
+                ws.data[json.what] = parseInt(json.value);
 
             }
 
@@ -769,6 +796,34 @@ wss.on('connection', function myconnection(ws, request) {
                 ws.data.strategies.marketing++;
 
             }
+            
+            
+            
+            if (json.command === 'rebirth' && ws.data.strategies.recycle) {
+                if (!ws.data.strategies.worlds)
+                    ws.data.strategies.worlds = 0;
+                ws.data.strategies.worlds++;
+                var oldData = ws.data;
+                if(!oldData || !oldData.strategies || !oldData.strategies.worlds){
+                    console.log(oldData);
+                   process.exit();
+                }
+                
+                ws.data = data_example;  
+                ws.data.name = ws.name;
+                ws.data.init = true;
+                ws.data.product = oldData.product;
+                ws.data.strategies.worlds = oldData.strategies.worlds;
+                report(ws.name+' rebirth level '+ ws.data.strategies.worlds);
+                console.log(ws.data);               
+                ws.save();
+            }
+            
+            
+            
+            
+            
+            
 
             if (json.command) {
                 ws.refresh(false);
@@ -856,6 +911,11 @@ function tick() {
         hobby_window = false;
         hobby_clock = 0;
     }
+    
+    rand_news.check();
+    
+    
+    
 
 
     /* PLAYER TICK */
@@ -863,22 +923,47 @@ function tick() {
     wss.clients.forEach(function each(client) {
         /* cb de vendus */
         try {
+            
+            /* BLACK HOLE END */
             if (client.data && client.data.init && client.data.end) {
-                if(!client.data.endr){
-                    client.data.endr = 1;
-                   report('ending ' + client.name); 
-                }
-                
-                var end = {};
-                end.txt = "Magic power has been given to the hole. You consumed everything on earth for cash.<br/>\n\
-(Rebirth NG++++ in developpement)";
 
-                try {
-                    client.send(JSON.stringify({'endoftimes': end, "data": client.data}));
-                } catch (e) {
-                    report(e);
+                if (!client.data.endr) {
+                    client.data.endr = 1;
+                    var overall = client.data.score + client.data.humans_left;
+                     client.data.overallscore = overall;
+                    report('ending ' + client.name);
+                    
+                    
                 }
+
+                var end = {};
+
+                if (!client.data.endreason) {
+                    end.txt = "Magic power has been given to the hole. You consumed everything on earth for cash.<br/>";
+
+                    try {
+                        client.send(JSON.stringify({'endoftimes': end, "data": client.data}));
+                    } catch (e) {
+                        report(e);
+                    }
+                }
+
+                if (client.data.endreason === 'nomorehumans') {
+                    end.txt = "There are no more humans on this planet.<br/>";
+
+                    try {
+                        client.send(JSON.stringify({'endoftimes': end, "data": client.data}));
+                    } catch (e) {
+                        report(e);
+                    }
+
+                }
+
             }
+            
+            
+            
+            
 
             if (client.data && client.data.init && !client.data.end) {
 
@@ -893,6 +978,10 @@ function tick() {
                     report('ERRRREUUUR SCORE ');
                     client.data.score = 0;
                 }
+                
+                
+                /* maximum money */
+                
 
                 /*workers*/
 
@@ -957,7 +1046,9 @@ function tick() {
                 if (client.data.strategies.magic) {
                     if (!client.data.magicpower)
                         client.data.magicpower = 0;
-
+                    if(client.data.magicpower > biz.black_energy_limit){
+                        client.data.magicpower = biz.black_energy_limit;
+                    }
                     client.data.strategies.magicnextcost = biz.getBlackMagicNextCost(client);
 
                 }
@@ -966,8 +1057,14 @@ function tick() {
                 if (client.data.strategies.btc) {
                     if (!client.data.strategies.farm)
                         client.data.strategies.farm = 0;
-                    var prod = biz.getBtcProd(client);
+                    var prod = biz.getBtcProd(client);                  
+                    
+                    if(isNaN(prod.warm)){
+                        console.log(prod);
+                        throw new Error('An Warm NaN occurred'); 
+                    }
                     client.data.btc += prod.prod;
+                    
                     client.data.strategies.warm = prod.warm;
                     client.data.strategies.farm_next_cost = biz.getBtcFarmNextCost(client);
                     client.data.strategies.farm_next_cost100 = biz.getBtcFarmNextCost(client) * 100;
@@ -1026,9 +1123,36 @@ function tick() {
 
                 if (client.data.strategies.holocaust && !client.data.strategies.holocaustdone) {
                     client.data.strategies.holocaustdone = true;
-                    client.data.killed += 20000000000;
+                    client.data.killed += biz.holocaust;
+                    client.data.humans_left -= biz.holocaust;
                 }
-
+                
+                /* recycle */
+                
+                if (client.data.strategies.recycle) {
+                    if(!client.data.strategies.worlds){
+                        client.data.strategies.worlds = 0;
+                    }
+                    
+                }
+                
+                /* global killing */
+                if(biz.getKilled(client)){
+                    biz.humans_on_earth -= biz.getKilled(client) / 2;
+                    client.data.humans_left -= biz.getKilled(client);
+                    if(client.data.humans_left<=1){
+                        client.data.humans_left = 0;
+                        client.data.end = true;
+                        client.data.endreason = "nomorehumans";
+                    }
+                }
+                
+                /*small fix*/
+                if(!client.data.strategies.army && client.data.humans_left<=1){
+                    client.data.humans_left = biz.maxHumans;
+                }
+                
+                
 
                 /* end */
 
@@ -1037,7 +1161,7 @@ function tick() {
                     client.save();
                 }
 
-
+                
 
 
             }

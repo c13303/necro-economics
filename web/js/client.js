@@ -45,7 +45,7 @@ function formatEntity(ent) {
     if (ent === 'btc')
         return ' BTC';
 
-    return(' '+ent);
+    return(' ' + ent);
 }
 
 function fnum(x) {
@@ -57,6 +57,23 @@ function fnum(x) {
     if (isNaN(x))
         return x;
 
+
+    if (x < -1000000000000) {
+        return Math.round((x / 1000000000)) + "B";
+    }
+
+    if (x < -1000000000) {
+        return Math.round((x / 1000000)) + "M";
+    }
+    if (x < -10000000) {
+        return ((Math.round(x * 100) / 100) / 1000000).toFixed(2) + "M";
+    }
+    if (x < -1000000) {
+        return (Math.round(x * 100) / 100).toLocaleString();
+    }
+    if (x < -9999) {
+        return (Math.round(x * 100) / 100).toLocaleString();
+    }
     if (x < 0) {
         return (Math.round(x * 100) / 100).toLocaleString();
     }
@@ -79,8 +96,32 @@ function fnum(x) {
     if (x < 1000000000000) {
         return Math.round((x / 1000000000)) + "B";
     }
+    if (x < 1000000000000000) {
+        return Math.round((x / 1000000000)) + "T";
+    }
+    if (x < 1000000000000000000) {
+        return Math.round((x / 10000000000000000)) + "Qua";
+    }
+    if (x < 1000000000000000000000) {
+        return Math.round((x / 10000000000000000000)) + "Qui";
+    }
+    if (x < 1000000000000000000000000) {
+        return Math.round((x / 1000000000000000000000)) + "Sex";
+    }
+    if (x < 1000000000000000000000000000) {
+        return Math.round((x / 10000000000000000000000000)) + "Sept";
+    }
+    if (x < 1000000000000000000000000000000) {
+        return Math.round((x / 10000000000000000000000000000)) + "O";
+    }
+     if (x < 1000000000000000000000000000000000) {
+        return Math.round((x / 10000000000000000000000000000000)) + "N";
+    }
+     if (x < 1000000000000000000000000000000000000) {
+        return Math.round((x / 10000000000000000000000000000000000)) + "U";
+    }
 
-    return "1T+";
+    return "1DD+";
 }
 
 
@@ -102,7 +143,7 @@ $(document).ready(function () {
     dev = $('#isdev').val() ? true : false;
     console.log('poutrelle');
     var isdev = "dev=" + $('#isdev').val() + "&";
-   
+
     // UI //
 
 
@@ -112,7 +153,7 @@ $(document).ready(function () {
     });
 
     $('.stat').each(function () {
-        $(this).attr('data-ballon-pos','right');
+        $(this).attr('data-ballon-pos', 'right');
     });
 
 
@@ -120,26 +161,26 @@ $(document).ready(function () {
         $('.stat').each(function () {
             var stat = $(this).data('p');
             var strat = $(this).data('s');
-            if (stat){
+            if (stat) {
                 $(this).html(fnum(p[stat]));
-                $(this).attr("data-value",p[stat]);
-                //$(this).attr('data-balloon', p[stat]);
+                $(this).attr("data-value", p[stat]);
+                $(this).attr('data-balloon', p[stat]);
             }
-            if (strat && p.strategies){
+            if (strat && p.strategies) {
                 $(this).html(fnum(p.strategies[strat]));
-                $(this).attr("data-value",p.strategies[strat]);
-                //$(this).attr('data-balloon', p.strategies[strat]);
+                $(this).attr("data-value", p.strategies[strat]);
+                $(this).attr('data-balloon', p.strategies[strat]);
             }
         });
     }
-    
+
 
     // WS //
     function connect() {
         clearTimeout(autoreco);
         token = $('#password').val();
         user = $('#username').val();
-        
+
 
         var regex = /^([a-zA-Z0-9_-]+)$/;
         if (!regex.test(user) || !regex.test(token)) {
@@ -147,15 +188,22 @@ $(document).ready(function () {
             return false;
         }
 
-        
-        
+
+
         var port = $('#porc').val();
 
         Cookies.set('user', user);
         Cookies.set('token', token);
 
         try {
-            var ws = new WebSocket('ws://51.15.181.30:' + port + '/' + token + '-' + user);
+            var url = 'jipserver.5tfu.org';
+
+            if (dev) {
+                var ws = new WebSocket('ws://' + url + ':' + port + '/' + token + '-' + user);
+            } else {
+                var ws = new WebSocket('ws://' + url + ':' + port + '/' + token + '-' + user);
+            }
+
         } catch (e) {
             alert(e);
         }
@@ -163,19 +211,22 @@ $(document).ready(function () {
 
 
         ws.onerror = function (e) {
-            window.location.replace("/?" + isdev + "message=Login Failed : double login, wrong password or server down&disablereconnect=1");
+            
+            console.log(e);
+           
+            //window.location.replace("/?" + isdev + "message=Login Failed&disablereconnect=1");
 
         };
 
         ws.onmessage = function (event) {
-            
+
             var norefresh = false;
-           
+
             var d = JSON.parse(event.data);
             //if(dev)console.log(d);
-            
-             last_data = d;
-            
+
+            last_data = d;
+
             p = d; /* looool*/
 
             /* format some values for display */
@@ -199,12 +250,12 @@ $(document).ready(function () {
                 if (p.dp && p.tick) {
                     piston(p.dp);
                 }
-                
+
 
 
             }
+            
 
-           
 
             if (p.btcprice) {
                 $('.btcprice').html(Math.round(p.btcprice * 100) / 100);
@@ -215,8 +266,12 @@ $(document).ready(function () {
                 $('#game').hide();
                 $('#satan').removeClass("hidden");
                 $('#satan .inner').html(p.endoftimes.txt);
-                $('#satan .inner').append("<br/>SCORE : " + p.data.score.toLocaleString());
+                $('#satan .inner').append("<br/>PRODUCED : " + p.data.score.toLocaleString());
                 $('#satan .inner').append("<br/>MONEY : " + p.data.money.toLocaleString() + '€');
+                $('#satan .inner').append("<br/>HUMANS LEFT : " + p.data.humans_left + '');
+                 $('#satan .inner').append("<br/>FINAL SCORE : " + p.data.overallscore + '');
+                
+                
                 $('#satan .inner').append('<br/><br/>');
 
             }
@@ -271,14 +326,14 @@ $(document).ready(function () {
                 var balloon;
                 for (i = 0; i < d.opbible.length; i++) {
                     var op = d.opbible[i];
-                    if(op.buf){
-                        balloon = 'data-balloon="'+op.buf+'" data-balloon-pos="right"';
-                    } else 
+                    if (op.buf) {
+                        balloon = 'data-balloon="' + op.buf + '" data-balloon-pos="right"';
+                    } else
                     {
                         balloon = '';
                     }
-                    html += '<div '+balloon+' id="buy_' + op.name + '" class="operation disabled command" data-price_entity="' + op.price_entity + '" data-min="' + op.min + '" data-required_strat="' + op.required_strat + '" data-mina="' + op.price + '" data-minv="' + op.minv + '" data-c="buy" data-v="' + op.name + '" >';
-                    html += '<b>' + op.title + '</b> (' + fnum(op.price) +  formatEntity(op.price_entity) + ') <span class="chrono"></span><br/>' + op.desc + ' </div>';
+                    html += '<div ' + balloon + ' id="buy_' + op.name + '" class="operation disabled command" data-price_entity="' + op.price_entity + '" data-min="' + op.min + '" data-required_strat="' + op.required_strat + '" data-mina="' + op.price + '" data-minv="' + op.minv + '" data-c="buy" data-v="' + op.name + '" >';
+                    html += '<b>' + op.title + '</b> (' + fnum(op.price) + formatEntity(op.price_entity) + ') <span class="chrono"></span><br/>' + op.desc + ' </div>';
                     if (op.actionprice) {
                         actions[op.name] = {};
                         actions[op.name].price = op.actionprice;
@@ -287,19 +342,19 @@ $(document).ready(function () {
                 $('#tools .container').html(html);
                 /* tooltips JS */
                 /*
-                for (i = 0; i < d.opbible.length; i++) {
-                    var op = d.opbible[i];
-                    if (op.buf) {
-                        var id = "buy_" + op.name;
-                        var referenceElement = $(document).find('#' + id);
-                        new Tooltip(referenceElement, {
-                            placement: 'top', // or bottom, left, right, and variations
-                            title: op.buf
-                        });
-                    }
-
-                }
-                */
+                 for (i = 0; i < d.opbible.length; i++) {
+                 var op = d.opbible[i];
+                 if (op.buf) {
+                 var id = "buy_" + op.name;
+                 var referenceElement = $(document).find('#' + id);
+                 new Tooltip(referenceElement, {
+                 placement: 'top', // or bottom, left, right, and variations
+                 title: op.buf
+                 });
+                 }
+                 
+                 }
+                 */
             }
 
             if (d.banqueroute) {
@@ -336,14 +391,14 @@ $(document).ready(function () {
                 console.log(d.gone + ' leaves the game');
                 $('.player-' + d.gone).remove();
                 for (i = 0; i < people.length; i++) {
-                    if(people[i]===d.gone){
-                        people.splice(i,1);
+                    if (people[i] === d.gone) {
+                        people.splice(i, 1);
                     }
                 }
             }
 
             if (d.refresh) {
-               
+
                 /* refresh competitors */
                 var clients = d.refresh;
                 var html = '<table>';
@@ -352,6 +407,15 @@ $(document).ready(function () {
                     var data = clients[i];
                     if (people.indexOf(data.name) < 0) {  /* new people */
                         console.log(data.name + ' entered the tekken');
+                        var stars = '';
+                        if (data.worlds) {
+                            for (s = 0; s < data.worlds; s++) {
+                                stars += '<img src="img/star.png" alt="star" />';
+                            }
+                            stars = '<div class="worlds" data-balloon="' + data.worlds+' worlds destroyed" data-ballon-pos="right">'+stars+'</div>';
+                        }
+                        
+                        
                         people.push(data.name);
                         var html = $('#clientsmodele table').clone();
                         html.find('tr').addClass('player-' + data.name);
@@ -360,15 +424,14 @@ $(document).ready(function () {
                         html.find('.mp-defame').html('defame (' + fnum(actions.defamation.price) + '€)');
                         html.find('.mp-badbuzz').html('badbuzz (' + fnum(actions.badbuzz.price) + '€)');
                         html.find('.mp-strike').html('strike (' + fnum(actions.spy.price) + '€)');
-
                         if (data.name === user) {
                             html.find('table').addClass('selfplayer');
                             html.find('.mp-spy').html('audit (' + fnum(actions.spy.price) + '€)');
                             html.find('.noself').remove();
                         }
-                        html.find('.name').html('<b class="playaname">' + data.name + '<b>');
-
+                        html.find('.name').html('<b class="playaname">' + data.name + '</b>'+stars);
                         $('#clients2').append(html.html());
+                        
                     }
                     var html = $('.player-' + data.name);
                     html.find('.money').html(fnum(data.money) + '€');
@@ -449,11 +512,11 @@ $(document).ready(function () {
                  * GLOBAL
                  * display or hide the ops 
                  * */
-                
+
                 if (p.strategies.robots && $('.workertype').html() === 'worker') {
                     $('.workertype').html('robot');
                 }
-                
+
                 $('.operation').each(function () {
                     var min = $(this).data('min');
                     var minv = $(this).data('minv');
@@ -461,27 +524,27 @@ $(document).ready(function () {
                     var name = $(this).data('v');
                     var price_entity = $(this).data('price_entity');
                     var required_strat = $(this).data('required_strat');
-                    
-                   
+
+
                     //console.log(name+ ' : ' + min+ ': '+p[min] + ' vs '+minv);
 
 
                     if (p[min] >= minv && !p.strategies[name] && (!required_strat || p.strategies[required_strat])) {
                         $(this).show();
-                        
+
                         var chrono = 0;
                         if (p.strategies.chrono && price_entity === 'money') {
-                            var chrono = Math.floor((mina - p.money) / p.daily.income);                           
+                            var chrono = Math.floor((mina - p.money) / p.daily.income);
                             $(this).attr('data-chrono', chrono);
                         }
-                        if (chrono > 0){
-                            var mins = Math.floor(chrono/60);
-                            var restant = chrono - (mins * 60);                            
-                            var chronodisplay = mins ? mins+' min, ' : '';
-                            chronodisplay+= restant+'s';
+                        if (chrono > 0) {
+                            var mins = Math.floor(chrono / 60);
+                            var restant = chrono - (mins * 60);
+                            var chronodisplay = mins ? mins + ' min, ' : '';
+                            chronodisplay += restant + 's';
                             $(this).find('.chrono').html(chronodisplay);
                         }
-                            
+
                     } else {
                         $(this).hide();
                     }
@@ -520,9 +583,9 @@ $(document).ready(function () {
                 if (p.strategies.children) {
                     p.children = p.strategies.children;
                 }
-                if(p.strategies.autocorpse && $('#autoconsume').is(':checked') && p.tick){
+                if (p.strategies.autocorpse && $('#autoconsume').is(':checked') && p.tick) {
                     $('.consume').trigger('click');
-                    
+
                 }
 
 
@@ -607,7 +670,7 @@ $(document).ready(function () {
 
 
 
-            if(!norefresh)
+            if (!norefresh)
                 numbers_refresh();
 
             /* update securities */
@@ -652,7 +715,7 @@ $(document).ready(function () {
 
         function ping() {
             setTimeout(function () {
-               
+
                 if (ws.readyState === ws.CLOSED) {
                     window.location.replace("/?" + isdev + "reconnect=1&message=Serveur has updated ! Please Relog !");
                 } else {
@@ -686,7 +749,7 @@ $(document).ready(function () {
                 $('#make').removeAttr('disabled');
             }, p.max);
         });
-        
+
         $('.shoutax').submit(function (e) {
             e.preventDefault();
             var msg = $('#shout').val();
@@ -695,11 +758,17 @@ $(document).ready(function () {
                 $('#shout').val('');
             }
         });
+        
+        $('#ngo').change(function(){
+           console.log($(this).val()); 
+           ws.send(JSON.stringify({command: 'ngo', value: $(this).val()}));
+        });
 
 
         $(document).on('click', '.command', function () {
-            if(dev) console.log('command' + $(this).data('c'));
-            
+            if (dev)
+                console.log('command' + $(this).data('c'));
+
             if (!$(this).hasClass('disabled')) {
                 var c = $(this).data('c');
                 var v = $(this).data('v');
@@ -707,9 +776,19 @@ $(document).ready(function () {
                 console.log(command);
                 ws.send(command);
             }
+        });
 
 
-
+        $('.rebirthvalid').click(function (e) {
+            if (confirm('Do you really want to level up and reboot game ?')) {
+                var c = $(this).data('c');
+                var v = $(this).data('v');
+                var command = JSON.stringify({command: c, value: v});
+                console.log(command);
+                ws.send(command);
+            } else {
+                e.preventDefault();
+            }
         });
 
 
@@ -733,7 +812,8 @@ $(document).ready(function () {
 
         }
     }
-
+    
+    
 
 
 
@@ -844,7 +924,7 @@ $(document).ready(function () {
                     }],
                 labels: []
             },
-            options : {
+            options: {
                 legend: {
                     display: false,
                 }
@@ -861,14 +941,14 @@ $(document).ready(function () {
         }
 
         function piston(nb = 1) {
-            
-            
-            $('#piston .inner').css('height','100px');
-            setTimeout(function(){
-                $('#piston .inner').css('height','0px');
-            },500);
+
+
+            $('#piston .inner').css('height', '100px');
+            setTimeout(function () {
+                $('#piston .inner').css('height', '0px');
+            }, 500);
         }
-        
+
 
 
         /*
@@ -888,12 +968,12 @@ $(document).ready(function () {
          comChart = new Chart(ctxradar,config);
          }*/
     }
-    
-    
+
+
     /* UI SHIT */
     $('.mp-coms').hide();
-    $(document).on('click','.mp-coms-player',function(){
-        
+    $(document).on('click', '.mp-coms-player', function () {
+
         console.log('open');
         $(this).find('.mp-coms').toggle();
     });

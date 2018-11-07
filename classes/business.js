@@ -6,6 +6,9 @@
 
 
 module.exports = {
+    maxHumans : 7000000000,
+    holocaust : 3000000,
+    warmlimit : 20,
     random: null,
     price_base: 7, // the price at demand = 100%
     price_evol_coef: 1.4, // influence factor of price on demand
@@ -18,7 +21,7 @@ module.exports = {
     marketing_coef: 2,
     ajo: 0.0,
     children_reput_coef: 1.1,
-    banqueroute: -1000000,
+    banqueroute: -1000000000000,
     hobby_freq: 180,
     hobby_window: 30,
     hobbybribemin: 10000,
@@ -31,12 +34,13 @@ module.exports = {
     armyprog_coef: 1.2,
     badbuzzduration: 30,
     badbuzzcooldown: 450,
-  
+    black_energy_limit : 600,
     lc_worker_basis : 50,
     lc_worker_coef : 1.1,
     avocat_basis : 500000,
     avocat_coef : 5,
     
+    humans_on_earth : 7000000000,
     
     fnum: function (x) {
         if (!x) {
@@ -199,16 +203,16 @@ module.exports = {
             killed += ws.data.workers * 10;
         if (ws.data.strategies.warm > 1.5)
             killed += ws.data.strategies.warm  * Math.pow(ws.data.strategies.warm,5);
-
+       
+       killed = killed * 0.5;
         return Math.floor(killed);
     },
     getReputation: function (ws) {
         var reputation = 0;
-        /* children */
-        //if (ws.data.workers) { reputation += ws.data.workers / 5;  }
+       
         
         if (ws.data.strategies.children) {
-            reputation += -1 * ws.data.strategies.children - ((ws.data.strategies.children-1) * 0.5);
+            reputation -= ws.data.strategies.children - ((ws.data.strategies.children-1) * 0.5);
         }
         
         if (ws.data.strategies.bio) {
@@ -223,22 +227,24 @@ module.exports = {
         if (ws.data.strategies.badbuzzvictim) {
             reputation -= ws.data.strategies.badbuzzvictim;
         }
-       
+        
         
         if(ws.data.strategies.defamecooldown){
-            reputation -=ws.data.strategies.defamecooldown/ 10;
+            reputation -=Math.floor(ws.data.strategies.defamecooldown/ 10);
         }
-        
+         
         /* ngo en dernier ! */
-         if (ws.data.strategies.ngo && reputation < 0) {
-            var moneybasis = Math.floor(ws.data.money / 1000000); //M
-            if (moneybasis<1)
-                moneybasis = 1;
-            reputation += ws.data.strategies.ngo / moneybasis;
-            if(reputation > 0){
-                reputation = reputation * 0.005;
+        if (ws.data.strategies.ngo) {
+            if (reputation < 0) {
+                var manque = reputation * -1;
+                var comble = Math.floor(manque * ws.data.strategies.ngo / 100);
+                reputation += comble;
+            } else {
+                reputation += Math.floor(ws.data.strategies.ngo);
             }
+
         }
+       
 
         return Math.floor(reputation);
     },
@@ -309,9 +315,9 @@ module.exports = {
         sale.vendus = sale.demand / ws.data.price;
         
         if (ws.data.strategies.openspace) {
-            sale.vendus += ws.data.workers / 2;
+            sale.vendus += sale.vendus * ws.data.workers / 2000;
             if (ws.data.strategies.children)
-                sale.vendus += ws.data.strategies.children / 2;
+                sale.vendus += sale.vendus * ws.data.strategies.children / 2000;
         }
 
         sale.vendus = Math.floor(sale.vendus);
@@ -346,7 +352,7 @@ module.exports = {
         }
 
         if (ws.data.strategies.ngo) {
-            sale.income -= ws.data.strategies.ngo;
+            sale.income -= sale.income * ws.data.strategies.ngo / 100;
         }
         
         
@@ -362,13 +368,19 @@ module.exports = {
 
     },
     getBtcProd: function (ws) {
-        var prod = ws.data.strategies.farm * 0.2;
+        
+      
+        
+        var prod = Math.floor(ws.data.strategies.farm * 0.2);
         var warm = ws.data.strategies.farm / 53;
         
         if(ws.data.strategies.bicycle)
             prod = prod * 2;
         if(ws.data.strategies.planet)
             warm = warm + ws.data.unsold / 100000000000;
+       
+       var warmlimit = this.warmlimit;
+       if(warm > warmlimit)warm = warmlimit;
         
         return({'prod': prod, 'warm': warm});
     },
@@ -376,7 +388,9 @@ module.exports = {
         
          var cost = 10000000 + ((ws.data.strategies.farm) *
          Math.pow(10000000, 1.1));
-         
+         if(isNaN(cost)){
+             console.log('erreur NaN BTC');
+         }
         return(Math.floor(cost));
     },
     getNextLcWorkerCost : function(ws){

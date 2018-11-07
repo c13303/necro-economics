@@ -20,12 +20,16 @@
 }
 
 $bp : 780px;
-
+html{
+    max-width: 100%;
+    overflow-x: hidden;
+}
 body{
     font-family: 'Quicksand', sans-serif;
     position:relative;
     background-image:url(../img/tile.png);
-
+        width: 100%; 
+    position: absolute;
     
     h2{
         margin-top:0;
@@ -36,6 +40,11 @@ body{
     .header{
         display:block;
         width:100%;    
+        #console{
+            .news{
+                color : #666;
+            }
+        }
 
         @media (min-width:$bp){
             height: 135px;
