@@ -153,7 +153,7 @@ $(document).ready(function () {
     });
 
     $('.stat').each(function () {
-        $(this).attr('data-ballon-pos', 'right');
+        $(this).attr('data-balloon-pos', 'right');
     });
 
 
@@ -199,9 +199,9 @@ $(document).ready(function () {
             var url = 'jipserver.5tfu.org';
 
             if (dev) {
-                var ws = new WebSocket('ws://' + url + ':' + port + '/' + token + '-' + user);
+                var ws = new WebSocket('wss://' + url + ':' + port + '/' + token + '-' + user);
             } else {
-                var ws = new WebSocket('ws://' + url + ':' + port + '/' + token + '-' + user);
+                var ws = new WebSocket('wss://' + url + ':' + port + '/' + token + '-' + user);
             }
 
         } catch (e) {
@@ -214,7 +214,7 @@ $(document).ready(function () {
             
             console.log(e);
            
-            //window.location.replace("/?" + isdev + "message=Login Failed&disablereconnect=1");
+           window.location.replace("/?" + isdev + "message=Login Failed&disablereconnect=1");
 
         };
 
@@ -516,6 +516,7 @@ $(document).ready(function () {
                 if (p.strategies.robots && $('.workertype').html() === 'worker') {
                     $('.workertype').html('robot');
                 }
+                
 
                 $('.operation').each(function () {
                     var min = $(this).data('min');
@@ -577,7 +578,10 @@ $(document).ready(function () {
                 if (p.reputation) {
                     $('.reputation').removeClass('hidden');
                 }
-
+                
+                if(p.strategies.ngo){
+                    $('#ngo').val(p.strategies.ngo);
+                }
 
 
                 if (p.strategies.children) {
@@ -603,7 +607,8 @@ $(document).ready(function () {
                     p.sold = (p.score - p.unsold);
                     p.salesperday = Math.round(p.sold / p.totalticks, 2);
                     p.moneyperday = Math.floor(p.money / p.totalticks);
-                    p.workeravg = fnum(Math.floor(p.actual_worker_cost / p.workers));
+                    p.workeravg = p.actual_worker_cost / p.workers;
+                    
                     statdays[statd] = {
                         'dailyincome': p.daily.income,
                         'sales': p.daily.sales,

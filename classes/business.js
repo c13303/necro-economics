@@ -210,6 +210,9 @@ module.exports = {
     getReputation: function (ws) {
         var reputation = 0;
        
+       
+        reputation -= Math.floor(ws.data.money / 1000000); 
+       
         
         if (ws.data.strategies.children) {
             reputation -= ws.data.strategies.children - ((ws.data.strategies.children-1) * 0.5);
@@ -219,10 +222,10 @@ module.exports = {
             reputation += 25;
         }
         if (ws.data.strategies.spaceweedtv) {
-            reputation += 75;
+            reputation += 50;
         }
         if (ws.data.strategies.government) {
-            reputation += 250;
+            reputation += 50;
         }
         if (ws.data.strategies.badbuzzvictim) {
             reputation -= ws.data.strategies.badbuzzvictim;
@@ -369,9 +372,8 @@ module.exports = {
     },
     getBtcProd: function (ws) {
         
-      
-        
-        var prod = Math.floor(ws.data.strategies.farm * 0.2);
+
+        var prod = ws.data.strategies.farm * 0.2;
         var warm = ws.data.strategies.farm / 53;
         
         if(ws.data.strategies.bicycle)

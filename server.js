@@ -1,4 +1,40 @@
 /* fromage server */
+var params = require('./params.js');
+
+var httpsenabled = true;
+var port = 8080;
+
+process.argv.forEach(function (val, index, array) {
+    if (val === '-flush') { //flush all sessions
+        flush();
+    }
+
+    if (val === '-dev') { //flush all sessions
+        port = 8081;
+    }
+});
+var express = require('express');
+var app = express();
+
+var fs = require('fs');
+
+
+if (httpsenabled) {  
+    const https = require("https");
+    const options = {
+        key: fs.readFileSync(params.key),
+        cert: fs.readFileSync(params.cert)
+    };
+    var credentials = {key: options.key, cert: options.cert};   
+    
+    var httpsServer = https.createServer(credentials, app);
+    httpsServer.listen(port);
+} else {
+    http = require('http');
+    var httpsServer = http.createServer();
+    httpsServer.listen(port);
+}
+
 
 
 var realBTC = true;
@@ -13,7 +49,7 @@ var BTCprice = 0;
 
 var mysql = require('mysql');
 var biz = require('./classes/business.js');
-var port = 8080;
+
 
 
 var save_freq = 120;
@@ -70,7 +106,6 @@ var opbible = require('./classes/operations.js');
 opbible.initOp();
 
 
-var params = require('./params.js');
 var connection = mysql.createConnection({
     host: params.host,
     user: params.user,
@@ -82,7 +117,6 @@ connection.connect();
 var sha256 = require('js-sha256');
 var Filter = require('bad-words');
 var myFilter = new Filter({placeHolder: 'x'});
-var fs = require('fs');
 
 
 /* command line args */
@@ -94,15 +128,7 @@ function flush() {
     });
 }
 
-process.argv.forEach(function (val, index, array) {
-    if (val === '-flush') { //flush all sessions
-        flush();
-    }
 
-    if (val === '-dev') { //flush all sessions
-        port = 8081;
-    }
-});
 
 function quit() {
     process.exit();
@@ -138,7 +164,7 @@ stdin.addListener("data", function (d) {
     
     if (commande === 'data' && arg) {
         wss.clients.forEach(function each(client) {
-            if (client.data && client.data.name === arg)
+            if (client.data && client.name === arg)
                 console.log(client.data);
         });
     }
@@ -213,7 +239,7 @@ const userRequestMap = new WeakMap();
 try {
     var WebSocketServer = require('ws').Server, wss = new WebSocketServer(
             {
-                port: port,
+                server : httpsServer,
                 verifyClient: function (info, callback) {     /* AUTHENTIFICATION */
                     var urlinfo = info.req.url;
                     const ip = info.req.connection.remoteAddress;
@@ -619,11 +645,9 @@ wss.on('connection', function myconnection(ws, request) {
                 var op = opbible.findOp('defamation');
                 var cost = op.actionprice;
 
-
-
                 if (target && ws.data.money >= cost && !ws.data.strategies.defamecooldown) {
                     ws.data.money -= cost;
-                    ws.data.strategies.defamecooldown = biz.defamecooldown;
+                    
                     
                     if (target.data.strategies.lawyers && target.data.strategies.avocats > 0) {
                         target.data.strategies.avocats--;                      
@@ -631,6 +655,7 @@ wss.on('connection', function myconnection(ws, request) {
                         ws.send(JSON.stringify({'modal': 'You tried to defame ' + target.name + ' but it had a good lawyer and youve been sued.'}));
                         wss.consoleAll(ws.name + ' failed to defame ' + target.name + ' because it had a good lawyer ');
                         target.send(JSON.stringify({'modal': ws.name + ' failed to defame you thanks to your lawyer. The lawyer is now retired.'}));
+                        ws.data.strategies.defamecooldown = biz.defamecooldown;
                     } else {
                         
 
@@ -658,9 +683,8 @@ wss.on('connection', function myconnection(ws, request) {
 
                         }
                         if (steal < 0) {
-                            if (ws.data.money <= steal) {
-                                steal = ws.data.money;
-                            }
+                            steal = ws.data.money * ratio;
+                            
                             ws.data.money += steal;
                             target.data.money -= steal;
                             wss.consoleAll(ws.name + ' failed to defame ' + target.name + ' (' + reputDiff + ' rep. pts.) and must pay ' + steal.toLocaleString() + '€');
@@ -671,7 +695,8 @@ wss.on('connection', function myconnection(ws, request) {
                             wss.consoleAll(ws.name + ' failed to defame ' + target.name + ' (' + reputDiff + ' rep. pts.) ');
                             ws.send(JSON.stringify({'modal': 'You failed to defame ' + target.name + ' (' + reputDiff + ' rep. pts.) '}));
                         }
-
+                        
+                        ws.data.strategies.defamecooldown = biz.defamecooldown;
 
                     }
 
@@ -1058,7 +1083,7 @@ function tick() {
                     if (!client.data.strategies.farm)
                         client.data.strategies.farm = 0;
                     var prod = biz.getBtcProd(client);                  
-                    
+                  
                     if(isNaN(prod.warm)){
                         console.log(prod);
                         throw new Error('An Warm NaN occurred'); 

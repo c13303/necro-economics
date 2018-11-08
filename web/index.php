@@ -1,5 +1,6 @@
 <?php
-$statut = 'BETA ! Last update : V0.99 - End Game & New Game ++';
+$version = '0.2';
+$statut = 'BETA ! see changelog for info';
 
 $v = time();
 $title = 'Necro-Economics<br/> Idler Pro';
@@ -11,6 +12,7 @@ $disablereconnect = filter_input(INPUT_GET, "disablereconnect", FILTER_SANITIZE_
 if ($isdev) {
     $title .= " Dev";
     $v = time();
+    $devclass="dev";
 }
 
 
@@ -20,6 +22,8 @@ if ($isdev) {
         <title><?= strip_tags($title); ?></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Sci-fi Dystopian Multiplayer Incremental Capitalist Game !" />
+
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
         <link rel="stylesheet" type="text/css" href="bootstrap/bootstrap.min.css">
         <script src="bootstrap/bootstrap.min.js"></script> 
@@ -43,15 +47,13 @@ if ($isdev) {
         <div class="header">
             <div class="logo"><img src="/img/JID.png" alt="<?= $title; ?>" /></div>
             <div class="title"><h1><?= $title; ?></h1></div>
-            <div id="console">Wow, such amazing capitalist multiplayer game<br/>
+            <div id="console" class="<?=$devclass;?>">Necro-Economics Idler Pro is a multiplayer idle incremental game, based on true facts and anticipation of human society history and especially capitalism.<br/>
                 <span class="lastupdate"><?= $statut; ?></span>
                 <?= $message ? "<span class='infoupdate'>$message</span>" : ''; ?>               
             </div>             
         </div>
         <div class="row">
-            <div class="strategic hidden" data-strat="army">
-                <p>Humans left  : <span class="stat" data-p="humans_left"></span></p>
-            </div>
+            
         <div  class="strategic hidden  rowshout" data-strat="shout">
             <div class="shout">
                 <form class="shoutax">
@@ -75,7 +77,6 @@ if ($isdev) {
                 <input type="password" placeholder="password" id="password" />
                 <input type="submit" id="submit" value="login" />
                 <div class="info">Log in or create account</div>
-
             </form> 
             <div class="autoreconnect hidden">Automatic reconnexion in progress ....</div>
             <div id="productname">
@@ -106,7 +107,7 @@ if ($isdev) {
                         <h2>Accountant Data</h2>
                         <p>Daily Sales : <span class="stat" data-p="dailysales"></span> <span class="prodnamedisplay stat" data-p="product"></span>(s)</p>
                         <p>Daily Income : <span class="stat" data-p="dailybalance"></span> €</p>
-                        <p>Worker Avg. : <span class="stat" data-p="workeravg"></span> €</p>
+                        <p>Worker Avg. : <span class="stat" data-p="workeravg" ></span> €</p>
                         <div class="regchart">
                             <canvas id="cash" ></canvas>
                         </div>
@@ -124,6 +125,7 @@ if ($isdev) {
                             <button class="comlaunch security command hcommand" data-security="avocat_next_cost" data-c="avocatbuy" data-v="1">Hire</button> Cost : <span class="stat avoca_cost" data-s="avocat_next_cost"></span>€</p>
 
                         </p>
+                       
                     </div>
 
                 </div>
@@ -199,8 +201,10 @@ if ($isdev) {
                     <h2>International Operations</h2>
                     <p>Army Partnership Programs : <span class="stat" data-s="army_p"></span><br/>
                         Next Cost : <span class="stat" data-s="army_p_nc"></span> € 
-                        <button class="command security" data-security="army_p_nc" data-c="armyprog" data-v="1">Launch</button></p>               
+                        <button class="command security" data-security="army_p_nc" data-c="armyprog" data-v="1">Launch</button></p>
+                    
                     <p>Killed : <span class="stat" data-p="killed"></span> (<span class="stat" data-s="dailykilled"></span>/day)</p>
+                    <p>Humans left  : <span class="stat" data-p="humans_left"></span></p>
                     <div class="strategic" data-strat="meat">
                         <span data-balloon="Convert kills into production" data-balloon-pos="up">Soylent Green program activated</span>
 
@@ -329,12 +333,46 @@ if ($isdev) {
                 </div>
             </div>
         </div>  
+        
+        <div class="modal fade" id="devlog" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" >
+                <div class="modal-content">
+
+                    <div class="modal-body">
+
+                        <h2>About</h2>
+                        <p>Charline "where's my bottle of air" Chie, Chien Games 2018</p>
+                        <p></p>
+                        <p><a href="https://twitter.com/ChineGames" target="_blank">Twitter</a></p>
+                        <p><a href="https://charline-chie.itch.io/" target="_blank">Itch.IO</a></p>
+                        <p><a href="http://chiengames.5tfu.org/" target="_blank">Chien Games</a></p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="modal fade" id="changelog" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" >
+                <div class="modal-content">
+
+                    <div class="modal-body">
+
+                        <h2>Changelog</h2>
+                        <p>8.11.2018 : SSL added, new URL & fixes. New end of game with a new game++ operation. </p>
+                        
+                    </div>
+
+                </div>
+            </div>
+        </div>
 
         <?php if (!$disablereconnect): ?>
             <input type="hidden" id="reconnect" value="1" />
         <?php endif; ?>
-        <div class="footer" style="float: right;">
-            <a href="https://twitter.com/ChineGames" target="_blank">2018 Charline Chie</a>
+        <div id="footer">
+            Charline Chie 2018 - V <?=$version; ?> - <a href="#lol" data-toggle="modal" data-target="#devlog">About this</a> - <a href="#lol" data-toggle="modal" data-target="#changelog">Changelog</a>
         </div>
         <!-- deco -->
         <div class="deco">
