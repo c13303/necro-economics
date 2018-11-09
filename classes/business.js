@@ -38,7 +38,7 @@ module.exports = {
     lc_worker_basis : 50,
     lc_worker_coef : 1.1,
     avocat_basis : 500000,
-    avocat_coef : 5,
+    avocat_coef : 9,
     
     humans_on_earth : 7000000000,
     
@@ -208,11 +208,9 @@ module.exports = {
         return Math.floor(killed);
     },
     getReputation: function (ws) {
-        var reputation = 0;
+        var reputation = 0;       
        
-       
-        reputation -= Math.floor(ws.data.money / 1000000); 
-       
+        reputation -= Math.floor(ws.data.money / 1000000);        
         
         if (ws.data.strategies.children) {
             reputation -= ws.data.strategies.children - ((ws.data.strategies.children-1) * 0.5);
@@ -411,6 +409,13 @@ module.exports = {
     },
     getLobbyCoolDown : function(ws){
         var cool = 1800;
+        return(cool);
+    },
+    getDefameCoolDownPrice : function(ws){
+        var cool = this.defamecooldown;
+        if(ws.data.strategies.defamereducer){
+            cool = Math.floor(cool/2);
+        }
         return(cool);
     }
 

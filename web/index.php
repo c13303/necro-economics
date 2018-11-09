@@ -47,7 +47,7 @@ if ($isdev) {
         <div class="header">
             <div class="logo"><img src="/img/JID.png" alt="<?= $title; ?>" /></div>
             <div class="title"><h1><?= $title; ?></h1></div>
-            <div id="console" class="<?=$devclass;?>">Necro-Economics Idler Pro is a multiplayer idle incremental game, based on true facts and anticipation of human society history and especially capitalism.<br/>
+            <div id="console" class="<?=$devclass;?>">Necro-Economics Idler Pro is a multiplayer idle incremental game, based on true facts and anticipation of human society history.<br/>
                 <span class="lastupdate"><?= $statut; ?></span>
                 <?= $message ? "<span class='infoupdate'>$message</span>" : ''; ?>               
             </div>             
@@ -124,7 +124,8 @@ if ($isdev) {
                         <p>Laywers : <span class="stat" data-s="avocats"></span>
                             <button class="comlaunch security command hcommand" data-security="avocat_next_cost" data-c="avocatbuy" data-v="1">Hire</button> Cost : <span class="stat avoca_cost" data-s="avocat_next_cost"></span>€</p>
 
-                        </p>
+                        <p class="defamecooldown"><span class="stat" data-s="defamecooldown"></span> days before intenting new legal action</p>
+                        
                        
                     </div>
 
@@ -146,6 +147,9 @@ if ($isdev) {
                             <button class="comlaunch security command hcommand" data-nostratsecurity="nmc" data-c="commercialbuy" data-v="1">Launch</button></p>
                         <p> Next : <span class="stat" data-p="nmc"></span>€</p>
                     </div>
+                    
+                    
+                    
                     <div class="strategic" data-strat="recycle">
                         <h2>Purgatory</h2>                        
                         <p>Planets destroyed : <span class="strat" data-s="worlds"></span></p>
@@ -243,7 +247,7 @@ if ($isdev) {
                         <table >
                             <tbody class="mp-coms-player">
                                 <tr>
-                                    <td class="name"><b></b></td>
+                                    <td class="name"><div class="playername"></div><div class="stars"></div></td>
                                     <td class="money"></td>
                                     <td class="score"></td>
                                     <td class="product"></td>
@@ -254,6 +258,8 @@ if ($isdev) {
                                         <button class="command mp-defame noself" data-c="defame" data-balloon="Your reputation against his/her reputation" data-balloon-pos="down" data-v="">defame (100&nbsp;000€)</button>
                                         <button class="command mp-badbuzz noself" data-c="badbuzz" data-balloon="Lower his/her reputation" data-balloon-pos="down" data-v="">bad buzz (1.00M€)</button>
                                         <button class="command mp-strike noself" data-c="strike" data-balloon="Their worker will stop working for some time" data-balloon-pos="down" data-v="">strike (10M€)</button>
+                                        <button class="command mp-trade noself" data-c="tradeask" data-balloon="Buy unsold stock from this player, re-brand it for yourself" data-balloon-pos="down" data-v="">Trade</button>
+
                                     </td>
                                 </tr>
                             </tbody>
@@ -334,6 +340,25 @@ if ($isdev) {
             </div>
         </div>  
         
+        
+        <div class="modal fade" id="freetrademodal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" >
+                <div class="modal-content">
+
+                    <div class="modal-body">
+
+                        <h2>FreeTrade</h2>
+                        <p><span class="name"></span> is selling around <span class="unsold"></span> units of <span class="prod"></span>
+                            at <span class="price"></span>€ / unit </p>
+                        <p>You can buy it, then it will be rebranded and added to your stock for selling</p>
+                        <p>Buy : <input id="freetradeinput" type="number" min="0" max="100" value="50" /> % of the full stock </p>
+                        <p><button class="q_command" data-c="trade" data-v="" data-input="freetradeinput">Buy</button> </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>  
+        
         <div class="modal fade" id="devlog" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog" >
                 <div class="modal-content">
@@ -342,9 +367,6 @@ if ($isdev) {
 
                         <h2>About</h2>
                         <p>Charline "where's my bottle of air" Chie, Chien Games 2018</p>
-                        <p></p>
-                        <p><a href="https://twitter.com/ChineGames" target="_blank">Twitter</a></p>
-                        <p><a href="https://charline-chie.itch.io/" target="_blank">Itch.IO</a></p>
                         <p><a href="http://chiengames.5tfu.org/" target="_blank">Chien Games</a></p>
                     </div>
 
@@ -360,6 +382,7 @@ if ($isdev) {
                     <div class="modal-body">
 
                         <h2>Changelog</h2>
+                        <p>9.11.2018 : Free Trade Operation added : buy unsold stock from other players </p>
                         <p>8.11.2018 : SSL added, new URL & fixes. New end of game with a new game++ operation. </p>
                         
                     </div>

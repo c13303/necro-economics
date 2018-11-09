@@ -681,6 +681,23 @@ module.exports = {
             'buf': 'When a defame event is triggered, the player with the biggest reputation will get the cash from the other',
             'actionprice': 100000
         });
+        
+         ops.push({
+            cat : 'mp',
+            name: 'freetrade',
+            title: 'Free Trade',
+            price: global_price_tuning * 500000,
+            price_entity: 'money',
+            required_strat: 'defamation',
+            'min': 'money',
+            'minv': 0,
+            'desc': 'Buy low, sell high',
+            'actionprice': 10,
+            'duration': 30,
+            'cooldown': 360,
+            'buf': 'buy unsold stock from another player'
+        });
+        
 
         ops.push({
             cat : 'mp',
@@ -730,6 +747,29 @@ module.exports = {
         });
 
 
+
+        ops.push({
+            cat : 'mp',
+            name: 'defamereducer',
+            title: 'Tabloids',
+            price: global_price_tuning * 100000000,
+            price_entity: 'money',
+            required_strat: 'lawyers',
+            'min': 'money',
+            'minv': 0,
+            'desc': 'Justice goes faster with "information"',
+            'actionprice': 10,
+            'duration': 30,
+            'cooldown': 360,
+            'buf': 'reduce the cooldown after defamation (applies for future actions)'
+        });
+        
+        
+        
+       
+        
+        
+        
 
 
 

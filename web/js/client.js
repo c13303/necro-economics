@@ -1,5 +1,5 @@
 /* file created by charles.torris@gmail.com */
-
+var startYear = 1950;
 var port = 8080;
 
 var autoreco;
@@ -223,7 +223,7 @@ $(document).ready(function () {
             var norefresh = false;
 
             var d = JSON.parse(event.data);
-            //if(dev)console.log(d);
+            if(dev)console.log(d);
 
             last_data = d;
 
@@ -237,7 +237,7 @@ $(document).ready(function () {
                 if (p.tick) {
                     var annee = Math.floor(p.tick / 365);
                     p.jrestant = p.tick - (annee * 365);
-
+                    annee+=startYear;
                     $('.annee').html(annee);
                     $('.jrestant').html(p.jrestant);
                 }
@@ -302,6 +302,9 @@ $(document).ready(function () {
                 p.annee = Math.floor(p.tick / 365);
                 p.jrestant = p.tick - (p.annee * 365);
                 p.spydata.day = 'year ' + p.annee + ', day ' + p.jrestant;
+                
+                p.annee+=startYear;
+                
                 p.spydata.money = p.spydata.money.toLocaleString() + '€';
                 p.spydata.price = p.spydata.price.toLocaleString() + '€';
                 p.spydata.income = p.spydata.daily.income.toLocaleString() + '€';
@@ -373,6 +376,16 @@ $(document).ready(function () {
                     $('#infomodal').modal('show');
                 }
             }
+            
+            
+            if (p.tradepop){
+                $('#freetrademodal .name').html(d.name);
+                $('#freetrademodal .price').html(fnum(d.price));
+                $('#freetrademodal .prod').html(d.prod);
+                $('#freetrademodal .unsold').html(fnum(d.unsold));
+                $('#freetrademodal .q_command').attr('data-v',d.name);
+                $('#freetrademodal').modal('show');
+            }
 
 
             if (d.updatescore) {
@@ -407,15 +420,7 @@ $(document).ready(function () {
                     var data = clients[i];
                     if (people.indexOf(data.name) < 0) {  /* new people */
                         console.log(data.name + ' entered the tekken');
-                        var stars = '';
-                        if (data.worlds) {
-                            for (s = 0; s < data.worlds; s++) {
-                                stars += '<img src="img/star.png" alt="star" />';
-                            }
-                            stars = '<div class="worlds" data-balloon="' + data.worlds+' worlds destroyed" data-ballon-pos="right">'+stars+'</div>';
-                        }
-                        
-                        
+                        var stars = '';     
                         people.push(data.name);
                         var html = $('#clientsmodele table').clone();
                         html.find('tr').addClass('player-' + data.name);
@@ -429,10 +434,27 @@ $(document).ready(function () {
                             html.find('.mp-spy').html('audit (' + fnum(actions.spy.price) + '€)');
                             html.find('.noself').remove();
                         }
-                        html.find('.name').html('<b class="playaname">' + data.name + '</b>'+stars);
+                        html.find('.playername').html('<b class="playaname">' + data.name + '</b>');
                         $('#clients2').append(html.html());
                         
+                    }/* end newcomer*/
+                    
+                    if (data.worlds) {
+                        var stars = '';
+                        var playerContainer = $('.player-' + data.name);
+                        var actualworlds = playerContainer.data('stars');
+                        if (data.worlds !== actualworlds) {
+                            for (s = 0; s < data.worlds; s++) {
+                                stars += '<img src="img/star.png" alt="star" />';
+                            }
+                            stars = '<div class="worlds" data-balloon="' + data.worlds + ' worlds destroyed" data-balloon-pos="right">' + stars + '</div>';
+                            playerContainer.find('.stars').html(stars);
+                            playerContainer.attr('data-stars',data.worlds);
+                        }
                     }
+                    
+                    
+                    
                     var html = $('.player-' + data.name);
                     html.find('.money').html(fnum(data.money) + '€');
                     html.find('.score').html(fnum(data.score));
@@ -459,6 +481,12 @@ $(document).ready(function () {
                             html.find('.mp-strike').removeAttr('disabled');
                         } else {
                             html.find('.mp-strike').attr('disabled', 'disabled');
+                        }
+                        
+                         if (p.strategies.freetrade) {
+                            html.find('.mp-trade').removeAttr('disabled');
+                        } else {
+                            html.find('.mp-trade').attr('disabled', 'disabled');
                         }
                     }
                     if (data.name === user && actions) {
@@ -536,6 +564,7 @@ $(document).ready(function () {
                         var chrono = 0;
                         if (p.strategies.chrono && price_entity === 'money') {
                             var chrono = Math.floor((mina - p.money) / p.daily.income);
+                            
                             $(this).attr('data-chrono', chrono);
                         }
                         if (chrono > 0) {
@@ -634,6 +663,12 @@ $(document).ready(function () {
                     } else {
                         p.period_sales = 'Gathering data ...' + statdays.length + ' days';
                     }
+                    
+                      if(p.strategies.defamecooldown){
+                          $('.defamecooldown').show();
+                      } else {
+                          $('.defamecooldown').hide();
+                      }
 
 
 
@@ -657,6 +692,8 @@ $(document).ready(function () {
 
                     $('.warming').css('background', 'rgb(' + r + ',' + g + ',' + b + ')');
                 }
+                
+              
 
             }
             /* update requirements */
@@ -782,6 +819,21 @@ $(document).ready(function () {
                 ws.send(command);
             }
         });
+        
+         $(document).on('click', '.q_command', function () {
+            if (dev)
+                console.log('q_command' + $(this).data('c'));
+           $('#freetrademodal').modal('hide');
+            if (!$(this).hasClass('disabled')) {
+                var c = $(this).data('c');
+                var v = $(this).data('v');
+                var input = $(this).data('input');
+                var q = $('#'+input).val();
+                var command = JSON.stringify({command: c, value: v, q: q});
+                console.log(command);
+                ws.send(command);
+            }
+        });
 
 
         $('.rebirthvalid').click(function (e) {
@@ -795,6 +847,7 @@ $(document).ready(function () {
                 e.preventDefault();
             }
         });
+        
 
 
 
@@ -864,6 +917,7 @@ $(document).ready(function () {
 
             if (selfMoneyChart && p.tick && p.money) {
                 var label = p.jrestant;
+                
                 var readydata = {
                     'money': Math.floor(p.money),
                     //'income' :Math.floor(parseInt(p.dailybalance))
@@ -878,6 +932,9 @@ $(document).ready(function () {
                 var alt = 0;
                 for (i = 0; i < p.refresh.length; i++) {
                     var man = p.refresh[i];
+                    if(man.money < 0){
+                        man.money = 0;
+                    }
                     udata.push(Math.floor(man.money));
                     ulabels.push(man.name);
                     if (alt === 0) {
@@ -979,7 +1036,7 @@ $(document).ready(function () {
     $('.mp-coms').hide();
     $(document).on('click', '.mp-coms-player', function () {
 
-        console.log('open');
+       
         $(this).find('.mp-coms').toggle();
     });
 
