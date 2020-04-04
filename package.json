@@ -117,6 +117,7 @@
       "resolved": "https://registry.npmjs.org/aws4/-/aws4-1.6.0.tgz",
       "version": "1.6.0"
     },
+    "bad-words": "^3.0.0",
     "balanced-match": {
       "integrity": "sha1-ibTRmasr7kneFk6gK4nORi1xt2c=",
       "resolved": "https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.0.tgz",
@@ -817,6 +818,7 @@
       "resolved": "https://registry.npmjs.org/jju/-/jju-1.4.0.tgz",
       "version": "1.4.0"
     },
+    "js-sha256": "^0.9.0",
     "js-yaml": {
       "integrity": "sha512-PIt2cnwmPfL4hKNwqeiuz4bKfnzHTBv6HyVgjahA6mPLwPDzjDWrplJBMjHUFxku/N3FlmrbyPclad+I+4mJ3A==",
       "requires": {
@@ -1042,6 +1044,7 @@
       "resolved": "https://registry.npmjs.org/node-alias/-/node-alias-1.0.4.tgz",
       "version": "1.0.4"
     },
+    "node-coinmarketcap": "^0.2.0",
     "node-pre-gyp": {
       "integrity": "sha1-22BBEst04NR3VU6bUFsXq936t4Y=",
       "requires": {

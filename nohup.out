@@ -1,0 +1,30 @@
+events.js:165
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE :::8080
+    at Server.setupListenHandle [as _listen2] (net.js:1346:14)
+    at listenInCluster (net.js:1387:12)
+    at Server.listen (net.js:1475:7)
+    at Object.<anonymous> (/home/charles/idler_pro/server.js:33:17)
+    at Module._compile (internal/modules/cjs/loader.js:654:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:665:10)
+    at Module.load (internal/modules/cjs/loader.js:566:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:506:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:498:3)
+    at Function.Module.runMain (internal/modules/cjs/loader.js:695:10)
+Emitted 'error' event at:
+    at Server.emit (events.js:180:13)
+    at emitErrorNT (net.js:1366:8)
+    at process._tickCallback (internal/process/next_tick.js:178:19)
+    at Function.Module.runMain (internal/modules/cjs/loader.js:697:11)
+    at startup (internal/bootstrap/node.js:201:19)
+    at bootstrapNodeJSCore (internal/bootstrap/node.js:516:3)
+events.js:165
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: EBADF: bad file descriptor, read
+Emitted 'error' event at:
+    at fs.read (fs.js:2116:12)
+    at FSReqWrap.wrapper [as oncomplete] (fs.js:673:17)

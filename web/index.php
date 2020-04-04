@@ -1,6 +1,6 @@
 <?php
-$version = '0.2';
-$statut = 'BETA ! see changelog for info';
+$version = '0.4';
+$statut = '';
 
 $v = time();
 $title = 'Necro-Economics<br/> Idler Pro';
@@ -382,9 +382,10 @@ if ($isdev) {
                     <div class="modal-body">
 
                         <h2>Changelog</h2>
+                        <p>15.01.2019 : Relaunch of server with more stability options after a couple of weeks down</p>
                         <p>9.11.2018 : Free Trade Operation added : buy unsold stock from other players </p>
                         <p>8.11.2018 : SSL added, new URL & fixes. New end of game with a new game++ operation. </p>
-                        
+                        <p>3.3.2020 : Stabilizing server, mobile layout, fixes</p>
                     </div>
 
                 </div>
@@ -395,7 +396,7 @@ if ($isdev) {
             <input type="hidden" id="reconnect" value="1" />
         <?php endif; ?>
         <div id="footer">
-            Charline Chie 2018 - V <?=$version; ?> - <a href="#lol" data-toggle="modal" data-target="#devlog">About this</a> - <a href="#lol" data-toggle="modal" data-target="#changelog">Changelog</a>
+            Charline Chie 2018 - 2020 - V <?=$version; ?> - <a href="#lol" data-toggle="modal" data-target="#devlog">About this</a> - <a href="#lol" data-toggle="modal" data-target="#changelog">Changelog</a>
         </div>
         <!-- deco -->
         <div class="deco">
