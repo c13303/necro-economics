@@ -3618,7 +3618,7 @@
       "resolved": "https://registry.npmjs.org/write-file-atomic/-/write-file-atomic-2.3.0.tgz",
       "version": "2.3.0"
     },
-    "ws": "^6.1.0",
+    "ws": "^7.4.5",
     "xdg-basedir": {
       "integrity": "sha1-SWsswQnsqNus/i3HK2A8F8WHCtQ=",
       "resolved": "https://registry.npmjs.org/xdg-basedir/-/xdg-basedir-3.0.0.tgz",
