@@ -24,7 +24,10 @@ if ($isdev) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Sci-fi Dystopian Multiplayer Incremental Capitalist Game !" />
 
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script
+  src="https://code.jquery.com/jquery-3.5.0.min.js"
+  integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+  crossorigin="anonymous"></script>
         <link rel="stylesheet" type="text/css" href="bootstrap/bootstrap.min.css">
         <script src="bootstrap/bootstrap.min.js"></script> 
     <!--    <script src="lib/popper.min.js"></script>
